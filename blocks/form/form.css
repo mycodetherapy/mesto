@@ -1,0 +1,19 @@
+.form {
+  width: 430px;
+
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  top: 45%;
+  -ms-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+@media (max-width: 560px) {
+  .form {
+    width: calc(100% - 38px);
+    top: 31%;
+  }
+}

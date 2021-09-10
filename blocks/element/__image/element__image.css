@@ -1,0 +1,8 @@
+.element__image {
+  display: block;
+  width: 100%;
+  object-fit: contain;
+
+  grid-column-start: 1;
+  grid-column-end: 3;
+}

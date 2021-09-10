@@ -1,15 +1,95 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="./pages/index.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Mesto</title>
+
 </head>
 <body class="common">
-    <div class="page">
-        
+
+  <div class="page">
+
+    <div class="popup">
+      <div class="form">
+        <button class="form__closed"></button>
+        <fieldset class="form__input-container">
+          <p class="form__title">Редактировать профиль</p>
+          <input type="text" class="form__input form__input_name">
+          <input type="text" class="form__input form__input_profession">
+          <button class="form__button form__button_save">Сохранить</button>
+        </fieldset>
+      </div>
     </div>
     
+    <header class="header">
+        <img
+          class="header__logo"
+          src="./images/logo.svg"
+          alt="логотип"
+        />
+    </header>
+
+    <main class="content">
+
+      <section class="profile">
+        <img
+        class="profile__avatar"
+        src="./images/cousteau.jpg"
+        alt="аватар"
+      />
+      <div class="profile__info">
+          <h1 class="profile__title">Жак-Ив Кусто</h1>
+          <button class="profile__button"></button>
+          <p class="profile__subtitle">Исследователь океана</p>
+      </div>
+      <button class="profile__button-add"></button>
+      </section>
+
+      <section class="elements">
+        <ul class="elements__grid-container">
+          <li class="element">
+            <img class="element__image" src="./images/elements/karachaevsk.jpg" alt="Карачаевск">
+            <h2 class="element__title">Карачаевск</h2>
+            <button class="element__like"></button>
+          </li>
+          <li class="element">
+            <img class="element__image" src="./images/elements/elbrus.jpg" alt="Эльбрус">
+            <h2 class="element__title">Эльбрус</h2>
+            <button class="element__like"></button>
+          </li>
+          <li class="element">
+            <img class="element__image" src="./images/elements/dombai.jpg" alt="Домбай">
+            <h2 class="element__title">Домбай</h2>
+            <button class="element__like"></button>
+          </li>
+          <li class="element">
+            <img class="element__image" src="./images/elements/karachaevsk.jpg" alt="Карачаевск">
+            <h2 class="element__title">Карачаевск</h2>
+            <button class="element__like"></button>
+          </li>
+          <li class="element">
+            <img class="element__image" src="./images/elements/elbrus.jpg" alt="Эльбрус">
+            <h2 class="element__title">Эльбрус</h2>
+            <button class="element__like"></button>
+          </li>
+          <li class="element">
+            <img class="element__image" src="./images/elements/dombai.jpg" alt="Домбай">
+            <h2 class="element__title">Домбай</h2>
+            <button class="element__like"></button>
+          </li>
+        </ul>
+      </section>  
+
+    </main>
+
+    <footer class="footer">
+      <p class="footer__copyright">&#169; 2021 Mesto Rusia</p>
+    </footer>
+
+  </div> 
+  <script src="./scripts/script.js"></script>
 </body>
 </html>
