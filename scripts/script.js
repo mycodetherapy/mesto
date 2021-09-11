@@ -9,11 +9,9 @@ let formInputName = popup.querySelector('.form__input_name');
 let formInputProfession = popup.querySelector('.form__input_profession');
 
 let profileTitle = profileInfo.querySelector('.profile__title');
-// let form = document.querySelector('.form');
 let buttonSave = popup.querySelector('.form__button');
 
 let elementContainer = document.querySelector('.elements__grid-container');
-// let elementLike = elementContainer.querySelector('.element__like');
 
 function editProfile() {
     popup.classList.add('popup_opened');
@@ -31,7 +29,6 @@ function saveProfile() {
         <button class="profile__button" onclick="editProfile()"></button>
         <p class="profile__subtitle">${formInputProfession.value}</p>
     `
-    // profileTitle.textContent = formInputName.value;
     exitProfile();
 }
 
