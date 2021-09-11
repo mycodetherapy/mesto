@@ -8,12 +8,12 @@ let profileSubtitleText = (profileInfo.querySelector('.profile__subtitle')).text
 let formInputName = popup.querySelector('.form__input_name');
 let formInputProfession = popup.querySelector('.form__input_profession');
 
-var profileTitle = profileInfo.querySelector('.profile__title');
-var form = document.querySelector('.form');
-var buttonSave = popup.querySelector('.form__button');
+let profileTitle = profileInfo.querySelector('.profile__title');
+// let form = document.querySelector('.form');
+let buttonSave = popup.querySelector('.form__button');
 
 let elementContainer = document.querySelector('.elements__grid-container');
-let elementLike = elementContainer.querySelector('.element__like');
+// let elementLike = elementContainer.querySelector('.element__like');
 
 function editProfile() {
     popup.classList.add('popup_opened');
@@ -41,10 +41,12 @@ function like(event) {
     target.classList.toggle('element__like_active');
 }
 
+
 edit.addEventListener('click', editProfile);
 closedForm.addEventListener('click', exitProfile);
 buttonSave.addEventListener('click', saveProfile);
 elementContainer.addEventListener('click', like);
+
 
 
 
