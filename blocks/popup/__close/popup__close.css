@@ -1,4 +1,4 @@
-.form__closed {
+.popup__close {
   width: 32px;
   height: 32px;
   background:  url(../../../images/close-icon.svg) no-repeat center;
@@ -10,13 +10,13 @@
   z-index: 2;
 }
 
-.form__closed:hover {
+.popup__close:hover {
   opacity: 0.6;
   transition: 0.3s;
 }
 
 @media (max-width: 560px) {
-  .form__closed {
+  .popup__close {
     background: url(../../../images/close-icon-s.svg) no-repeat center;
     top: -36px;
     right: 0;
