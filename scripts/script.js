@@ -1,25 +1,21 @@
 let profileInfo = document.querySelector('.profile__info');
 let popup = document.querySelector('.popup');
 let edit = profileInfo.querySelector('.profile__button');
-let closedForm = popup.querySelector('.popup__close');
+let closeForm = popup.querySelector('.popup__close');
 
-let profileTitleText = (profileInfo.querySelector('.profile__title')).textContent;
-let profileSubtitleText = (profileInfo.querySelector('.profile__subtitle')).textContent;
 let formInputName = popup.querySelector('.form__input_type_name');
 let formInputProfession = popup.querySelector('.form__input_type_profession');
+
+let profileTitle = profileInfo.querySelector('.profile__title');
+let profileSubtitle = profileInfo.querySelector('.profile__subtitle');
 
 let formElement = popup.querySelector('.form');
 
 //Функция editProfile при открытии формы выводит в полях ввода значения из профиля.
-//В функции editProfile временно используется return, чтобы 
-//значения полей ввода не сбрасывлись после повторного вызова функции.
 function editProfile() {
     popup.classList.add('popup_opened');
-    if(formInputName.value === "" || formInputName.value === profileTitleText){
-        formInputName.value = profileTitleText;
-        formInputProfession.value = profileSubtitleText;
-    }
-    else {return;}
+    formInputName.value = profileTitle.textContent;
+    formInputProfession.value = profileSubtitle.textContent;
 }
 
 //Функция formSubmitHandler при сохранении формы меняет текст в профиле.
@@ -27,19 +23,19 @@ function formSubmitHandler (evt) {
     evt.preventDefault();
     let name = formInputName.value;
     let profession = formInputProfession.value;
-    profileInfo.querySelector('.profile__title').textContent = name;
-    profileInfo.querySelector('.profile__subtitle').textContent = profession;
+    profileTitle.textContent = name;
+    profileSubtitle.textContent = profession;
     
-    exitProfile();
+    closePopup();
 }
 
-//Функция exitProfile закрывает окно формы.
-function exitProfile() { 
+//Функция exitProfile закрывает окно popup.
+function closePopup() { 
     popup.classList.remove('popup_opened');
 }
 
 edit.addEventListener('click', editProfile);  //Ловим клик на кнопке редактирования профиля.
-closedForm.addEventListener('click', exitProfile); //Ловим клик на кнопке закрытия окна формы
+closeForm.addEventListener('click', closePopup); //Ловим клик на кнопке закрытия окна формы
 formElement.addEventListener('submit', formSubmitHandler); //Ловим событие сохранения формы.
 
 
