@@ -25,7 +25,11 @@
             <button class="profile__button" type="button"></button>
             <p class="profile__subtitle">Исследователь океана</p>
           </div>
-          <button class="profile__button-add" type="button" aria-label="редактировать"></button>
+          <button
+            class="profile__button-add"
+            type="button"
+            aria-label="добавить_элемент"
+          ></button>
         </section>
 
         <section class="elements">
@@ -92,25 +96,49 @@
         <p class="footer__copyright">&#169; 2021 Mesto Rusia</p>
       </footer>
 
-      <div class="popup">
-        <div class="popup__container">
-          <button class="popup__close" type="button"></button>
-          <form name="edit-profile" class="form">
-            <fieldset class="form__input-container">
-              <h2 class="form__title">Редактировать профиль</h2>
-              <input
-                name="user-name"
-                type="text"
-                class="form__input form__input_type_name"
-              />
-              <input
-                name="user-profession"
-                type="text"
-                class="form__input form__input_type_profession"
-              />
-            </fieldset>
-            <button class="form__button-save" type="submit">Сохранить</button>
-          </form>
+      <div class="popups">
+        <div class="popup popup_type_edit-profile">
+          <div class="popup__container">
+            <button class="popup__close" type="button"></button>
+            <form name="edit-profile" class="form">
+              <fieldset class="form__input-container">
+                <h2 class="form__title">Редактировать профиль</h2>
+                <input
+                  name="user-name"
+                  type="text"
+                  class="form__input form__input_type_name"
+                />
+                <input
+                  name="user-profession"
+                  type="text"
+                  class="form__input form__input_type_profession"
+                />
+              </fieldset>
+              <button class="form__button-save" type="submit">Сохранить</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="popup popup_type_creat-element">
+          <div class="popup__container">
+            <button class="popup__close" type="button"></button>
+            <form name="creat-element" class="form">
+              <fieldset class="form__input-container">
+                <h2 class="form__title">Новое место</h2>
+                <input
+                  name="place-name"
+                  type="text"
+                  class="form__input form__input_type_place"
+                />
+                <input
+                  name="link-to-image"
+                  type="text"
+                  class="form__input form__input_type_link"
+                />
+              </fieldset>
+              <button class="form__button-save" type="submit">Создать</button>
+            </form>
+          </div>
         </div>
       </div>
     </div>
