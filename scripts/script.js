@@ -19,7 +19,7 @@ let profileSubtitle = profileInfo.querySelector('.profile__subtitle');
 let formElement = popup.querySelector('.form');
 let formElementCreatElement = popupCreatElement.querySelector('.form');
 
-const initialCards = [
+ const initialCards = [
     {
       name: 'Архыз',
       link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
@@ -49,6 +49,15 @@ const initialCards = [
  const elementList = document.querySelector('.elements__grid-container');
  const elementTemplate = document.querySelector('.element-template').content;
 
+ //Открывает/закрывает окно popup
+ function openPopup(pop){
+    pop.classList.toggle('popup_opened');
+    if(pop.classList.contains('popup_type_edit-profile')) {
+        formInputName.value = profileTitle.textContent;
+        formInputProfession.value = profileSubtitle.textContent;
+    }
+ }
+
  initialCards.forEach(function(element) {
     const startingElement = elementTemplate.cloneNode(true);
     startingElement.querySelector('.element__title').textContent = element.name;
@@ -57,8 +66,7 @@ const initialCards = [
     elementList.append(startingElement);
   });
 
-
-  function addElement(evt) {
+ function addElement(evt) {
     evt.preventDefault();
     const newElement = elementTemplate.cloneNode(true);
 
@@ -67,49 +75,47 @@ const initialCards = [
     
     let namePlace = newElement.querySelector('.element__title');
     let linkPlace = newElement.querySelector('.element__image');
+    // let likePlace = newElement.querySelector('.element__like');
 
     namePlace.textContent = inputPlace;
     linkPlace.src = inputPlaceLink;
     linkPlace.alt = inputPlace;
     
-    elementList.append(newElement);
+    elementList.prepend(newElement);
+    openPopup(popupCreatElement);
   }
 
-//Открывает окно popup
-const openPopup = function(pop){
-    pop.classList.toggle('popup_opened');
-    if(pop.classList.contains('popup_type_edit-profile')) {
-        formInputName.value = profileTitle.textContent;
-        formInputProfession.value = profileSubtitle.textContent;
-    }
-}
-
-editButton.addEventListener('click', () => openPopup(popupProfile))
-creatElementButton.addEventListener('click', () => openPopup(popupCreatElement));
-closePopupProfile.addEventListener('click', () => openPopup(popupProfile))
-closePopupCreatElement.addEventListener('click', () => openPopup(popupCreatElement));
-
-
-//Функция formSubmitHandler при сохранении формы меняет текст в профиле.
-function formSubmitHandler (evt) {
+ //Функция formSubmitHandler при сохранении формы меняет текст в профиле.
+ function formSubmitHandler (evt) {
     evt.preventDefault();
     let name = formInputName.value;
     let profession = formInputProfession.value;
     profileTitle.textContent = name;
     profileSubtitle.textContent = profession;
     
-    closePopup();
-}
+    openPopup(popupProfile);
+ }
 
-//Функция закрывает окно popup.
-function closePopup() { 
-    popup.classList.remove('popup_opened');
-}
+ let elementBox = document.querySelector('.elements__grid-container');
+ let likeBatton = elementBox.querySelector('.element__like');
+ //let likeBattonArray = Array.from(likeBatton);
 
-    
-formElementCreatElement.addEventListener('submit', addElement);
-//closeForm.addEventListener('click', closePopup); //Ловим клик на кнопке закрытия окна формы
-formElement.addEventListener('submit', formSubmitHandler); //Ловим событие сохранения формы.
+elementBox.addEventListener('click', function (event) {
+    let target = event.target;
+     if (target.tagName != 'BUTTON') return;
+     switchLike(target);
+});
+
+ function switchLike(likeBatton) {
+        likeBatton.classList.toggle('element__like_active');
+ };
+
+ editButton.addEventListener('click', () => openPopup(popupProfile))
+ creatElementButton.addEventListener('click', () => openPopup(popupCreatElement));
+ closePopupProfile.addEventListener('click', () => openPopup(popupProfile))
+ closePopupCreatElement.addEventListener('click', () => openPopup(popupCreatElement));
+ formElementCreatElement.addEventListener('submit', addElement);
+ formElement.addEventListener('submit', formSubmitHandler); //Ловим событие сохранения формы.
 
 
 
