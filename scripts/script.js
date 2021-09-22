@@ -98,16 +98,18 @@ let formElementCreatElement = popupCreatElement.querySelector('.form');
 
  let elementBox = document.querySelector('.elements__grid-container');
  let likeBatton = elementBox.querySelector('.element__like');
- //let likeBattonArray = Array.from(likeBatton);
+
+ let likeNodelist = elementBox.querySelector('.element__like');
+ let likeBattonArray = Array.from(likeBatton);
 
 elementBox.addEventListener('click', function (event) {
     let target = event.target;
-     if (target.tagName != 'BUTTON') return;
+    if (!target.classList.contains('element__like')) return;
      switchLike(target);
 });
 
  function switchLike(likeBatton) {
-        likeBatton.classList.toggle('element__like_active');
+    likeBatton.classList.toggle('element__like_active');     
  };
 
  editButton.addEventListener('click', () => openPopup(popupProfile))
