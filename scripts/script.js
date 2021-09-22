@@ -17,6 +17,7 @@ let profileTitle = profileInfo.querySelector('.profile__title');
 let profileSubtitle = profileInfo.querySelector('.profile__subtitle');
 
 let formElement = popup.querySelector('.form');
+let formElementCreatElement = popupCreatElement.querySelector('.form');
 
 const initialCards = [
     {
@@ -49,20 +50,30 @@ const initialCards = [
  const elementTemplate = document.querySelector('.element-template').content;
 
  initialCards.forEach(function(element) {
-    const newElement = elementTemplate.cloneNode(true);
-    newElement.querySelector('.element__title').textContent = element.name;
-    newElement.querySelector('.element__image').src = element.link;
-    newElement.querySelector('.element__image').alt = element.name;
-    elementList.append(newElement);
+    const startingElement = elementTemplate.cloneNode(true);
+    startingElement.querySelector('.element__title').textContent = element.name;
+    startingElement.querySelector('.element__image').src = element.link;
+    startingElement.querySelector('.element__image').alt = element.name;
+    elementList.append(startingElement);
   });
 
 
-//Функция editProfile при открытии формы выводит в полях ввода значения из профиля.
-// function editProfile() {
-//     popup.classList.add('popup_opened');
-//     formInputName.value = profileTitle.textContent;
-//     formInputProfession.value = profileSubtitle.textContent;
-// }
+  function addElement(evt) {
+    evt.preventDefault();
+    const newElement = elementTemplate.cloneNode(true);
+
+    const inputPlace =  popupCreatElement.querySelector('.form__input_type_place').value;
+    const inputPlaceLink =  popupCreatElement.querySelector('.form__input_type_place-link').value;
+    
+    let namePlace = newElement.querySelector('.element__title');
+    let linkPlace = newElement.querySelector('.element__image');
+
+    namePlace.textContent = inputPlace;
+    linkPlace.src = inputPlaceLink;
+    linkPlace.alt = inputPlace;
+    
+    elementList.append(newElement);
+  }
 
 //Открывает окно popup
 const openPopup = function(pop){
@@ -78,12 +89,6 @@ creatElementButton.addEventListener('click', () => openPopup(popupCreatElement))
 closePopupProfile.addEventListener('click', () => openPopup(popupProfile))
 closePopupCreatElement.addEventListener('click', () => openPopup(popupCreatElement));
 
-
-
-
-// function creatElement() {
-//     popups.children[1].classList.add('popup_opened');
-// }
 
 //Функция formSubmitHandler при сохранении формы меняет текст в профиле.
 function formSubmitHandler (evt) {
@@ -101,23 +106,10 @@ function closePopup() {
     popup.classList.remove('popup_opened');
 }
 
-
-function close() {
-      let x = popup.querySelectorAll('.popup__close');
-
-      for (let i = 0; i < x.length; i++) {
-        popup[i].classList.toggle('popup_opened');
-      }
-    //   x.forEach(function (item){
-    //       x.classList.remove('popup_opened')
-    // })
-}
     
-
-//editButton.addEventListener('click', editProfile);  //Ловим клик на кнопке редактирования профиля.
+formElementCreatElement.addEventListener('submit', addElement);
 //closeForm.addEventListener('click', closePopup); //Ловим клик на кнопке закрытия окна формы
 formElement.addEventListener('submit', formSubmitHandler); //Ловим событие сохранения формы.
-//creatElementButton.addEventListener('click', creatElement);
 
 
 
