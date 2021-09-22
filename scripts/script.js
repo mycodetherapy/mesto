@@ -6,7 +6,6 @@ let popupProfile = document.querySelector('.popup_type_edit-profile');
 let popupCreatElement = document.querySelector('.popup_type_creat-element');
 let closePopupProfile = popupProfile.querySelector('.popup__close');
 let closePopupCreatElement = popupCreatElement.querySelector('.popup__close');
-//let closeForm = popup.querySelector('.popup__close');
 
 let popups = document.querySelector('.popups');
 
@@ -18,6 +17,45 @@ let profileTitle = profileInfo.querySelector('.profile__title');
 let profileSubtitle = profileInfo.querySelector('.profile__subtitle');
 
 let formElement = popup.querySelector('.form');
+
+const initialCards = [
+    {
+      name: 'Архыз',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+    },
+    {
+      name: 'Челябинская область',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+    },
+    {
+      name: 'Иваново',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+    },
+    {
+      name: 'Камчатка',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+    },
+    {
+      name: 'Холмогорский район',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+    },
+    {
+      name: 'Байкал',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+    }
+  ];
+
+ const elementList = document.querySelector('.elements__grid-container');
+ const elementTemplate = document.querySelector('.element-template').content;
+
+ initialCards.forEach(function(element) {
+    const newElement = elementTemplate.cloneNode(true);
+    newElement.querySelector('.element__title').textContent = element.name;
+    newElement.querySelector('.element__image').src = element.link;
+    newElement.querySelector('.element__image').alt = element.name;
+    elementList.append(newElement);
+  });
+
 
 //Функция editProfile при открытии формы выводит в полях ввода значения из профиля.
 // function editProfile() {
