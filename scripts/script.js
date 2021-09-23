@@ -9,7 +9,6 @@ let closePopupCreatElement = popupCreatElement.querySelector('.popup__close');
 
 let popups = document.querySelector('.popups');
 
-
 let formInputName = popup.querySelector('.form__input_type_name');
 let formInputProfession = popup.querySelector('.form__input_type_profession');
 
@@ -18,6 +17,12 @@ let profileSubtitle = profileInfo.querySelector('.profile__subtitle');
 
 let formElement = popup.querySelector('.form');
 let formElementCreatElement = popupCreatElement.querySelector('.form');
+
+let elementBox = document.querySelector('.elements__grid-container');
+let likeBatton = elementBox.querySelector('.element__like');
+let deleteElementButton = elementBox.querySelector('.element__delete');
+const elementList = document.querySelector('.elements__grid-container');
+const elementTemplate = document.querySelector('.element-template').content;
 
  const initialCards = [
     {
@@ -46,9 +51,6 @@ let formElementCreatElement = popupCreatElement.querySelector('.form');
     }
   ];
 
- const elementList = document.querySelector('.elements__grid-container');
- const elementTemplate = document.querySelector('.element-template').content;
-
  //Открывает/закрывает окно popup
  function openPopup(pop){
     pop.classList.toggle('popup_opened');
@@ -75,7 +77,6 @@ let formElementCreatElement = popupCreatElement.querySelector('.form');
     
     let namePlace = newElement.querySelector('.element__title');
     let linkPlace = newElement.querySelector('.element__image');
-    // let likePlace = newElement.querySelector('.element__like');
 
     namePlace.textContent = inputPlace;
     linkPlace.src = inputPlaceLink;
@@ -96,21 +97,26 @@ let formElementCreatElement = popupCreatElement.querySelector('.form');
     openPopup(popupProfile);
  }
 
- let elementBox = document.querySelector('.elements__grid-container');
- let likeBatton = elementBox.querySelector('.element__like');
+ function switchLike(likeBatton) {
+  likeBatton.classList.toggle('element__like_active');     
+ };
 
- let likeNodelist = elementBox.querySelector('.element__like');
- let likeBattonArray = Array.from(likeBatton);
-
-elementBox.addEventListener('click', function (event) {
+ function removeElement(deleteElementButton) {
+  const listItemRemove = deleteElementButton.closest('.element');
+  listItemRemove.remove();
+ }
+ 
+ elementBox.addEventListener('click', function (event) {
     let target = event.target;
     if (!target.classList.contains('element__like')) return;
      switchLike(target);
-});
+ });
 
- function switchLike(likeBatton) {
-    likeBatton.classList.toggle('element__like_active');     
- };
+ elementBox.addEventListener('click', function (event) {
+  let target = event.target;
+  if (!target.classList.contains('element__delete')) return;
+   removeElement(target);
+ }); 
 
  editButton.addEventListener('click', () => openPopup(popupProfile))
  creatElementButton.addEventListener('click', () => openPopup(popupCreatElement));
