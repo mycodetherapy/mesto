@@ -1,0 +1,12 @@
+.popup__container_type_image {
+  max-width: 75vw;
+  max-height: 75vh;
+
+  padding: 0;
+  background-color: rgba(0, 0, 0, 0);
+  box-shadow: none;
+  border-radius: 0;
+  color: #ffffff;
+  font-size: 12px;
+  line-height: 15px;
+}

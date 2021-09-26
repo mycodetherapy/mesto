@@ -118,10 +118,25 @@ const elementTemplate = document.querySelector('.element-template').content;
    removeElement(target);
  }); 
 
+ const popupImage = document.querySelector('.popup_type_image');
+ const closePopupImage = popupImage.querySelector('.popup__close');
+
+ elementBox.addEventListener('click', function (event) {
+  let target = event.target;
+  if (!target.classList.contains('element__image')) return;
+  const elementContent = target.parentElement;
+
+  popupImage.querySelector('.element__image').src = elementContent.querySelector('.element__image').src;
+  popupImage.querySelector('.element__image').alt = elementContent.querySelector('.element__image').alt;
+
+  openPopup(popupImage);
+ });
+
  editButton.addEventListener('click', () => openPopup(popupProfile))
  creatElementButton.addEventListener('click', () => openPopup(popupCreatElement));
  closePopupProfile.addEventListener('click', () => openPopup(popupProfile))
  closePopupCreatElement.addEventListener('click', () => openPopup(popupCreatElement));
+ closePopupImage.addEventListener('click', () => openPopup(popupImage));
  formElementCreatElement.addEventListener('submit', addElement);
  formElement.addEventListener('submit', formSubmitHandler); //Ловим событие сохранения формы.
 
