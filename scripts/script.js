@@ -118,6 +118,10 @@ const elementTemplate = document.querySelector('.element-template').content;
    removeElement(target);
  }); 
 
+ function openPopupForImage(pop){
+  pop.classList.add('popup_for-image');
+}
+
  const popupImage = document.querySelector('.popup_type_image');
  const closePopupImage = popupImage.querySelector('.popup__close');
 
@@ -126,9 +130,11 @@ const elementTemplate = document.querySelector('.element-template').content;
   if (!target.classList.contains('element__image')) return;
   const elementContent = target.parentElement;
 
-  popupImage.querySelector('.element__image').src = elementContent.querySelector('.element__image').src;
-  popupImage.querySelector('.element__image').alt = elementContent.querySelector('.element__image').alt;
+  popupImage.querySelector('.popup__element-image').src = elementContent.querySelector('.element__image').src;
+  popupImage.querySelector('.popup__element-image').alt = elementContent.querySelector('.element__image').alt;
+  popupImage.querySelector('.popup__image-caption').textContent = elementContent.querySelector('.element__image').alt;
 
+  openPopupForImage(popupImage);
   openPopup(popupImage);
  });
 

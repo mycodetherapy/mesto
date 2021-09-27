@@ -33,62 +33,7 @@
         </section>
 
         <section class="elements">
-          <ul class="elements__grid-container">
-            <!-- <li class="element">
-              <img
-                class="element__image"
-                src="./images/elements/karachaevsk.jpg"
-                alt="Карачаевск"
-              />
-              <h2 class="element__title">Карачаевск</h2>
-              <button class="element__like" type="button"></button>
-            </li>
-            <li class="element">
-              <img
-                class="element__image"
-                src="./images/elements/elbrus.jpg"
-                alt="Эльбрус"
-              />
-              <h2 class="element__title">Эльбрус</h2>
-              <button class="element__like" type="button"></button>
-            </li>
-            <li class="element">
-              <img
-                class="element__image"
-                src="./images/elements/dombai.jpg"
-                alt="Домбай"
-              />
-              <h2 class="element__title">Домбай</h2>
-              <button class="element__like" type="button"></button>
-            </li>
-            <li class="element">
-              <img
-                class="element__image"
-                src="./images/elements/karachaevsk.jpg"
-                alt="Карачаевск"
-              />
-              <h2 class="element__title">Карачаевск</h2>
-              <button class="element__like" type="button"></button>
-            </li>
-            <li class="element">
-              <img
-                class="element__image"
-                src="./images/elements/elbrus.jpg"
-                alt="Эльбрус"
-              />
-              <h2 class="element__title">Эльбрус</h2>
-              <button class="element__like" type="button"></button>
-            </li>
-            <li class="element">
-              <img
-                class="element__image"
-                src="./images/elements/dombai.jpg"
-                alt="Домбай"
-              />
-              <h2 class="element__title">Домбай</h2>
-              <button class="element__like" type="button"></button>
-            </li> -->
-          </ul>
+          <ul class="elements__grid-container"></ul>
         </section>
       </main>
 
@@ -142,14 +87,10 @@
         </div>
 
         <div class="popup popup_type_image">
-          <div class="popup__container popup__container_type_image">
+          <div class="popup__container_type_image">
             <button class="popup__close" type="button"></button>
-            <img
-              class="element__image"
-              src="./images/elements/karachaevsk.jpg"
-              alt="Карачаевск"
-            />
-            <figcaption>Карачаевск</figcaption>
+            <img class="popup__element-image" src="" alt="" />
+            <figcaption class="popup__image-caption">Карачаевск</figcaption>
           </div>
         </div>
       </div>
@@ -158,12 +99,10 @@
     <template class="element-template">
       <li class="element">
         <button class="element__delete"></button>
-        <img
-          class="element__image"
-          src="./images/elements/karachaevsk.jpg"
-          alt="Карачаевск"
-        />
-        <h2 class="element__title">xxx</h2>
+        <div class="element__image-container">
+          <img class="element__image" src="" alt="" />
+        </div>
+        <h2 class="element__title"></h2>
         <button class="element__like" type="button"></button>
       </li>
     </template>
