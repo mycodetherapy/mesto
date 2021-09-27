@@ -51,11 +51,11 @@ const popupImageCaption = popupTypeImage.querySelector('.popup__image-caption');
 
   //Displaying initial content.
  initialCards.forEach(function(element) {
-  const startingElement = elementTemplate.content.cloneNode(true);
-  startingElement.querySelector('.element__title').textContent = element.name;
-  startingElement.querySelector('.element__image').src = element.link;
-  startingElement.querySelector('.element__image').alt = element.name;
-  elementList.append(startingElement);
+  const startingElements = elementTemplate.content.cloneNode(true);
+  startingElements.querySelector('.element__title').textContent = element.name;
+  startingElements.querySelector('.element__image').src = element.link;
+  startingElements.querySelector('.element__image').alt = element.name;
+  elementList.append(startingElements);
 });
 
  //opens and closes the popup.
@@ -74,28 +74,28 @@ const popupImageCaption = popupTypeImage.querySelector('.popup__image-caption');
 
  //Adds a new item.
  function addElement(event) {
-    event.preventDefault();
-    const newElement = elementTemplate.cloneNode(true);
+  event.preventDefault();
+  const newElement = elementTemplate.content.cloneNode(true);
 
-    let inputPlace =  popupCreatElement.querySelector('.form__input_type_place').value;
-    let inputPlaceLink =  popupCreatElement.querySelector('.form__input_type_place-link').value;
-    
-    let namePlace = newElement.querySelector('.element__title');
-    let linkPlace = newElement.querySelector('.element__image');
-
-    namePlace.textContent = inputPlace;
-    linkPlace.src = inputPlaceLink;
-    linkPlace.alt = inputPlace;
-    
-    elementList.prepend(newElement);
-    openClosePopup(popupCreatElement);
-  }
+  const inputPlace =  popupCreatElement.querySelector('.form__input_type_place').value;
+  const inputPlaceLink =  popupCreatElement.querySelector('.form__input_type_place-link').value;
+  
+  const namePlace = newElement.querySelector('.element__title');
+  const linkPlace = newElement.querySelector('.element__image');
+  
+  namePlace.textContent = inputPlace;
+  linkPlace.src = inputPlaceLink;
+  linkPlace.alt = inputPlace;
+  
+  elementList.prepend(newElement);
+  openPopup(popupCreatElement);
+}
 
  //Saves the text from the input to the profile.
  function formSubmitHandler (event) {
     event.preventDefault();
-    let name = formInputName.value;
-    let profession = formInputProfession.value;
+    const name = formInputName.value;
+    const profession = formInputProfession.value;
     profileTitle.textContent = name;
     profileSubtitle.textContent = profession;
     
