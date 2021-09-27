@@ -1,28 +1,26 @@
-let profileInfo = document.querySelector('.profile__info');
-let popup = document.querySelector('.popup');
-let editButton = profileInfo.querySelector('.profile__button');
-let creatElementButton = document.querySelector('.profile__button-add');
-let popupProfile = document.querySelector('.popup_type_edit-profile');
-let popupCreatElement = document.querySelector('.popup_type_creat-element');
-let closePopupProfile = popupProfile.querySelector('.popup__close');
-let closePopupCreatElement = popupCreatElement.querySelector('.popup__close');
-
-let popups = document.querySelector('.popups');
-
-let formInputName = popup.querySelector('.form__input_type_name');
-let formInputProfession = popup.querySelector('.form__input_type_profession');
-
-let profileTitle = profileInfo.querySelector('.profile__title');
-let profileSubtitle = profileInfo.querySelector('.profile__subtitle');
-
-let formElement = popup.querySelector('.form');
-let formElementCreatElement = popupCreatElement.querySelector('.form');
-
-let elementBox = document.querySelector('.elements__grid-container');
-let likeBatton = elementBox.querySelector('.element__like');
-let deleteElementButton = elementBox.querySelector('.element__delete');
+const profileInfo = document.querySelector('.profile__info');
+const popup = document.querySelector('.popup');
+const editButton = profileInfo.querySelector('.profile__button');
+const creatElementButton = document.querySelector('.profile__button-add');
+const popupProfile = document.querySelector('.popup_type_edit-profile');
+const popupCreatElement = document.querySelector('.popup_type_creat-element');
+const popupTypeImage = document.querySelector('.popup_type_image');
+const closePopupProfile = popupProfile.querySelector('.popup__close');
+const closePopupCreatElement = popupCreatElement.querySelector('.popup__close');
+const formInputName = popup.querySelector('.form__input_type_name');
+const formInputProfession = popup.querySelector('.form__input_type_profession');
+const profileTitle = profileInfo.querySelector('.profile__title');
+const profileSubtitle = profileInfo.querySelector('.profile__subtitle');
+const formElementEditProfile = popup.querySelector('.form');
+const formElementCreatElement = popupCreatElement.querySelector('.form');
+const elementBox = document.querySelector('.elements__grid-container');
+const likeBatton = elementBox.querySelector('.element__like');
+const deleteElementButton = elementBox.querySelector('.element__delete');
 const elementList = document.querySelector('.elements__grid-container');
-const elementTemplate = document.querySelector('.element-template').content;
+const elementTemplate = document.querySelector('.element-template');
+const closePopupImage = popupTypeImage.querySelector('.popup__close');
+const popupImage = popupTypeImage.querySelector('.popup__element-image');
+const popupImageCaption = popupTypeImage.querySelector('.popup__image-caption');
 
  const initialCards = [
     {
@@ -51,29 +49,36 @@ const elementTemplate = document.querySelector('.element-template').content;
     }
   ];
 
- //Открывает/закрывает окно popup
- function openPopup(pop){
+  //Displaying initial content.
+ initialCards.forEach(function(element) {
+  const startingElement = elementTemplate.content.cloneNode(true);
+  startingElement.querySelector('.element__title').textContent = element.name;
+  startingElement.querySelector('.element__image').src = element.link;
+  startingElement.querySelector('.element__image').alt = element.name;
+  elementList.append(startingElement);
+});
+
+ //opens and closes the popup.
+ function openClosePopup(pop){
     pop.classList.toggle('popup_opened');
     if(pop.classList.contains('popup_type_edit-profile')) {
-        formInputName.value = profileTitle.textContent;
-        formInputProfession.value = profileSubtitle.textContent;
+      fillInputText();
     }
  }
 
- initialCards.forEach(function(element) {
-    const startingElement = elementTemplate.cloneNode(true);
-    startingElement.querySelector('.element__title').textContent = element.name;
-    startingElement.querySelector('.element__image').src = element.link;
-    startingElement.querySelector('.element__image').alt = element.name;
-    elementList.append(startingElement);
-  });
+ //Outputs the text from the profile to the input.
+ function fillInputText() {
+    formInputName.value = profileTitle.textContent;
+    formInputProfession.value = profileSubtitle.textContent;
+ }
 
- function addElement(evt) {
-    evt.preventDefault();
+ //Adds a new item.
+ function addElement(event) {
+    event.preventDefault();
     const newElement = elementTemplate.cloneNode(true);
 
-    const inputPlace =  popupCreatElement.querySelector('.form__input_type_place').value;
-    const inputPlaceLink =  popupCreatElement.querySelector('.form__input_type_place-link').value;
+    let inputPlace =  popupCreatElement.querySelector('.form__input_type_place').value;
+    let inputPlaceLink =  popupCreatElement.querySelector('.form__input_type_place-link').value;
     
     let namePlace = newElement.querySelector('.element__title');
     let linkPlace = newElement.querySelector('.element__image');
@@ -83,68 +88,72 @@ const elementTemplate = document.querySelector('.element-template').content;
     linkPlace.alt = inputPlace;
     
     elementList.prepend(newElement);
-    openPopup(popupCreatElement);
+    openClosePopup(popupCreatElement);
   }
 
- //Функция formSubmitHandler при сохранении формы меняет текст в профиле.
- function formSubmitHandler (evt) {
-    evt.preventDefault();
+ //Saves the text from the input to the profile.
+ function formSubmitHandler (event) {
+    event.preventDefault();
     let name = formInputName.value;
     let profession = formInputProfession.value;
     profileTitle.textContent = name;
     profileSubtitle.textContent = profession;
     
-    openPopup(popupProfile);
+    openClosePopup(popupProfile);
  }
 
+ //Switches likes.
  function switchLike(likeBatton) {
   likeBatton.classList.toggle('element__like_active');     
  };
 
+ //Deletes an element.
  function removeElement(deleteElementButton) {
-  const listItemRemove = deleteElementButton.closest('.element');
+  let listItemRemove = deleteElementButton.closest('.element');
   listItemRemove.remove();
  }
+
+ //Opens the image for viewing.
+ function openPopupForImage(pop){
+  pop.classList.add('popup_for-image');
+}
  
+//Catches likes.
  elementBox.addEventListener('click', function (event) {
     let target = event.target;
     if (!target.classList.contains('element__like')) return;
      switchLike(target);
  });
 
+ //Catches the deletion of an element.
  elementBox.addEventListener('click', function (event) {
   let target = event.target;
   if (!target.classList.contains('element__delete')) return;
    removeElement(target);
  }); 
 
- function openPopupForImage(pop){
-  pop.classList.add('popup_for-image');
-}
-
- const popupImage = document.querySelector('.popup_type_image');
- const closePopupImage = popupImage.querySelector('.popup__close');
-
- elementBox.addEventListener('click', function (event) {
+ //Catches clicking on the image.
+  elementBox.addEventListener('click', function (event) {
   let target = event.target;
   if (!target.classList.contains('element__image')) return;
-  const elementContent = target.parentElement;
+  let elementContent = target.parentElement;
+  let targetImage = elementContent.querySelector('.element__image');
 
-  popupImage.querySelector('.popup__element-image').src = elementContent.querySelector('.element__image').src;
-  popupImage.querySelector('.popup__element-image').alt = elementContent.querySelector('.element__image').alt;
-  popupImage.querySelector('.popup__image-caption').textContent = elementContent.querySelector('.element__image').alt;
+  popupImage.src = targetImage.src;
+  popupImage.alt = targetImage.alt;
+  popupImageCaption.textContent = targetImage.alt;
 
-  openPopupForImage(popupImage);
-  openPopup(popupImage);
+  openPopupForImage(popupTypeImage);
+  openClosePopup(popupTypeImage);
  });
 
- editButton.addEventListener('click', () => openPopup(popupProfile))
- creatElementButton.addEventListener('click', () => openPopup(popupCreatElement));
- closePopupProfile.addEventListener('click', () => openPopup(popupProfile))
- closePopupCreatElement.addEventListener('click', () => openPopup(popupCreatElement));
- closePopupImage.addEventListener('click', () => openPopup(popupImage));
- formElementCreatElement.addEventListener('submit', addElement);
- formElement.addEventListener('submit', formSubmitHandler); //Ловим событие сохранения формы.
+ editButton.addEventListener('click', () => openClosePopup(popupProfile)) //Catches a click on the edit button
+ creatElementButton.addEventListener('click', () => openClosePopup(popupCreatElement)); //Catches a click on the add element button.
+ closePopupProfile.addEventListener('click', () => openClosePopup(popupProfile)) //Catches the closing of the profile editor.
+ closePopupCreatElement.addEventListener('click', () => openClosePopup(popupCreatElement));//Catches the closing of the add element editor.
+ closePopupImage.addEventListener('click', () => openClosePopup(popupTypeImage)); //Catches the closing of the image viewing mode.
+ formElementCreatElement.addEventListener('submit', addElement); //Catches the submission of the form for adding an element.
+ formElementEditProfile.addEventListener('submit', formSubmitHandler); //Catches sending the profile editing form.
 
 
 

@@ -5,15 +5,5 @@
   position: absolute;
   top: 0;
   left: 0;
-  /* max-height: 75vh; */
   object-fit: cover;
-  z-index: 0;
-  
-
-  
-
-  /* grid-column-start: 1;
-  grid-column-end: 3; */
-  /* justify-self: stretch; */
-
 }
