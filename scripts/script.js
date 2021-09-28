@@ -1,5 +1,4 @@
 const profileInfo = document.querySelector('.profile__info');
-//const popup = document.querySelector('.popup');
 const editButton = profileInfo.querySelector('.profile__button');
 const creatElementButton = document.querySelector('.profile__button-add');
 const popupProfile = document.querySelector('.popup_type_edit-profile');
@@ -49,9 +48,13 @@ const popupImageCaption = popupTypeImage.querySelector('.popup__image-caption');
     }
   ];
 
+function createCard() {
+  return elementTemplate.content.cloneNode(true);
+}
+
   //Displaying initial content.
  initialCards.forEach(function(element) {
-  const startingElements = elementTemplate.content.cloneNode(true);
+  const startingElements =  createCard();
   startingElements.querySelector('.element__title').textContent = element.name;
   startingElements.querySelector('.element__image').src = element.link;
   startingElements.querySelector('.element__image').alt = element.name;
@@ -75,7 +78,7 @@ const popupImageCaption = popupTypeImage.querySelector('.popup__image-caption');
  //Adds a new item.
  function addElement(event) {
   event.preventDefault();
-  const newElement = elementTemplate.content.cloneNode(true);
+  const newElement = createCard();
 
   const inputPlace =  popupCreatElement.querySelector('.form__input_type_place').value;
   const inputPlaceLink =  popupCreatElement.querySelector('.form__input_type_place-link').value;
