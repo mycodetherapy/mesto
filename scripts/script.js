@@ -24,28 +24,28 @@ const popupImageCaption = popupTypeImage.querySelector('.popup__image-caption');
 
  const initialCards = [
     {
-      name: 'Архыз',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+      name: 'Нарьян-Мар',
+      link: 'https://live.staticflickr.com/65535/49467519261_64e10478ed_b.jpg'
     },
     {
-      name: 'Челябинская область',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+      name: 'Диксон',
+      link: 'https://live.staticflickr.com/4688/38761938434_a8488ff5d9_b.jpg'
     },
     {
-      name: 'Иваново',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+      name: 'Дудинка',
+      link: 'https://live.staticflickr.com/5525/10904348995_de06885b26_b.jpg'
     },
     {
-      name: 'Камчатка',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+      name: 'Белушья Губа',
+      link: 'https://live.staticflickr.com/4271/34038884623_422f053a4b_c.jpg'
     },
     {
-      name: 'Холмогорский район',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+      name: 'Магадан',
+      link: 'https://live.staticflickr.com/4037/4382400584_b2a96a3b8d_c.jpg'
     },
     {
-      name: 'Байкал',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+      name: 'Тикси',
+      link: 'https://live.staticflickr.com/65535/50754839667_8f4ee620a8_b.jpg'
     }
   ];
 
@@ -88,7 +88,7 @@ const popupImageCaption = popupTypeImage.querySelector('.popup__image-caption');
   linkPlace.alt = inputPlace;
   
   elementList.prepend(newElement);
-  openPopup(popupCreatElement);
+  openClosePopup(popupCreatElement);
 }
 
  //Saves the text from the input to the profile.
