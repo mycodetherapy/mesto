@@ -61,12 +61,9 @@ function createCard() {
   elementList.append(startingElements);
 });
 
- //opens and closes the popup.
- function openClosePopup(pop){
+ //toggles popup.
+ function togglePopup(pop){
     pop.classList.toggle('popup_opened');
-    if(pop.classList.contains('popup_type_edit-profile')) {
-      fillInputText();
-    }
  }
 
  //Outputs the text from the profile to the input.
@@ -91,7 +88,7 @@ function createCard() {
   linkPlace.alt = inputPlace;
   
   elementList.prepend(newElement);
-  openClosePopup(popupCreatElement);
+  togglePopup(popupCreatElement);
 }
 
  //Saves the text from the input to the profile.
@@ -102,7 +99,7 @@ function createCard() {
     profileTitle.textContent = name;
     profileSubtitle.textContent = profession;
     
-    openClosePopup(popupProfile);
+    togglePopup(popupProfile);
  }
 
  //Switches likes.
@@ -147,14 +144,14 @@ function createCard() {
   popupImageCaption.textContent = targetImage.alt;
 
   openPopupForImage(popupTypeImage);
-  openClosePopup(popupTypeImage);
+  togglePopup(popupTypeImage);
  });
 
- editButton.addEventListener('click', () => openClosePopup(popupProfile)) //Catches a click on the edit button
- creatElementButton.addEventListener('click', () => openClosePopup(popupCreatElement)); //Catches a click on the add element button.
- closePopupProfile.addEventListener('click', () => openClosePopup(popupProfile)) //Catches the closing of the profile editor.
- closePopupCreatElement.addEventListener('click', () => openClosePopup(popupCreatElement));//Catches the closing of the add element editor.
- closePopupImage.addEventListener('click', () => openClosePopup(popupTypeImage)); //Catches the closing of the image viewing mode.
+ editButton.addEventListener('click', () => togglePopup(popupProfile), fillInputText()); //Catches a click on the edit button
+ creatElementButton.addEventListener('click', () => togglePopup(popupCreatElement)); //Catches a click on the add element button.
+ closePopupProfile.addEventListener('click', () => togglePopup(popupProfile)) //Catches the closing of the profile editor.
+ closePopupCreatElement.addEventListener('click', () => togglePopup(popupCreatElement));//Catches the closing of the add element editor.
+ closePopupImage.addEventListener('click', () => togglePopup(popupTypeImage)); //Catches the closing of the image viewing mode.
  formElementCreatElement.addEventListener('submit', addElement); //Catches the submission of the form for adding an element.
  formElementEditProfile.addEventListener('submit', formSubmitHandler); //Catches sending the profile editing form.
 
