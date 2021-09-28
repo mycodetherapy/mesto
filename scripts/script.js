@@ -109,7 +109,7 @@ function createCard() {
 
  //Deletes an element.
  function removeElement(deleteElementButton) {
-  let listItemRemove = deleteElementButton.closest('.element');
+  const listItemRemove = deleteElementButton.closest('.element');
   listItemRemove.remove();
  }
 
