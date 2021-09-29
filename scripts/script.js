@@ -114,9 +114,9 @@ function createCard() {
  }
 
  //Opens the image for viewing.
- function openPopupForImage(pop){
-  pop.classList.add('popup_for-image');
-}
+//  function openPopupForImage(pop){
+//   pop.classList.add('popup_for-image');
+// }
  
 //Catches likes.
  elementBox.addEventListener('click', function (event) {
@@ -143,7 +143,7 @@ function createCard() {
   popupImage.alt = targetImage.alt;
   popupImageCaption.textContent = targetImage.alt;
 
-  openPopupForImage(popupTypeImage);
+  // openPopupForImage(popupTypeImage);
   togglePopup(popupTypeImage);
  });
 
