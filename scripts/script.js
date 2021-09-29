@@ -20,6 +20,8 @@ const elementTemplate = document.querySelector('.element-template');
 const closePopupImage = popupTypeImage.querySelector('.popup__close');
 const popupImage = popupTypeImage.querySelector('.popup__element-image');
 const popupImageCaption = popupTypeImage.querySelector('.popup__image-caption');
+const inputPlace =  popupCreatElement.querySelector('.form__input_type_place');
+const inputPlaceLink =  popupCreatElement.querySelector('.form__input_type_place-link');
 
  const initialCards = [
     {
@@ -76,19 +78,17 @@ function createCard() {
  function addElement(event) {
   event.preventDefault();
   const newElement = createCard();
-
-  const inputPlace =  popupCreatElement.querySelector('.form__input_type_place').value;
-  const inputPlaceLink =  popupCreatElement.querySelector('.form__input_type_place-link').value;
   
   const namePlace = newElement.querySelector('.element__title');
   const linkPlace = newElement.querySelector('.element__image');
   
-  namePlace.textContent = inputPlace;
-  linkPlace.src = inputPlaceLink;
-  linkPlace.alt = inputPlace;
+  namePlace.textContent = inputPlace.value;
+  linkPlace.src = inputPlaceLink.value;
+  linkPlace.alt = inputPlace.value;
   
   elementList.prepend(newElement);
   togglePopup(popupCreatElement);
+  cleanInput(inputPlaceLink, inputPlace);
 }
 
  //Saves the text from the input to the profile.
@@ -102,6 +102,12 @@ function createCard() {
     togglePopup(popupProfile);
  }
 
+//Cleans up inputs.
+function cleanInput (firstInput, secondInput) {
+  firstInput.value = '';
+  secondInput.value = '';
+}
+
  //Switches likes.
  function switchLike(likeBatton) {
   likeBatton.classList.toggle('element__like_active');     
@@ -112,11 +118,6 @@ function createCard() {
   const listItemRemove = deleteElementButton.closest('.element');
   listItemRemove.remove();
  }
-
- //Opens the image for viewing.
-//  function openPopupForImage(pop){
-//   pop.classList.add('popup_for-image');
-// }
  
 //Catches likes.
  elementBox.addEventListener('click', function (event) {
