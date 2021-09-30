@@ -7,21 +7,23 @@ const popupTypeImage = document.querySelector(".popup_type_image");
 const closePopupProfile = popupProfile.querySelector(".popup__close");
 const closePopupCreatElement = popupCreatElement.querySelector(".popup__close");
 const formInputName = popupProfile.querySelector(".form__input_type_name");
-const formInputProfession = popupProfile.querySelector(".form__input_type_profession");
+const formInputProfession = popupProfile.querySelector(
+  ".form__input_type_profession"
+);
 const profileTitle = profileInfo.querySelector(".profile__title");
 const profileSubtitle = profileInfo.querySelector(".profile__subtitle");
 const formElementEditProfile = popupProfile.querySelector(".form");
 const formElementCreatElement = popupCreatElement.querySelector(".form");
 const elementBox = document.querySelector(".elements__grid-container");
-const likeBatton = elementBox.querySelector(".element__like");
-const deleteElementButton = elementBox.querySelector(".element__delete");
 const elementList = document.querySelector(".elements__grid-container");
 const elementTemplate = document.querySelector(".element-template");
 const closePopupImage = popupTypeImage.querySelector(".popup__close");
 const popupImage = popupTypeImage.querySelector(".popup__element-image");
 const popupImageCaption = popupTypeImage.querySelector(".popup__image-caption");
 const inputPlace = popupCreatElement.querySelector(".form__input_type_place");
-const inputPlaceLink = popupCreatElement.querySelector(".form__input_type_place-link");
+const inputPlaceLink = popupCreatElement.querySelector(
+  ".form__input_type_place-link"
+);
 const initialCards = [
   {
     name: "Нарьян-Мар",
@@ -50,18 +52,24 @@ const initialCards = [
 ];
 
 //Displaying initial content.
-initialCards.forEach(function (element) {
-  const startingElements = createCard();
-  startingElements.querySelector(".element__title").textContent = element.name;
-  startingElements.querySelector(".element__image").src = element.link;
-  startingElements.querySelector(".element__image").alt = element.name;
+addCards(initialCards);
 
-  setListenerToElement(startingElements);
-  elementList.append(startingElements);
-});
+//Сreates element.
+function createCard(item) {
+  const newCard = elementTemplate.content.cloneNode(true);
+  const namePlace = newCard.querySelector(".element__title");
+  const linkPlace = newCard.querySelector(".element__image");
+  namePlace.textContent = item.name;
+  linkPlace.src = item.link;
+  linkPlace.alt = item.name;
+  setListenerToElement(newCard);
+  return newCard;
+}
 
-function createCard() {
-  return elementTemplate.content.cloneNode(true);
+//Adds elements from an array.
+function addCards(cards) {
+  const newCards = cards.map(createCard);
+  elementList.append(...newCards);
 }
 
 //toggles popup.
@@ -69,22 +77,13 @@ function togglePopup(pop) {
   pop.classList.toggle("popup_opened");
 }
 
-//Adds a new item.
+//adds element
 function addElement(event) {
   event.preventDefault();
-  const newElement = createCard();
-
-  const namePlace = newElement.querySelector(".element__title");
-  const linkPlace = newElement.querySelector(".element__image");
-
-  namePlace.textContent = inputPlace.value;
-  linkPlace.src = inputPlaceLink.value;
-  linkPlace.alt = inputPlace.value;
-
-  setListenerToElement(newElement);
-  elementList.prepend(newElement);
+  const newCard = createCard({ name: inputPlace.value, link: inputPlaceLink.value });
+  elementList.prepend(newCard);
   togglePopup(popupCreatElement);
-  cleanInput(inputPlaceLink, inputPlace);
+  cleanInput(inputPlace, inputPlaceLink);
 }
 
 //Saves the text from the input to the profile.
@@ -112,7 +111,7 @@ function cleanInput(firstInput, secondInput) {
 
 //Toggles likes.
 function switchLike(event) {
-  let target = event.target;
+  const target = event.target;
   target.classList.toggle("element__like_active");
 }
 
@@ -124,9 +123,9 @@ function removeElement(event) {
 
 //Tears off an image for viewing
 function viewImage(event) {
-  let target = event.target;
-  let elementContent = target.parentElement;
-  let targetImage = elementContent.querySelector(".element__image");
+  const target = event.target;
+  const elementContent = target.parentElement;
+  const targetImage = elementContent.querySelector(".element__image");
 
   popupImage.src = targetImage.src;
   popupImage.alt = targetImage.alt;
