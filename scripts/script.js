@@ -77,7 +77,7 @@ function togglePopup(pop) {
   pop.classList.toggle("popup_opened");
 }
 
-//adds element
+//adds element.
 function addElement(event) {
   event.preventDefault();
   const newCard = createCard({ name: inputPlace.value, link: inputPlaceLink.value });
@@ -89,11 +89,8 @@ function addElement(event) {
 //Saves the text from the input to the profile.
 function formSubmitHandler(event) {
   event.preventDefault();
-  const name = formInputName.value;
-  const profession = formInputProfession.value;
-  profileTitle.textContent = name;
-  profileSubtitle.textContent = profession;
-
+  profileTitle.textContent = formInputName.value;//name;
+  profileSubtitle.textContent = formInputProfession.value;//profession;
   togglePopup(popupProfile);
 }
 
@@ -135,14 +132,14 @@ function viewImage(event) {
 }
 
 //listens to events in the element.
-function setListenerToElement(todo) {
-  todo.querySelector(".element__like").addEventListener("click", switchLike);
+function setListenerToElement(element) {
+  element.querySelector(".element__like").addEventListener("click", switchLike);
 
-  todo
+  element
     .querySelector(".element__delete")
     .addEventListener("click", removeElement);
 
-  todo.querySelector(".element__image").addEventListener("click", viewImage);
+  element.querySelector(".element__image").addEventListener("click", viewImage);
 }
 
 //Catches a click on the edit button.
