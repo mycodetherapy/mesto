@@ -47,12 +47,20 @@
                 name="user-name"
                 type="text"
                 class="form__input form__input_type_name"
+                id="profile-input-name"
               />
+              <span class="form__input-error profile-name-input-error"
+                >error</span
+              >
               <input
                 name="user-profession"
                 type="text"
                 class="form__input form__input_type_profession"
+                id="profile-input-profession"
               />
+              <span class="form__input-error profile-profession-input-error"
+                >error</span
+              >
             </fieldset>
             <button class="form__button-save" type="submit">Сохранить</button>
           </form>
@@ -70,13 +78,19 @@
                 type="text"
                 class="form__input form__input_type_place"
                 placeholder="Название"
+                id="input-place"
               />
+              <span class="form__input-error place-input-error">error</span>
               <input
                 name="link-to-image"
                 type="text"
                 class="form__input form__input_type_place-link"
                 placeholder="Ссылка на картинку"
+                id="input-place-link"
               />
+              <span class="form__input-error place-link-input-error"
+                >error</span
+              >
             </fieldset>
             <button class="form__button-save" type="submit">Создать</button>
           </form>
