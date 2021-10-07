@@ -1,7 +1,6 @@
 .form__input {
   margin: 0;
   padding-bottom: 7px;
-  /* min-height: 27px; */
   border: none;
   font-size: 14px;
   line-height: 17px;
@@ -9,10 +8,6 @@
   font-family: inherit;
   width: 100%;
 }
-
-/* .form__input:first-of-type {
-  margin-bottom: 30px;
-} */
 
 .form__input:focus {
   outline: none;
