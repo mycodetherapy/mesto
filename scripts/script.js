@@ -148,9 +148,11 @@ function setListenerToElement(element) {
 //Catches a click on the edit button.
 editButton.addEventListener(
   "click",
-  () => togglePopup(popupProfile),
-  fillInputText()
-);
+  () => {
+    togglePopup(popupProfile); 
+    fillInputText();
+  });
+
 //Catches a click on the add element button.
 creatElementButton.addEventListener("click", () =>
   togglePopup(popupCreatElement)
