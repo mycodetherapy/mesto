@@ -77,24 +77,26 @@
           <form name="creat-element" class="form">
             <fieldset class="form__input-container">
               <h2 class="form__title">Новое место</h2>
-              <input
-                name="place-name"
-                type="text"
-                class="form__input form__input_type_place"
-                placeholder="Название"
-                id="input-place"
-              />
-              <span class="form__input-error place-input-error"></span>
-              <input
-                name="link-to-image"
-                type="text"
-                class="form__input form__input_type_place-link"
-                placeholder="Ссылка на картинку"
-                id="input-place-link"
-              />
-              <span class="form__input-error place-link-input-error"
-                ></span
-              >
+              <label class="form__field">
+                <input
+                  name="place-name"
+                  type="text"
+                  class="form__input form__input_type_place"
+                  placeholder="Название"
+                  id="input-place"
+                />
+                <span class="form__input-error place-input-error">error</span>
+              </label>
+              <label class="form__field">
+                <input
+                  name="link-to-image"
+                  type="text"
+                  class="form__input form__input_type_place-link"
+                  placeholder="Ссылка на картинку"
+                  id="input-place-link"
+                />
+                <span class="form__input-error place-link-input-error">error</span>
+              </label>
             </fieldset>
             <button class="form__button-save" type="submit">Создать</button>
           </form>
