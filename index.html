@@ -40,7 +40,7 @@
       <div class="popup popup_type_edit-profile">
         <div class="popup__container">
           <button class="popup__close" type="button"></button>
-          <form name="edit-profile" class="form">
+          <form name="edit-profile" class="form" novalidate>
             <fieldset class="form__input-container">
               <h2 class="form__title">Редактировать профиль</h2>
               <label class="form__field">
@@ -49,9 +49,11 @@
                   type="text"
                   class="form__input form__input_type_name"
                   id="profile-input-name"
+                  minlength="2" maxlength="40"
+                  required
                 />
                 <span class="form__input-error profile-input-name-error"
-                  >error</span
+                  ></span
                 >
               </label>
               <label class="form__field">
@@ -60,9 +62,11 @@
                   type="text"
                   class="form__input form__input_type_profession"
                   id="profile-input-profession"
+                  minlength="2" maxlength="200"
+                  required
                 />
                 <span class="form__input-error profile-input-profession-error"
-                  >error</span
+                  ></span
                 >
               </label>
             </fieldset>
@@ -74,7 +78,7 @@
       <div class="popup popup_type_creat-element">
         <div class="popup__container">
           <button class="popup__close" type="button"></button>
-          <form name="creat-element" class="form">
+          <form name="creat-element" class="form" novalidate>
             <fieldset class="form__input-container">
               <h2 class="form__title">Новое место</h2>
               <label class="form__field">
@@ -84,16 +88,19 @@
                   class="form__input form__input_type_place"
                   placeholder="Название"
                   id="input-place"
+                  minlength="2" maxlength="30"
+                  required
                 />
                 <span class="form__input-error input-place-error"></span>
               </label>
               <label class="form__field">
                 <input
                   name="link-to-image"
-                  type="text"
+                  type="url"
                   class="form__input form__input_type_place-link"
                   placeholder="Ссылка на картинку"
                   id="input-place-link"
+                  required
                 />
                 <span class="form__input-error input-place-link-error"></span>
               </label>
