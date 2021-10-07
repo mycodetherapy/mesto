@@ -164,3 +164,10 @@ closePopupImage.addEventListener("click", () => togglePopup(popupTypeImage));
 formElementCreatElement.addEventListener("submit", addElement);
 //Catches sending the profile editing form.
 formElementEditProfile.addEventListener("submit", formSubmitHandler);
+
+const showInputError = (formElement, inputElement, errorMessage) => {
+  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
+  inputElement.classList.add('form__input_type_error');
+  errorElement.textContent = errorMessage;
+  errorElement.classList.add('form__input-error_active');
+}
