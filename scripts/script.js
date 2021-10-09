@@ -20,6 +20,7 @@ const elementTemplate = document.querySelector(".element-template");
 //const page = document.querySelector('.page');
 const popup = document.querySelector(".popup");
 const popups = Array.from(document.querySelectorAll(".popup"));
+const popIx = Array.from(document.querySelector(".popups").childNodes);
 
 const closePopupImage = popupTypeImage.querySelector(".popup__close");
 const popupImage = popupTypeImage.querySelector(".popup__element-image");
@@ -167,6 +168,7 @@ editButton.addEventListener("click", () => {
 creatElementButton.addEventListener("click", () => {
   togglePopup(popupCreatElement);
   cleanInput(inputPlace, inputPlaceLink);
+  // hasInvalidInput === true;
 });
 
 // function closeClickOverlay() {
@@ -182,27 +184,31 @@ creatElementButton.addEventListener("click", () => {
 // closeClickOverlay();
 
 //forms close handler.
-popups.forEach((button) => {
+const closeClick = () => { popups.forEach((button) => {
   button.querySelector(".popup__close").addEventListener("click", (event) => {
-    togglePopup(event.currentTarget.closest(".popup"));
     const targetForm = event.currentTarget.closest(".popup");
+    togglePopup(targetForm);
     hideInputErrorIfClose(
       targetForm,
       Array.from(targetForm.querySelectorAll(".form__input"))
     );
   });
 });
+}
 
-popups.forEach((overlay) => {
-  overlay.querySelector(".popup").addEventListener("click", (event) => {
-    //if (!event.target.classList.contains("popup")) return;
-    togglePopup(target);
+//Click overlay handler.
+const closeClickOverlay = () => { popups.forEach((popup) => {
+  popup.querySelector(".popup__container").parentElement.addEventListener("click", (event) => {
+    if (!event.target.classList.contains("popup")) return;
+    const targetPopup = event.target;
+    togglePopup(targetPopup);
     hideInputErrorIfClose(
-      target,
-      Array.from(target.querySelectorAll(".form__input"))
+      targetPopup,
+      Array.from(targetPopup.querySelectorAll(".form__input"))
     );
   });
 });
+}
 
 // document.addEventListener("click", (event) => {
 //   let target = event.target;
@@ -213,11 +219,14 @@ popups.forEach((overlay) => {
 //     Array.from(target.querySelectorAll(".form__input"))
 //   );
 // });
-
+//const inputsCreatElement = popupCreatElement.querySelectorAll('.form__input');
 //Catches the closing of the image viewing mode.
-closePopupImage.addEventListener("click", () => togglePopup(popupTypeImage));
+//closePopupImage.addEventListener("click", () => togglePopup(popupTypeImage));
 //Catches the submission of the form for adding an element.
-formElementCreatElement.addEventListener("submit", addElement);
+formElementCreatElement.addEventListener("submit", addElement);//("submit", () => {
+ // addElement;
+ // hasInvalidInput(inputsCreatElement);
+//});
 //Catches sending the profile editing form.
 formElementEditProfile.addEventListener("submit", formSubmitHandler);
 
@@ -248,16 +257,18 @@ const hideInputError = (formElement, inputElement) => {
   errorElement.textContent = "";
 };
 
-function hasInvalidInput(inputList) {
+const hasInvalidInput = (inputList) => {
   return inputList.some((inputElement) => {
     return !inputElement.validity.valid;
   });
 }
 
-function toggleButtonState(inputList, buttonElement) {
+const toggleButtonState = (inputList, buttonElement) => {
   if (hasInvalidInput(inputList)) {
+    //console.log(hasInvalidInput(inputList))
     buttonElement.classList.add("form__button-save_inactive");
   } else {
+    //console.log(hasInvalidInput(inputList))
     buttonElement.classList.remove("form__button-save_inactive");
   }
 }
@@ -283,7 +294,7 @@ const setEventListeners = (formElement) => {
   });
 };
 
-function enableValidation() {
+const enableValidation = () => {
   const formList = Array.from(document.querySelectorAll(".form"));
   formList.forEach((formElement) => {
     formElement.addEventListener("submit", (evt) => {
@@ -294,3 +305,7 @@ function enableValidation() {
 }
 
 enableValidation();
+closeClick();
+closeClickOverlay();
+
+
