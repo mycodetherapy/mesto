@@ -37,89 +37,91 @@
         <p class="footer__copyright">&#169; 2021 Mesto Rusia</p>
       </footer>
 
-      <div class="popup popup_type_edit-profile">
-        <div class="popup__container">
-          <button class="popup__close" type="button"></button>
-          <form name="edit-profile" class="form" novalidate>
-            <fieldset class="form__input-container">
-              <h2 class="form__title">Редактировать профиль</h2>
-              <label class="form__field">
-                <input
-                  name="user-name"
-                  type="text"
-                  class="form__input form__input_type_name"
-                  id="profile-input-name"
-                  minlength="2" maxlength="40"
-                  required
-                />
-                <span class="form__input-error profile-input-name-error"
-                  ></span
-                >
-              </label>
-              <label class="form__field">
-                <input
-                  name="user-profession"
-                  type="text"
-                  class="form__input form__input_type_profession"
-                  id="profile-input-profession"
-                  minlength="2" maxlength="200"
-                  required
-                />
-                <span class="form__input-error profile-input-profession-error"
-                  ></span
-                >
-              </label>
-            </fieldset>
-            <button class="form__button-save" type="submit">Сохранить</button>
-          </form>
+      <div class="popups">
+        <div class="popup popup_type_edit-profile">
+          <div class="popup__container">
+            <button class="popup__close" type="button"></button>
+            <form name="edit-profile" class="form" novalidate>
+              <fieldset class="form__input-container">
+                <h2 class="form__title">Редактировать профиль</h2>
+                <label class="form__field">
+                  <input
+                    name="user-name"
+                    type="text"
+                    class="form__input form__input_type_name"
+                    id="profile-input-name"
+                    minlength="2" maxlength="40"
+                    required
+                  />
+                  <span class="form__input-error profile-input-name-error"
+                    ></span
+                  >
+                </label>
+                <label class="form__field">
+                  <input
+                    name="user-profession"
+                    type="text"
+                    class="form__input form__input_type_profession"
+                    id="profile-input-profession"
+                    minlength="2" maxlength="200"
+                    required
+                  />
+                  <span class="form__input-error profile-input-profession-error"
+                    ></span
+                  >
+                </label>
+              </fieldset>
+              <button class="form__button-save" type="submit">Сохранить</button>
+            </form>
+          </div>
         </div>
-      </div>
-
-      <div class="popup popup_type_creat-element">
-        <div class="popup__container">
-          <button class="popup__close" type="button"></button>
-          <form name="creat-element" class="form" novalidate>
-            <fieldset class="form__input-container">
-              <h2 class="form__title">Новое место</h2>
-              <label class="form__field">
-                <input
-                  name="place-name"
-                  type="text"
-                  class="form__input form__input_type_place"
-                  placeholder="Название"
-                  id="input-place"
-                  minlength="2" maxlength="30"
-                  required
-                />
-                <span class="form__input-error input-place-error"></span>
-              </label>
-              <label class="form__field">
-                <input
-                  name="link-to-image"
-                  type="url"
-                  class="form__input form__input_type_place-link"
-                  placeholder="Ссылка на картинку"
-                  id="input-place-link"
-                  required
-                />
-                <span class="form__input-error input-place-link-error"></span>
-              </label>
-            </fieldset>
-            <button class="form__button-save" type="submit">Создать</button>
-          </form>
+  
+        <div class="popup popup_type_creat-element">
+          <div class="popup__container">
+            <button class="popup__close" type="button"></button>
+            <form name="creat-element" class="form" novalidate>
+              <fieldset class="form__input-container">
+                <h2 class="form__title">Новое место</h2>
+                <label class="form__field">
+                  <input
+                    name="place-name"
+                    type="text"
+                    class="form__input form__input_type_place"
+                    placeholder="Название"
+                    id="input-place"
+                    minlength="2" maxlength="30"
+                    required
+                  />
+                  <span class="form__input-error input-place-error"></span>
+                </label>
+                <label class="form__field">
+                  <input
+                    name="link-to-image"
+                    type="url"
+                    class="form__input form__input_type_place-link"
+                    placeholder="Ссылка на картинку"
+                    id="input-place-link"
+                    required
+                  />
+                  <span class="form__input-error input-place-link-error"></span>
+                </label>
+              </fieldset>
+              <button class="form__button-save" type="submit">Создать</button>
+            </form>
+          </div>
         </div>
-      </div>
-
-      <div class="popup popup_type_image">
-        <figure class="popup__container popup__container-for-image">
-          <button class="popup__close" type="button"></button>
-          <img
-            class="popup__element-image"
-            src="https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg"
-            alt="Иваново"
-          />
-          <figcaption class="popup__image-caption">Архыз</figcaption>
-        </figure>
+  
+        <div class="popup popup_type_image">
+          <figure class="popup__container popup__container-for-image">
+            <button class="popup__close" type="button"></button>
+            <img
+              class="popup__element-image"
+              src="https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg"
+              alt="Иваново"
+            />
+            <figcaption class="popup__image-caption">Архыз</figcaption>
+          </figure>
+        </div>
       </div>
     </div>
 
