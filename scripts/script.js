@@ -135,6 +135,7 @@ function viewImage(event) {
   popupImageCaption.textContent = targetImage.alt;
 
   togglePopup(popupTypeImage);
+  focusElement(popupTypeImage);
 }
 
 //listens to events in the element.
@@ -148,10 +149,15 @@ function setListenerToElement(element) {
   element.querySelector(".element__image").addEventListener("click", viewImage);
 }
 
+const focusElement = (element) => {
+  element.querySelector('.popup__container').focus();
+}
+
 //Catches a click on the edit button.
 editButton.addEventListener("click", () => {
   togglePopup(popupProfile);
   fillInputText();
+  focusElement(popupProfile);
   // hideInputError(formElementEditProfile, formInputName);
 });
 
@@ -159,6 +165,7 @@ editButton.addEventListener("click", () => {
 creatElementButton.addEventListener("click", () => {
   togglePopup(popupCreatElement);
   cleanInput(inputPlace, inputPlaceLink);
+  focusElement(popupCreatElement);
   // hasInvalidInput === true;
 });
 
@@ -189,6 +196,21 @@ const clickOverlayHandler = () => {
           targetPopup,
           Array.from(targetPopup.querySelectorAll(".form__input"))
         );
+      });
+  });
+};
+
+//Keydown esc handler.
+const keydownHandler = () => {
+  popups.forEach((popup) => {
+    popup.querySelector(".popup__container").parentElement.addEventListener("keydown", (event) => {
+        if (event.key === 'Escape'){
+        const targetPopup = event.target.closest(".popup_opened");
+        togglePopup(targetPopup);
+        hideInputErrorIfClose(
+          targetPopup,
+          Array.from(targetPopup.querySelectorAll(".form__input"))
+        );}
       });
   });
 };
@@ -285,3 +307,4 @@ const enableValidation = () => {
 enableValidation();
 closeClickHandler();
 clickOverlayHandler();
+keydownHandler();

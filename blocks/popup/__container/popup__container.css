@@ -18,3 +18,7 @@
     flex-basis: calc(100% - 38px);
   }
 }
+
+.popup__container:focus {
+  outline: none;
+}
