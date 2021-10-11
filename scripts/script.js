@@ -135,9 +135,7 @@ function viewImage(event) {
 
   togglePopup(popupTypeImage);
   focusElement(popupTypeImage);
-  keydownHandler(popupTypeImage, () => {
-    keydownHandlerDelete(popupTypeImage);
-  });
+  keydownHandler(popupTypeImage);
 }
 
 //listens to events in the element.
@@ -160,9 +158,7 @@ editButton.addEventListener("click", () => {
   togglePopup(popupProfile);
   fillInputText();
   focusElement(popupProfile);
-  keydownHandler(popupProfile, () => {
-    keydownHandlerDelete(popupProfile);
-  });
+  keydownHandler(popupProfile);
 });
 
 //Catches a click on the add element button.
@@ -170,9 +166,7 @@ creatElementButton.addEventListener("click", () => {
   togglePopup(popupCreatElement);
   cleanInput(inputPlace, inputPlaceLink);
   focusElement(popupCreatElement);
-  keydownHandler(popupCreatElement, () => {
-    keydownHandlerDelete(popupCreatElement);
-  });
+  keydownHandler(popupCreatElement);
 });
 
 //forms close handler.
@@ -208,7 +202,7 @@ const clickOverlayHandler = () => {
 
 //Keydown esc handler.
 const keydownHandler = (popup) => {
-  popup.addEventListener("keydown", (event) => {
+  popup.addEventListener("keydown", function escListener (event) {
     if (event.key === "Escape") {
       const targetPopup = event.target.closest(".popup_opened");
       togglePopup(targetPopup);
@@ -216,14 +210,10 @@ const keydownHandler = (popup) => {
         targetPopup,
         Array.from(targetPopup.querySelectorAll(".form__input"))
        );
+       popup.removeEventListener("keydown", escListener);
     }
   });
 };
-
-//Keydown esc handler delete.
-const keydownHandlerDelete = (popup) => {
-  popup.removeEventListener("keydown", keydownHandler(popup));
-}
 
 //Catches the submission of the form for adding an element.
 formElementCreatElement.addEventListener("submit", addElement);
