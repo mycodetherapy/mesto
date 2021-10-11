@@ -4,8 +4,8 @@ const creatElementButton = document.querySelector(".profile__button-add");
 const popupProfile = document.querySelector(".popup_type_edit-profile");
 const popupCreatElement = document.querySelector(".popup_type_creat-element");
 const popupTypeImage = document.querySelector(".popup_type_image");
-const closePopupProfile = popupProfile.querySelector(".popup__close");
-const closePopupCreatElement = popupCreatElement.querySelector(".popup__close");
+//const closePopupProfile = popupProfile.querySelector(".popup__close");
+//const closePopupCreatElement = popupCreatElement.querySelector(".popup__close");
 const formInputName = popupProfile.querySelector(".form__input_type_name");
 const formInputProfession = popupProfile.querySelector(
   ".form__input_type_profession"
@@ -17,10 +17,9 @@ const formElementCreatElement = popupCreatElement.querySelector(".form");
 const elementBox = document.querySelector(".elements__grid-container");
 const elementList = document.querySelector(".elements__grid-container");
 const elementTemplate = document.querySelector(".element-template");
-const popup = document.querySelector(".popup");
 const popups = Array.from(document.querySelectorAll(".popup"));
 
-const closePopupImage = popupTypeImage.querySelector(".popup__close");
+//const closePopupImage = popupTypeImage.querySelector(".popup__close");
 const popupImage = popupTypeImage.querySelector(".popup__element-image");
 const popupImageCaption = popupTypeImage.querySelector(".popup__image-caption");
 const inputPlace = popupCreatElement.querySelector(".form__input_type_place");
@@ -136,10 +135,13 @@ function viewImage(event) {
 
   togglePopup(popupTypeImage);
   focusElement(popupTypeImage);
+  keydownHandler(popupTypeImage, () => {
+    keydownHandlerDelete(popupTypeImage);
+  });
 }
 
 //listens to events in the element.
-function setListenerToElement(element) {
+function setListenerToElement (element) {
   element.querySelector(".element__like").addEventListener("click", switchLike);
 
   element
@@ -150,15 +152,17 @@ function setListenerToElement(element) {
 }
 
 const focusElement = (element) => {
-  element.querySelector('.popup__container').focus();
-}
+  element.querySelector(".popup__container").focus();
+};
 
 //Catches a click on the edit button.
 editButton.addEventListener("click", () => {
   togglePopup(popupProfile);
   fillInputText();
   focusElement(popupProfile);
-  // hideInputError(formElementEditProfile, formInputName);
+  keydownHandler(popupProfile, () => {
+    keydownHandlerDelete(popupProfile);
+  });
 });
 
 //Catches a click on the add element button.
@@ -166,7 +170,9 @@ creatElementButton.addEventListener("click", () => {
   togglePopup(popupCreatElement);
   cleanInput(inputPlace, inputPlaceLink);
   focusElement(popupCreatElement);
-  // hasInvalidInput === true;
+  keydownHandler(popupCreatElement, () => {
+    keydownHandlerDelete(popupCreatElement);
+  });
 });
 
 //forms close handler.
@@ -201,35 +207,30 @@ const clickOverlayHandler = () => {
 };
 
 //Keydown esc handler.
-const keydownHandler = () => {
-  popups.forEach((popup) => {
-    popup.querySelector(".popup__container").parentElement.addEventListener("keydown", (event) => {
-        if (event.key === 'Escape'){
-        const targetPopup = event.target.closest(".popup_opened");
-        togglePopup(targetPopup);
-        hideInputErrorIfClose(
-          targetPopup,
-          Array.from(targetPopup.querySelectorAll(".form__input"))
-        );}
-      });
+const keydownHandler = (popup) => {
+  popup.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      const targetPopup = event.target.closest(".popup_opened");
+      togglePopup(targetPopup);
+      hideInputErrorIfClose(
+        targetPopup,
+        Array.from(targetPopup.querySelectorAll(".form__input"))
+       );
+    }
   });
 };
 
-// document.addEventListener("click", (event) => {
-//   let target = event.target;
-//   if (!target.classList.contains("popup")) return;
-//   togglePopup(target);
-//   hideInputErrorIfClose(
-//     target,
-//     Array.from(target.querySelectorAll(".form__input"))
-//   );
-// });
+//Keydown esc handler delete.
+const keydownHandlerDelete = (popup) => {
+  popup.removeEventListener("keydown", keydownHandler(popup));
+}
 
 //Catches the submission of the form for adding an element.
 formElementCreatElement.addEventListener("submit", addElement);
 //Catches sending the profile editing form.
 formElementEditProfile.addEventListener("submit", formSubmitHandler);
 
+//Reset error.
 const hideInputErrorIfClose = (formElements, inputElements) => {
   const errorElements = Array.from(
     formElements.querySelectorAll(".form__input-error")
@@ -243,68 +244,5 @@ const hideInputErrorIfClose = (formElements, inputElements) => {
   });
 };
 
-const showInputError = (formElement, inputElement, errorMessage) => {
-  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-  inputElement.classList.add("form__input_type_error");
-  errorElement.textContent = errorMessage;
-  errorElement.classList.add("form__input-error_active");
-};
-
-const hideInputError = (formElement, inputElement) => {
-  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-  inputElement.classList.remove("form__input_type_error");
-  errorElement.classList.remove("form__input-error_active");
-  errorElement.textContent = "";
-};
-
-const hasInvalidInput = (inputList) => {
-  return inputList.some((inputElement) => {
-    return !inputElement.validity.valid;
-  });
-};
-
-const toggleButtonState = (inputList, buttonElement) => {
-  if (hasInvalidInput(inputList)) {
-    //console.log(hasInvalidInput(inputList))
-    buttonElement.classList.add("form__button-save_inactive");
-  } else {
-    //console.log(hasInvalidInput(inputList))
-    buttonElement.classList.remove("form__button-save_inactive");
-  }
-};
-
-const checkInputValidity = (formElement, inputElement) => {
-  if (!inputElement.validity.valid) {
-    showInputError(formElement, inputElement, inputElement.validationMessage);
-  } else {
-    hideInputError(formElement, inputElement);
-  }
-};
-
-const setEventListeners = (formElement) => {
-  const inputList = Array.from(formElement.querySelectorAll(".form__input"));
-  const buttonElement = formElement.querySelector(".form__button-save");
-  toggleButtonState(inputList, buttonElement);
-
-  inputList.forEach((inputElement) => {
-    inputElement.addEventListener("input", function () {
-      checkInputValidity(formElement, inputElement);
-      toggleButtonState(inputList, buttonElement);
-    });
-  });
-};
-
-const enableValidation = () => {
-  const formList = Array.from(document.querySelectorAll(".form"));
-  formList.forEach((formElement) => {
-    formElement.addEventListener("submit", (evt) => {
-      evt.preventDefault();
-    });
-    setEventListeners(formElement);
-  });
-};
-
-enableValidation();
 closeClickHandler();
 clickOverlayHandler();
-keydownHandler();
