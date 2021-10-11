@@ -26,6 +26,7 @@ const inputPlace = popupCreatElement.querySelector(".form__input_type_place");
 const inputPlaceLink = popupCreatElement.querySelector(
   ".form__input_type_place-link"
 );
+const formButtonSave = formElementCreatElement.querySelector(".form__button-save");
 const initialCards = [
   {
     name: "Нарьян-Мар",
@@ -72,11 +73,7 @@ function createCard(item) {
 function addCards(cards) {
   const newCards = cards.map(createCard);
   elementList.append(...newCards);
-}
-
-//toggles popup.
-function togglePopup(pop) {
-  pop.classList.toggle("popup_opened");
+  //elementList.classList.add("form__button-save_inactive");
 }
 
 //adds element.
@@ -89,6 +86,7 @@ function addElement(event) {
   elementList.prepend(newCard);
   togglePopup(popupCreatElement);
   cleanInput(inputPlace, inputPlaceLink);
+  inactiveButton(formButtonSave);
 }
 
 //Saves the text from the input to the profile.
@@ -97,6 +95,30 @@ function formSubmitHandler(event) {
   profileTitle.textContent = formInputName.value; //name;
   profileSubtitle.textContent = formInputProfession.value; //profession;
   togglePopup(popupProfile);
+}
+
+//Tears off an image for viewing
+function viewImage(event) {
+  const target = event.target;
+  const elementContent = target.parentElement;
+  const targetImage = elementContent.querySelector(".element__image");
+
+  popupImage.src = targetImage.src;
+  popupImage.alt = targetImage.alt;
+  popupImageCaption.textContent = targetImage.alt;
+
+  togglePopup(popupTypeImage);
+  focusElement(popupTypeImage);
+  keydownHandler(popupTypeImage);
+}
+
+//toggles popup.
+function togglePopup(popup) {
+  popup.classList.toggle("popup_opened");
+}
+
+function inactiveButton (button) {
+  button.classList.add("form__button-save_inactive");
 }
 
 //Outputs the text from the profile to the input.
@@ -121,21 +143,6 @@ function switchLike(event) {
 function removeElement(event) {
   const listItemRemove = event.currentTarget.closest(".element");
   listItemRemove.remove();
-}
-
-//Tears off an image for viewing
-function viewImage(event) {
-  const target = event.target;
-  const elementContent = target.parentElement;
-  const targetImage = elementContent.querySelector(".element__image");
-
-  popupImage.src = targetImage.src;
-  popupImage.alt = targetImage.alt;
-  popupImageCaption.textContent = targetImage.alt;
-
-  togglePopup(popupTypeImage);
-  focusElement(popupTypeImage);
-  keydownHandler(popupTypeImage);
 }
 
 //listens to events in the element.
