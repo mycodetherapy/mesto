@@ -14,6 +14,18 @@ const hideInputError = (formElement, inputElement, config) => {
   errorElement.textContent = "";
 };
 
+const handlerEnterSubmit = (formElement) => {
+  const inputList = Array.from(formElement.querySelectorAll(".form__input"));
+  inputList.forEach((inputElement) => {
+    inputElement.addEventListener(
+      "keydown",
+      function disableEnterSubmit(event) {
+        if (event.key === "Enter") event.preventDefault();
+      }
+    );
+  });
+};
+
 //Validity - true or false.
 const hasInvalidInput = (inputList) => {
   return inputList.some((inputElement) => {
@@ -26,7 +38,6 @@ const toggleButtonState = (inputList, buttonElement, config) => {
   if (hasInvalidInput(inputList)) {
     buttonElement.classList.add(config.inactiveButtonClass);
   } else {
-    //enableEnterSubmit(inputList);
     buttonElement.classList.remove(config.inactiveButtonClass);
   }
 };
@@ -34,7 +45,12 @@ const toggleButtonState = (inputList, buttonElement, config) => {
 //Valid or not valid.
 const checkInputValidity = (formElement, inputElement, config) => {
   if (!inputElement.validity.valid) {
-    showInputError(formElement, inputElement, inputElement.validationMessage, config);
+    showInputError(
+      formElement,
+      inputElement,
+      inputElement.validationMessage,
+      config
+    );
   } else {
     hideInputError(formElement, inputElement, config);
   }
@@ -42,7 +58,9 @@ const checkInputValidity = (formElement, inputElement, config) => {
 
 //Handler input.
 const setEventListeners = (formElement, config) => {
-  const inputList = Array.from(formElement.querySelectorAll(config.inputSelector));
+  const inputList = Array.from(
+    formElement.querySelectorAll(config.inputSelector)
+  );
   const buttonElement = formElement.querySelector(config.submitSelector);
   toggleButtonState(inputList, buttonElement, config);
 
@@ -50,7 +68,6 @@ const setEventListeners = (formElement, config) => {
     inputElement.addEventListener("input", function () {
       checkInputValidity(formElement, inputElement, config);
       toggleButtonState(inputList, buttonElement, config);
-      //tooglEnterSubmit(inputList);
     });
   });
 };
@@ -72,7 +89,7 @@ const validationConfig = {
   submitSelector: ".form__button-save",
   inactiveButtonClass: "form__button-save_inactive",
   inputErrorClass: "form__input_type_error",
-  errorClass: "form__input-error_active"
-}
+  errorClass: "form__input-error_active",
+};
 
 enableValidation(validationConfig);

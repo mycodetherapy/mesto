@@ -1,5 +1,5 @@
 const profileInfo = document.querySelector(".profile__info");
-const editButton = profileInfo.querySelector(".profile__button");
+const editProfileButton = profileInfo.querySelector(".profile__button");
 const creatElementButton = document.querySelector(".profile__button-add");
 const popupProfile = document.querySelector(".popup_type_edit-profile");
 const popupCreatElement = document.querySelector(".popup_type_creat-element");
@@ -26,7 +26,9 @@ const inputPlace = popupCreatElement.querySelector(".form__input_type_place");
 const inputPlaceLink = popupCreatElement.querySelector(
   ".form__input_type_place-link"
 );
-const formButtonSave = formElementCreatElement.querySelector(".form__button-save");
+const buttonSaveCard =
+  formElementCreatElement.querySelector(".form__button-save");  
+const buttonSaveProfile = formElementEditProfile.querySelector(".form__button-save");
 const initialCards = [
   {
     name: "Нарьян-Мар",
@@ -54,9 +56,6 @@ const initialCards = [
   },
 ];
 
-//Displaying initial content.
-addCards(initialCards);
-
 //Сreates element.
 function createCard(item) {
   const newCard = elementTemplate.content.cloneNode(true);
@@ -73,7 +72,6 @@ function createCard(item) {
 function addCards(cards) {
   const newCards = cards.map(createCard);
   elementList.append(...newCards);
-  //elementList.classList.add("form__button-save_inactive");
 }
 
 //adds element.
@@ -84,9 +82,9 @@ function addElement(event) {
     link: inputPlaceLink.value,
   });
   elementList.prepend(newCard);
-  togglePopup(popupCreatElement);
+  closePopup(popupCreatElement);
   cleanInput(inputPlace, inputPlaceLink);
-  inactiveButton(formButtonSave);
+  //inactiveButton(formButtonSave);
 }
 
 //Saves the text from the input to the profile.
@@ -94,7 +92,7 @@ function formSubmitHandler(event) {
   event.preventDefault();
   profileTitle.textContent = formInputName.value; //name;
   profileSubtitle.textContent = formInputProfession.value; //profession;
-  togglePopup(popupProfile);
+  closePopup(popupProfile);
 }
 
 //Tears off an image for viewing
@@ -107,17 +105,17 @@ function viewImage(event) {
   popupImage.alt = targetImage.alt;
   popupImageCaption.textContent = targetImage.alt;
 
-  togglePopup(popupTypeImage);
+  openPopup(popupTypeImage);
   focusElement(popupTypeImage);
-  keydownHandler(popupTypeImage);
+  //keydownHandler(popupTypeImage);
 }
 
 //toggles popup.
-function togglePopup(popup) {
-  popup.classList.toggle("popup_opened");
-}
+// function togglePopup(popup) {
+//   popup.classList.toggle("popup_opened");
+// }
 
-function inactiveButton (button) {
+function inactiveButton(button) {
   button.classList.add("form__button-save_inactive");
 }
 
@@ -145,8 +143,12 @@ function removeElement(event) {
   listItemRemove.remove();
 }
 
+const focusElement = (element) => {
+  element.querySelector(".popup__container").focus();
+};
+
 //listens to events in the element.
-function setListenerToElement (element) {
+function setListenerToElement(element) {
   element.querySelector(".element__like").addEventListener("click", switchLike);
 
   element
@@ -156,76 +158,97 @@ function setListenerToElement (element) {
   element.querySelector(".element__image").addEventListener("click", viewImage);
 }
 
-const focusElement = (element) => {
-  element.querySelector(".popup__container").focus();
-};
-
 //Catches a click on the edit button.
-editButton.addEventListener("click", () => {
-  togglePopup(popupProfile);
+editProfileButton.addEventListener("click", () => {
+  openPopup(popupProfile);
   fillInputText();
   focusElement(popupProfile);
-  keydownHandler(popupProfile);
+  inactiveButton(buttonSaveProfile);
 });
 
 //Catches a click on the add element button.
 creatElementButton.addEventListener("click", () => {
-  togglePopup(popupCreatElement);
+  openPopup(popupCreatElement);
   cleanInput(inputPlace, inputPlaceLink);
   focusElement(popupCreatElement);
-  keydownHandler(popupCreatElement);
+  inactiveButton(buttonSaveCard);
 });
 
-//forms close handler.
-const closeClickHandler = () => {
-  popups.forEach((button) => {
-    button.querySelector(".popup__close").addEventListener("click", (event) => {
-      const targetForm = event.currentTarget.closest(".popup");
-      togglePopup(targetForm);
-      hideInputErrorIfClose(
-        targetForm,
-        Array.from(targetForm.querySelectorAll(".form__input"))
-      );
+const closeHandler = () => {
+  popups.forEach((popup) => {
+    popup.addEventListener("click", (evt) => {
+      if (evt.target.classList.contains("popup_opened")) {
+        closePopup(popup);
+      }
+      if (evt.target.classList.contains("popup__close")) {
+        closePopup(popup);
+      }
     });
   });
 };
 
-//Click overlay handler.
-const clickOverlayHandler = () => {
-  popups.forEach((popup) => {
-    popup
-      .querySelector(".popup__container")
-      .parentElement.addEventListener("click", (event) => {
-        if (!event.target.classList.contains("popup")) return;
-        const targetPopup = event.target;
-        togglePopup(targetPopup);
-        hideInputErrorIfClose(
-          targetPopup,
-          Array.from(targetPopup.querySelectorAll(".form__input"))
-        );
-      });
-  });
+//forms close handler.
+// const closeClickHandler = () => {
+//   popups.forEach((button) => {
+//     button.querySelector(".popup__close").addEventListener("click", (event) => {
+//       const targetForm = event.currentTarget.closest(".popup");
+//       togglePopup(targetForm);
+//       hideInputErrorIfClose(
+//         targetForm,
+//         Array.from(targetForm.querySelectorAll(".form__input"))
+//       );
+//     });
+//   });
+// };
+
+// //Click overlay handler.
+// const clickOverlayHandler = () => {
+//   popups.forEach((popup) => {
+//     popup
+//       .querySelector(".popup__container")
+//       .parentElement.addEventListener("click", (event) => {
+//         if (!event.target.classList.contains("popup")) return;
+//         const targetPopup = event.target;
+//         togglePopup(targetPopup);
+//         hideInputErrorIfClose(
+//           targetPopup,
+//           Array.from(targetPopup.querySelectorAll(".form__input"))
+//         );
+//       });
+//   });
+// };
+
+const closeByEscape = (evt) => {
+  if (evt.key === "Escape") {
+    const openedPopup = document.querySelector(".popup_opened");
+    closePopup(openedPopup);
+  }
+};
+
+const openPopup = (popup) => {
+  popup.classList.add("popup_opened");
+  popup.addEventListener("keydown", closeByEscape);
+};
+
+const closePopup = (popup) => {
+  popup.classList.remove("popup_opened");
+  popup.removeEventListener("keydown", closeByEscape);
 };
 
 //Keydown esc handler.
-const keydownHandler = (popup) => {
-  popup.addEventListener("keydown", function escListener (event) {
-    if (event.key === "Escape") {
-      const targetPopup = event.target.closest(".popup_opened");
-      togglePopup(targetPopup);
-      hideInputErrorIfClose(
-        targetPopup,
-        Array.from(targetPopup.querySelectorAll(".form__input"))
-       );
-       popup.removeEventListener("keydown", escListener);
-    }
-  });
-};
-
-//Catches the submission of the form for adding an element.
-formElementCreatElement.addEventListener("submit", addElement);
-//Catches sending the profile editing form.
-formElementEditProfile.addEventListener("submit", formSubmitHandler);
+// const keydownHandler = (popup) => {
+//   popup.addEventListener("keydown", function escListener(event) {
+//     if (event.key === "Escape") {
+//       const targetPopup = event.target.closest(".popup_opened");
+//       togglePopup(targetPopup);
+//       hideInputErrorIfClose(
+//         targetPopup,
+//         Array.from(targetPopup.querySelectorAll(".form__input"))
+//       );
+//       popup.removeEventListener("keydown", escListener);
+//     }
+//   });
+// };
 
 //Reset error.
 const hideInputErrorIfClose = (formElements, inputElements) => {
@@ -241,5 +264,14 @@ const hideInputErrorIfClose = (formElements, inputElements) => {
   });
 };
 
-closeClickHandler();
-clickOverlayHandler();
+//Catches the submission of the form for adding an element.
+formElementCreatElement.addEventListener("submit", addElement);
+//Catches sending the profile editing form.
+formElementEditProfile.addEventListener("submit", formSubmitHandler);
+
+//Displaying initial content.
+addCards(initialCards);
+
+closeHandler();
+//closeClickHandler();
+//clickOverlayHandler();
