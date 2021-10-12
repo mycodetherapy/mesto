@@ -164,6 +164,7 @@ editProfileButton.addEventListener("click", () => {
   fillInputText();
   focusElement(popupProfile);
   inactiveButton(buttonSaveProfile);
+  resetInputError(popupProfile);
 });
 
 //Catches a click on the add element button.
@@ -172,6 +173,7 @@ creatElementButton.addEventListener("click", () => {
   cleanInput(inputPlace, inputPlaceLink);
   focusElement(popupCreatElement);
   inactiveButton(buttonSaveCard);
+  resetInputError(popupCreatElement);
 });
 
 const closeHandler = () => {
@@ -250,11 +252,9 @@ const closePopup = (popup) => {
 //   });
 // };
 
-//Reset error.
-const hideInputErrorIfClose = (formElements, inputElements) => {
-  const errorElements = Array.from(
-    formElements.querySelectorAll(".form__input-error")
-  );
+const resetInputError = (popup) => {
+  const inputElements = Array.from(popup.querySelectorAll(".form__input_type_error"));
+  const errorElements = Array.from(popup.querySelectorAll(".form__input-error"));
   inputElements.forEach((element) => {
     element.classList.remove("form__input_type_error");
   });
@@ -262,7 +262,21 @@ const hideInputErrorIfClose = (formElements, inputElements) => {
     element.classList.remove("form__input-error_active");
     element.textContent = "";
   });
-};
+}
+
+//Reset error.
+// const hideInputErrorIfClose = (formElements, inputElements) => {
+//   const errorElements = Array.from(
+//     formElements.querySelectorAll(".form__input-error")
+//   );
+//   inputElements.forEach((element) => {
+//     element.classList.remove("form__input_type_error");
+//   });
+//   errorElements.forEach((element) => {
+//     element.classList.remove("form__input-error_active");
+//     element.textContent = "";
+//   });
+// };
 
 //Catches the submission of the form for adding an element.
 formElementCreatElement.addEventListener("submit", addElement);
