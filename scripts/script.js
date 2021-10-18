@@ -171,6 +171,7 @@ const closePopup = (popup) => {
   popup.removeEventListener("keydown", closeByEscape);
 };
 
+
 //Hide errors.
 const hideError = (popup) => {
   const inputElements = Array.from(popup.querySelectorAll(".form__input_type_error"));
