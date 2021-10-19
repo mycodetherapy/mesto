@@ -22,25 +22,20 @@ class FormValidator {
   }
 
   enableValidation() {
-    //console.log(this._formSelector);
     const formList = Array.from(document.querySelectorAll(this._formSelector));
     formList.forEach((formElement) => {
       formElement.addEventListener("submit", (evt) => {
         evt.preventDefault();
       });
-      //console.log(formElement);
-      //debugger
       this._setEventListeners(formElement);
     });
   }
 
   //Handler input.
   _setEventListeners(formElement) {
-    //console.log(this);
     const inputList = Array.from(
       formElement.querySelectorAll(this._inputSelector)
     );
-    //console.log(inputList);
     const buttonElement = formElement.querySelector(this._submitSelector);
     this._toggleButtonState(inputList, buttonElement);
 
@@ -54,7 +49,6 @@ class FormValidator {
 
   //Valid or not valid.
   _checkInputValidity(formElement, inputElement) {
-    //console.log(inputElement);
     if (!inputElement.validity.valid) {
       this._showInputError(
         formElement,
@@ -99,6 +93,7 @@ class FormValidator {
   }
 }
 
+//Start validation.
 function startenableValidation() {
   const newFormValidator = new FormValidator(validationConfig, ".form");
   newFormValidator.enableValidation();

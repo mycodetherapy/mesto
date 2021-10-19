@@ -7,7 +7,7 @@ const editProfileButton = profileInfo.querySelector(".profile__button");
 const creatElementButton = document.querySelector(".profile__button-add");
 const popupCreatElement = document.querySelector(".popup_type_creat-element");
 const popupProfile = document.querySelector(".popup_type_edit-profile");
-const popupTypeImage = document.querySelector(".popup_type_image");
+//const popupTypeImage = document.querySelector(".popup_type_image");
 const formInputName = popupProfile.querySelector(".form__input_type_name");
 const formInputProfession = popupProfile.querySelector(
   ".form__input_type_profession"
@@ -17,7 +17,7 @@ const profileSubtitle = profileInfo.querySelector(".profile__subtitle");
 const formElementEditProfile = popupProfile.querySelector(".form");
 const formElementCreatElement = popupCreatElement.querySelector(".form");
 const elementList = document.querySelector(".elements__grid-container");
-const elementTemplate = document.querySelector(".element-template");
+//const elementTemplate = document.querySelector(".element-template");
 const popups = Array.from(document.querySelectorAll(".popup"));
 const inputPlace = popupCreatElement.querySelector(".form__input_type_place");
 const inputPlaceLink = popupCreatElement.querySelector(
@@ -148,5 +148,6 @@ crateCards();
 //Start close handler popup.
 closeHandler();
 
+//Start validation.
 startenableValidation();
 
