@@ -14,50 +14,6 @@ const hideInputError = (formElement, inputElement, config) => {
   errorElement.textContent = "";
 };
 
-// const handlerEnterSubmit = (formElement) => {
-//   const inputList = Array.from(formElement.querySelectorAll(".form__input"));
-//   inputList.forEach((inputElement) => {
-//     inputElement.addEventListener(
-//       "keydown",
-//       function disableEnterSubmit(event) {
-//         if (event.key === "Enter") event.preventDefault();
-//       }
-//     );
-//   });
-// };
-
-const toggleEnterState = (inputList, config) => {
-  if (hasInvalidForm(inputList)) { console.log('qqq');
-    inputList.forEach((inputElement) => {
-      inputElement.addEventListener(
-        "keydown",
-        function disableEnterSubmit(event) {
-          if (event.key === "Enter") event.preventDefault();
-        }
-      );
-    });
-  } else { console.log('www');
-    // inputList.forEach((inputElement) => {
-    //   inputElement.removeEventListener("keydown", disableEnterSubmit);
-    // });
-   }
-};
-
-const hasInvalidForm = (inputList) => {
- return inputList.every(xxx(inputList));
-  // return inputList.every((inputElement) => {
-  //   return !inputElement.validity.valid;
-  // });
-};
-
-const xxx = (inputList) => {
-  inputList.forEach((elem) => {
-    return !elem.validity.valid;
-  });
-}
-
-//console.log(hasInvalidForm(formElem));
-
 //Validity - true or false.
 const hasInvalidInput = (inputList) => {
   return inputList.some((inputElement) => {
@@ -69,10 +25,8 @@ const hasInvalidInput = (inputList) => {
 const toggleButtonState = (inputList, buttonElement, config) => {
   if (hasInvalidInput(inputList)) {
     buttonElement.classList.add(config.inactiveButtonClass);
-    //console.log(hasInvalidForm(inputList));
   } else {
     buttonElement.classList.remove(config.inactiveButtonClass);
-    //console.log(hasInvalidForm(inputList));
   }
 };
 
@@ -102,7 +56,6 @@ const setEventListeners = (formElement, config) => {
     inputElement.addEventListener("input", function () {
       checkInputValidity(formElement, inputElement, config);
       toggleButtonState(inputList, buttonElement, config);
-      toggleEnterState(inputList, config);
     });
   });
 };
