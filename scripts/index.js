@@ -1,11 +1,12 @@
 import {Card, crateCards} from './Card.js';
+import {startenableValidation} from './FormValidator.js';
 export {openPopup, focusElement};
 
 const profileInfo = document.querySelector(".profile__info");
 const editProfileButton = profileInfo.querySelector(".profile__button");
 const creatElementButton = document.querySelector(".profile__button-add");
-const popupProfile = document.querySelector(".popup_type_edit-profile");
 const popupCreatElement = document.querySelector(".popup_type_creat-element");
+const popupProfile = document.querySelector(".popup_type_edit-profile");
 const popupTypeImage = document.querySelector(".popup_type_image");
 const formInputName = popupProfile.querySelector(".form__input_type_name");
 const formInputProfession = popupProfile.querySelector(
@@ -146,4 +147,6 @@ crateCards();
 
 //Start close handler popup.
 closeHandler();
+
+startenableValidation();
 
