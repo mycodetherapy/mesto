@@ -1,7 +1,6 @@
 export { FormValidator, validationConfig };
 
 const validationConfig = {
-  formSelector: ".form",
   inputSelector: ".form__input",
   submitSelector: ".form__button-save",
   spanErrorSelector: ".form__input-error",
@@ -12,7 +11,6 @@ const validationConfig = {
 
 class FormValidator {
   constructor(data, cardSelector) {
-    this._formSelector = data.formSelector;
     this._inputSelector = data.inputSelector;
     this._submitSelector = data.submitSelector;
     this._spanErrorSelector = data.spanErrorSelector;

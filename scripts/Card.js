@@ -1,4 +1,4 @@
-export { Card, popupTypeImage };
+export { Card };
 import { openPopup, focusElement } from "./index.js";
 
 const popupTypeImage = document.querySelector(".popup_type_image");
@@ -43,13 +43,11 @@ class Card {
 
   //Removes an element.
   _removeElement() {
-    // const listItemRemove = this._element.currentTarget.closest(".element");
     this._element.remove();
   }
 
   //Tears off an image for viewing
   _viewImage() {
-    //const targetImage = this._element.querySelector(".element__image");
     popupImage.src = this._link;
     popupImage.alt = this._name;
     popupImageCaption.textContent = this._name;
@@ -65,7 +63,7 @@ class Card {
       .addEventListener("click", () => {
         this._switchLike();
       });
-    //console.log(this._element);
+      
     this._element
       .querySelector(".element__delete")
       .addEventListener("click", () => {

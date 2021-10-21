@@ -8,7 +8,6 @@ const editProfileButton = profileInfo.querySelector(".profile__button");
 const creatElementButton = document.querySelector(".profile__button-add");
 const popupCreatElement = document.querySelector(".popup_type_creat-element");
 const popupProfile = document.querySelector(".popup_type_edit-profile");
-//const popupTypeImage = document.querySelector(".popup_type_image");
 const formInputName = popupProfile.querySelector(".form__input_type_name");
 const formInputProfession = popupProfile.querySelector(
   ".form__input_type_profession"
@@ -18,25 +17,21 @@ const profileSubtitle = profileInfo.querySelector(".profile__subtitle");
 const formElementEditProfile = popupProfile.querySelector(".form");
 const formElementCreatElement = popupCreatElement.querySelector(".form");
 const elementList = document.querySelector(".elements__grid-container");
-//const elementTemplate = document.querySelector(".element-template");
 const popups = Array.from(document.querySelectorAll(".popup"));
 const inputPlace = popupCreatElement.querySelector(".form__input_type_place");
 const inputPlaceLink = popupCreatElement.querySelector(
   ".form__input_type_place-link"
 );
-const buttonSaveCard =
-  formElementCreatElement.querySelector(".form__button-save");  
-const buttonSaveProfile = formElementEditProfile.querySelector(".form__button-save");
 
 //Return finished card.
-function createCard(item, element) {
+const createCard = (item, element) => {
   return new Card(item, element);
 }
 
 //add element.
 const addElement = (event) => {
   event.preventDefault();
-  const newCard = new Card({
+  const newCard = createCard({
     name: inputPlace.value,
     link: inputPlaceLink.value
   }, '.element-template');
@@ -105,22 +100,8 @@ const closePopup = (popup) => {
   popup.removeEventListener("keydown", closeByEscape);
 };
 
-
-// //Hide errors.
-// const hideError = (popup) => {
-//   const inputElements = Array.from(popup.querySelectorAll(".form__input_type_error"));
-//   const errorElements = Array.from(popup.querySelectorAll(".form__input-error"));
-//   inputElements.forEach((element) => {
-//     element.classList.remove("form__input_type_error");
-//   });
-//   errorElements.forEach((element) => {
-//     element.classList.remove("form__input-error_active");
-//     element.textContent = "";
-//   });
-// }
-
 //Add cards in DOM
-const createCards = () => {
+const addCards = () => {
   initialCards.forEach((item) => {
     const cardElement = createCard(item, ".element-template").generateCard();
     elementList.append(cardElement);
@@ -132,7 +113,6 @@ editProfileButton.addEventListener("click", () => {
   openPopup(popupProfile);
   fillInputText();
   focusElement(popupProfile);
-  //inactiveButton(buttonSaveProfile);
   new FormValidator(validationConfig, ".popup_type_edit-profile").resetValidation();
   new FormValidator(validationConfig, ".popup_type_edit-profile").enableValidation();
 });
@@ -142,20 +122,9 @@ creatElementButton.addEventListener("click", () => {
   openPopup(popupCreatElement);
   cleanInput(inputPlace, inputPlaceLink);
   focusElement(popupCreatElement);
-  //inactiveButton(buttonSaveCard);
   new FormValidator(validationConfig, ".popup_type_creat-element").resetValidation();
   new FormValidator(validationConfig, ".popup_type_creat-element").enableValidation();
 });
-
-//Start validation.
-// function startenableValidation() {
-//   const newFormValidator = new FormValidator(validationConfig, ".form");
-//   newFormValidator.enableValidation();
-// }
-//new FormValidator(validationConfig, ".popup_type_edit-profile").resetValidation();
-
-//new FormValidator(validationConfig, ".popup_type_creat-element").enableValidation();
-//new FormValidator(validationConfig, ".popup_type_edit-profile").enableValidation();
 
 //Submit handler creat element.
 formElementCreatElement.addEventListener("submit", addElement);
@@ -164,11 +133,9 @@ formElementCreatElement.addEventListener("submit", addElement);
 formElementEditProfile.addEventListener("submit", formSubmitHandler);
 
 //Displaying initial content.
-createCards();
+addCards();
 
 //Start close handler popup.
 closeHandler();
 
-//Start validation.
-//startenableValidation();
 
