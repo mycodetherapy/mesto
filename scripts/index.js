@@ -1,5 +1,6 @@
-import {Card, crateCards} from './Card.js';
+import {Card, createCard} from './Card.js';
 import {startenableValidation} from './FormValidator.js';
+import { initialCards } from "../utils/initialCards.js";
 export {openPopup, focusElement};
 
 const profileInfo = document.querySelector(".profile__info");
@@ -115,6 +116,16 @@ const hideError = (popup) => {
   errorElements.forEach((element) => {
     element.classList.remove("form__input-error_active");
     element.textContent = "";
+  });
+}
+
+//Add cards in DOM
+const crateCards = () => {
+  initialCards.forEach((item) => {
+    
+    const cardElement = createCard(item, ".element-template").generateCard();
+
+    elementList.append(cardElement);
   });
 }
 
