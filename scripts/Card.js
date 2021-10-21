@@ -1,4 +1,4 @@
-export { Card, createCard, popupTypeImage };
+export { Card, popupTypeImage };
 import { openPopup, focusElement } from "./index.js";
 
 const popupTypeImage = document.querySelector(".popup_type_image");
@@ -78,10 +78,5 @@ class Card {
         this._viewImage();
       });
   }
-}
-
-//Return finished card.
-function createCard(item, element) {
-  return new Card(item, element);
 }
 

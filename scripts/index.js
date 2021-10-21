@@ -1,5 +1,5 @@
-import {Card, createCard} from './Card.js';
-import {startenableValidation} from './FormValidator.js';
+import {Card} from './Card.js';
+import {FormValidator, validationConfig} from './FormValidator.js';
 import { initialCards } from "../utils/initialCards.js";
 export {openPopup, focusElement};
 
@@ -28,6 +28,11 @@ const buttonSaveCard =
   formElementCreatElement.querySelector(".form__button-save");  
 const buttonSaveProfile = formElementEditProfile.querySelector(".form__button-save");
 
+//Return finished card.
+function createCard(item, element) {
+  return new Card(item, element);
+}
+
 //add element.
 const addElement = (event) => {
   event.preventDefault();
@@ -47,11 +52,6 @@ const formSubmitHandler = (event) => {
   profileTitle.textContent = formInputName.value; //name;
   profileSubtitle.textContent = formInputProfession.value; //profession;
   closePopup(popupProfile);
-}
-
-//Makes the button inactive
-const inactiveButton = (button) => {
-  button.classList.add("form__button-save_inactive");
 }
 
 //Outputs the text from the profile to the input.
@@ -106,25 +106,23 @@ const closePopup = (popup) => {
 };
 
 
-//Hide errors.
-const hideError = (popup) => {
-  const inputElements = Array.from(popup.querySelectorAll(".form__input_type_error"));
-  const errorElements = Array.from(popup.querySelectorAll(".form__input-error"));
-  inputElements.forEach((element) => {
-    element.classList.remove("form__input_type_error");
-  });
-  errorElements.forEach((element) => {
-    element.classList.remove("form__input-error_active");
-    element.textContent = "";
-  });
-}
+// //Hide errors.
+// const hideError = (popup) => {
+//   const inputElements = Array.from(popup.querySelectorAll(".form__input_type_error"));
+//   const errorElements = Array.from(popup.querySelectorAll(".form__input-error"));
+//   inputElements.forEach((element) => {
+//     element.classList.remove("form__input_type_error");
+//   });
+//   errorElements.forEach((element) => {
+//     element.classList.remove("form__input-error_active");
+//     element.textContent = "";
+//   });
+// }
 
 //Add cards in DOM
-const crateCards = () => {
+const createCards = () => {
   initialCards.forEach((item) => {
-    
     const cardElement = createCard(item, ".element-template").generateCard();
-
     elementList.append(cardElement);
   });
 }
@@ -134,8 +132,9 @@ editProfileButton.addEventListener("click", () => {
   openPopup(popupProfile);
   fillInputText();
   focusElement(popupProfile);
-  inactiveButton(buttonSaveProfile);
-  hideError(popupProfile);
+  //inactiveButton(buttonSaveProfile);
+  new FormValidator(validationConfig, ".popup_type_edit-profile").resetValidation();
+  new FormValidator(validationConfig, ".popup_type_edit-profile").enableValidation();
 });
 
 //Click handler add element button.
@@ -143,9 +142,20 @@ creatElementButton.addEventListener("click", () => {
   openPopup(popupCreatElement);
   cleanInput(inputPlace, inputPlaceLink);
   focusElement(popupCreatElement);
-  inactiveButton(buttonSaveCard);
-  hideError(popupCreatElement);
+  //inactiveButton(buttonSaveCard);
+  new FormValidator(validationConfig, ".popup_type_creat-element").resetValidation();
+  new FormValidator(validationConfig, ".popup_type_creat-element").enableValidation();
 });
+
+//Start validation.
+// function startenableValidation() {
+//   const newFormValidator = new FormValidator(validationConfig, ".form");
+//   newFormValidator.enableValidation();
+// }
+//new FormValidator(validationConfig, ".popup_type_edit-profile").resetValidation();
+
+//new FormValidator(validationConfig, ".popup_type_creat-element").enableValidation();
+//new FormValidator(validationConfig, ".popup_type_edit-profile").enableValidation();
 
 //Submit handler creat element.
 formElementCreatElement.addEventListener("submit", addElement);
@@ -154,11 +164,11 @@ formElementCreatElement.addEventListener("submit", addElement);
 formElementEditProfile.addEventListener("submit", formSubmitHandler);
 
 //Displaying initial content.
-crateCards();
+createCards();
 
 //Start close handler popup.
 closeHandler();
 
 //Start validation.
-startenableValidation();
+//startenableValidation();
 
