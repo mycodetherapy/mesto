@@ -10,7 +10,7 @@ const validationConfig = {
 };
 
 class FormValidator {
-  constructor(data, cardSelector) {
+  constructor(data, formSelector) {
     this._inputSelector = data.inputSelector;
     this._submitSelector = data.submitSelector;
     this._spanErrorSelector = data.spanErrorSelector;
@@ -18,8 +18,8 @@ class FormValidator {
     this._inputErrorClass = data.inputErrorClass;
     this._errorClass = data.errorClass;
 
-    this._cardSelector = cardSelector;
-    this._form = document.querySelector(this._cardSelector);
+    this._formSelector = formSelector;
+    this._form = document.querySelector(this._formSelector);
     this._inputList = Array.from(
       this._form.querySelectorAll(this._inputSelector)
     );
