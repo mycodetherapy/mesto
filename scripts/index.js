@@ -64,11 +64,6 @@ const cleanInput = (firstInput, secondInput) => {
   secondInput.value = "";
 };
 
-//Set focus.
-// const focusElement = (element) => {
-//   element.querySelector(".popup__container").focus();
-// };
-
 //Close handler popup.
 const closeHandler = () => {
   popups.forEach((popup) => {
@@ -115,29 +110,23 @@ const addCards = () => {
 editProfileButton.addEventListener("click", () => {
   openPopup(popupProfile);
   fillInputText();
-  new FormValidator(
-    validationConfig,
-    ".popup_type_edit-profile"
-  ).resetValidation();
-  new FormValidator(
-    validationConfig,
-    ".popup_type_edit-profile"
-  ).enableValidation();
+  editProfileFormValidator.resetValidation();
 });
 
 //Click handler add element button.
 creatElementButton.addEventListener("click", () => {
   openPopup(popupCreatElement);
   cleanInput(inputPlace, inputPlaceLink);
-  new FormValidator(
-    validationConfig,
-    ".popup_type_creat-element"
-  ).resetValidation();
-  new FormValidator(
-    validationConfig,
-    ".popup_type_creat-element"
-  ).enableValidation();
+  createElementFormValidator.resetValidation();
 });
+
+//Create instances FormValidator.
+const editProfileFormValidator = new FormValidator(validationConfig, ".popup_type_edit-profile");
+const createElementFormValidator = new FormValidator(validationConfig, ".popup_type_creat-element");
+
+//Start validation.
+editProfileFormValidator.enableValidation();
+createElementFormValidator.enableValidation();
 
 //Submit handler creat element.
 formElementCreatElement.addEventListener("submit", addElement);
