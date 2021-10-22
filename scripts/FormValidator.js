@@ -26,6 +26,7 @@ class FormValidator {
     this._submitButton = this._form.querySelector(this._submitSelector);
   }
 
+  //Start validation.
   enableValidation() {
     this._form.addEventListener("submit", (evt) => {
       evt.preventDefault();
@@ -52,6 +53,7 @@ class FormValidator {
     }
   }
 
+  //Reset error.
   resetValidation() {
     this._toggleButtonState();
     
