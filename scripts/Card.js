@@ -1,5 +1,5 @@
 export { Card };
-import { openPopup, focusElement } from "./index.js";
+import { openPopup } from "./index.js";
 
 const popupTypeImage = document.querySelector(".popup_type_image");
 const popupImage = popupTypeImage.querySelector(".popup__element-image");
@@ -53,7 +53,6 @@ class Card {
     popupImageCaption.textContent = this._name;
 
     openPopup(popupTypeImage);
-    focusElement(popupTypeImage);
   }
 
   //listens to events in the element.

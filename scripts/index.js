@@ -1,7 +1,7 @@
-import {Card} from './Card.js';
-import {FormValidator, validationConfig} from './FormValidator.js';
+import { Card } from "./Card.js";
+import { FormValidator, validationConfig } from "./FormValidator.js";
 import { initialCards } from "../utils/initialCards.js";
-export {openPopup, focusElement};
+export { openPopup };
 
 const profileInfo = document.querySelector(".profile__info");
 const editProfileButton = profileInfo.querySelector(".profile__button");
@@ -26,20 +26,23 @@ const inputPlaceLink = popupCreatElement.querySelector(
 //Return finished card.
 const createCard = (item, element) => {
   return new Card(item, element);
-}
+};
 
 //add element.
 const addElement = (event) => {
   event.preventDefault();
-  const newCard = createCard({
-    name: inputPlace.value,
-    link: inputPlaceLink.value
-  }, '.element-template');
+  const newCard = createCard(
+    {
+      name: inputPlace.value,
+      link: inputPlaceLink.value,
+    },
+    ".element-template"
+  );
   const addNewCard = newCard.generateCard();
   elementList.prepend(addNewCard);
   closePopup(popupCreatElement);
   cleanInput(inputPlace, inputPlaceLink);
-}
+};
 
 //Saves the text from the input to the profile.
 const formSubmitHandler = (event) => {
@@ -47,24 +50,24 @@ const formSubmitHandler = (event) => {
   profileTitle.textContent = formInputName.value; //name;
   profileSubtitle.textContent = formInputProfession.value; //profession;
   closePopup(popupProfile);
-}
+};
 
 //Outputs the text from the profile to the input.
 const fillInputText = () => {
   formInputName.value = profileTitle.textContent;
   formInputProfession.value = profileSubtitle.textContent;
-}
+};
 
 //Cleans up inputs.
 const cleanInput = (firstInput, secondInput) => {
   firstInput.value = "";
   secondInput.value = "";
-}
+};
 
 //Set focus.
-const focusElement = (element) => {
-  element.querySelector(".popup__container").focus();
-};
+// const focusElement = (element) => {
+//   element.querySelector(".popup__container").focus();
+// };
 
 //Close handler popup.
 const closeHandler = () => {
@@ -91,13 +94,13 @@ const closeByEscape = (evt) => {
 //Open popup.
 const openPopup = (popup) => {
   popup.classList.add("popup_opened");
-  popup.addEventListener("keydown", closeByEscape);
+  document.addEventListener("keydown", closeByEscape);
 };
 
 //Close popup.
 const closePopup = (popup) => {
   popup.classList.remove("popup_opened");
-  popup.removeEventListener("keydown", closeByEscape);
+  document.removeEventListener("keydown", closeByEscape);
 };
 
 //Add cards in DOM
@@ -106,24 +109,34 @@ const addCards = () => {
     const cardElement = createCard(item, ".element-template").generateCard();
     elementList.append(cardElement);
   });
-}
+};
 
 //Click handler edit profile button.
 editProfileButton.addEventListener("click", () => {
   openPopup(popupProfile);
   fillInputText();
-  focusElement(popupProfile);
-  new FormValidator(validationConfig, ".popup_type_edit-profile").resetValidation();
-  new FormValidator(validationConfig, ".popup_type_edit-profile").enableValidation();
+  new FormValidator(
+    validationConfig,
+    ".popup_type_edit-profile"
+  ).resetValidation();
+  new FormValidator(
+    validationConfig,
+    ".popup_type_edit-profile"
+  ).enableValidation();
 });
 
 //Click handler add element button.
 creatElementButton.addEventListener("click", () => {
   openPopup(popupCreatElement);
   cleanInput(inputPlace, inputPlaceLink);
-  focusElement(popupCreatElement);
-  new FormValidator(validationConfig, ".popup_type_creat-element").resetValidation();
-  new FormValidator(validationConfig, ".popup_type_creat-element").enableValidation();
+  new FormValidator(
+    validationConfig,
+    ".popup_type_creat-element"
+  ).resetValidation();
+  new FormValidator(
+    validationConfig,
+    ".popup_type_creat-element"
+  ).enableValidation();
 });
 
 //Submit handler creat element.
@@ -137,5 +150,3 @@ addCards();
 
 //Start close handler popup.
 closeHandler();
-
-
