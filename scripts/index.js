@@ -2,6 +2,7 @@ import { Card } from "./Card.js";
 import { FormValidator, validationConfig } from "./FormValidator.js";
 import { initialCards } from "../utils/initialCards.js";
 import { Section } from "../components/Section.js";
+import { Popup } from "../components/Popup.js";
 export { openPopup };
 
 const profileInfo = document.querySelector(".profile__info");
@@ -56,7 +57,8 @@ const addElement = (event) => {
   );
   const addNewCard = newCard.generateCard();
   elementList.prepend(addNewCard);
-  closePopup(popupCreatElement);
+  //closePopup(popupCreatElement);
+  close(popupCreatElement);
   cleanInput(inputPlace, inputPlaceLink);
 };
 
@@ -65,7 +67,8 @@ const formSubmitHandler = (event) => {
   event.preventDefault();
   profileTitle.textContent = formInputName.value; //name;
   profileSubtitle.textContent = formInputProfession.value; //profession;
-  closePopup(popupProfile);
+  //closePopup(popupProfile);
+  close(popupProfile);
 };
 
 //Outputs the text from the profile to the input.
@@ -106,7 +109,6 @@ const closeByEscape = (evt) => {
 const openPopup = (popup) => {
   popup.classList.add("popup_opened");
   document.addEventListener("keydown", closeByEscape);
-  //document.addEventListener("keydown", closeByEnter);
 };
 
 //Close popup.
@@ -116,23 +118,29 @@ const closePopup = (popup) => {
 };
 
 //Add cards in DOM
-const addCards = () => {
-  initialCards.forEach((item) => {
-    const cardElement = createCard(item, ".element-template").generateCard();
-    elementList.append(cardElement);
-  });
-};
+// const addCards = () => {
+//   initialCards.forEach((item) => {
+//     const cardElement = createCard(item, ".element-template").generateCard();
+//     elementList.append(cardElement);
+//   });
+// };
 
 //Click handler edit profile button.
+const objEditprofile = new Popup(".popup_type_edit-profile");
 editProfileButton.addEventListener("click", () => {
-  openPopup(popupProfile);
+  //openPopup(popupProfile);
+  objEditprofile.open();
+  objEditprofile.setEventListeners();
   fillInputText();
   editProfileFormValidator.resetValidation();
 });
 
 //Click handler add element button.
+const objCreatElement = new Popup(".popup_type_creat-element");
 creatElementButton.addEventListener("click", () => {
-  openPopup(popupCreatElement);
+  //openPopup(popupCreatElement);
+  objCreatElement.open();
+  objCreatElement.setEventListeners();
   cleanInput(inputPlace, inputPlaceLink);
   createElementFormValidator.resetValidation();
 });
@@ -162,4 +170,5 @@ formElementEditProfile.addEventListener("submit", formSubmitHandler);
 //addCards();
 
 //Start close handler popup.
-closeHandler();
+//closeHandler();
+
