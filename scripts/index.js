@@ -1,6 +1,7 @@
 import { Card } from "./Card.js";
 import { FormValidator, validationConfig } from "./FormValidator.js";
 import { initialCards } from "../utils/initialCards.js";
+import { Section } from "../components/Section.js";
 export { openPopup };
 
 const profileInfo = document.querySelector(".profile__info");
@@ -17,7 +18,9 @@ const profileSubtitle = profileInfo.querySelector(".profile__subtitle");
 const formElementEditProfile = popupProfile.querySelector(".form");
 const formElementCreatElement = popupCreatElement.querySelector(".form");
 const elementList = document.querySelector(".elements__grid-container");
+const elementListSection = ".elements__grid-container";
 const popups = Array.from(document.querySelectorAll(".popup"));
+//const forms = Array.from(document.querySelectorAll(".form"));
 const inputPlace = popupCreatElement.querySelector(".form__input_type_place");
 const inputPlaceLink = popupCreatElement.querySelector(
   ".form__input_type_place-link"
@@ -27,6 +30,19 @@ const inputPlaceLink = popupCreatElement.querySelector(
 const createCard = (item, element) => {
   return new Card(item, element);
 };
+
+const cardsList = new Section({
+  items: initialCards, //Массив с карточками т.е. это "data"
+  renderer: (item) => {
+    const cardElement = createCard(item, ".element-template").generateCard();
+    cardsList.addItem(cardElement); //Заменили elementList на cardsList
+  },
+},
+//".elements__grid-container"
+elementListSection //Контейнер в который будут рендериться карточки.
+);
+
+cardsList.renderItems();
 
 //add element.
 const addElement = (event) => {
@@ -90,6 +106,7 @@ const closeByEscape = (evt) => {
 const openPopup = (popup) => {
   popup.classList.add("popup_opened");
   document.addEventListener("keydown", closeByEscape);
+  //document.addEventListener("keydown", closeByEnter);
 };
 
 //Close popup.
@@ -121,21 +138,28 @@ creatElementButton.addEventListener("click", () => {
 });
 
 //Create instances FormValidator.
-const editProfileFormValidator = new FormValidator(validationConfig, ".popup_type_edit-profile");
-const createElementFormValidator = new FormValidator(validationConfig, ".popup_type_creat-element");
+const editProfileFormValidator = new FormValidator(
+  validationConfig,
+  ".popup_type_edit-profile"
+);
+const createElementFormValidator = new FormValidator(
+  validationConfig,
+  ".popup_type_creat-element"
+);
 
 //Start validation.
 editProfileFormValidator.enableValidation();
 createElementFormValidator.enableValidation();
 
 //Submit handler creat element.
-formElementCreatElement.addEventListener("submit", addElement);
+formElementCreatElement.addEventListener("submit", addElement);//Пока не вызываем с addElement
+//formElementCreatElement.addEventListener("submit", cardsList); //а с cardsList
 
 //Submit handler edit profile.
 formElementEditProfile.addEventListener("submit", formSubmitHandler);
 
 //Displaying initial content.
-addCards();
+//addCards();
 
 //Start close handler popup.
 closeHandler();
