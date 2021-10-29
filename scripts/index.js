@@ -3,6 +3,7 @@ import { FormValidator, validationConfig } from "./FormValidator.js";
 import { initialCards } from "../utils/initialCards.js";
 import { Section } from "../components/Section.js";
 import { Popup } from "../components/Popup.js";
+import PopupWithImage from "../components/PopupWithImage.js";
 export { openPopup };
 
 const profileInfo = document.querySelector(".profile__info");
@@ -21,26 +22,43 @@ const formElementCreatElement = popupCreatElement.querySelector(".form");
 const elementList = document.querySelector(".elements__grid-container");
 const elementListSection = ".elements__grid-container";
 const popups = Array.from(document.querySelectorAll(".popup"));
-//const forms = Array.from(document.querySelectorAll(".form"));
-const inputPlace = popupCreatElement.querySelector(".form__input_type_place");
-const inputPlaceLink = popupCreatElement.querySelector(
+
+export const inputPlace = popupCreatElement.querySelector(
+  ".form__input_type_place"
+);
+export const inputPlaceLink = popupCreatElement.querySelector(
   ".form__input_type_place-link"
 );
 
-//Return finished card.
-const createCard = (item, element) => {
-  return new Card(item, element);
+const handleCardClick = () => {
+  const instancePopupWithImage = new PopupWithImage(
+    item,
+    ".popup_type_image"
+  );
+  instancePopupWithImage.open();
 };
 
-const cardsList = new Section({
-  items: initialCards, //Массив с карточками т.е. это "data"
-  renderer: (item) => {
-    const cardElement = createCard(item, ".element-template").generateCard();
-    cardsList.addItem(cardElement); //Заменили elementList на cardsList
+//Return finished card.
+const createCard = (item, element, handleCardClick = () => {
+  const instancePopupWithImage = new PopupWithImage(
+    item,
+    ".popup_type_image"
+  );
+  instancePopupWithImage.open();
+}) => {
+  return new Card(item, element, handleCardClick);
+};
+
+const cardsList = new Section(
+  {
+    items: initialCards, //Массив с карточками т.е. это "data"
+    renderer: (item) => {
+      const cardElement = createCard(item, ".element-template").generateCard();
+      cardsList.addItem(cardElement); //Заменили elementList на cardsList
+    },
   },
-},
-//".elements__grid-container"
-elementListSection //Контейнер в который будут рендериться карточки.
+  //".elements__grid-container"
+  elementListSection //Контейнер в который будут рендериться карточки.
 );
 
 cardsList.renderItems();
@@ -53,12 +71,13 @@ const addElement = (event) => {
       name: inputPlace.value,
       link: inputPlaceLink.value,
     },
-    ".element-template"
+    ".element-template",
+    handleCardClick()
   );
   const addNewCard = newCard.generateCard();
   elementList.prepend(addNewCard);
   //closePopup(popupCreatElement);
-  close(popupCreatElement);
+  instanceCreatElement.close();
   cleanInput(inputPlace, inputPlaceLink);
 };
 
@@ -68,7 +87,7 @@ const formSubmitHandler = (event) => {
   profileTitle.textContent = formInputName.value; //name;
   profileSubtitle.textContent = formInputProfession.value; //profession;
   //closePopup(popupProfile);
-  close(popupProfile);
+  instanceEditprofile.close();
 };
 
 //Outputs the text from the profile to the input.
@@ -84,18 +103,18 @@ const cleanInput = (firstInput, secondInput) => {
 };
 
 //Close handler popup.
-const closeHandler = () => {
-  popups.forEach((popup) => {
-    popup.addEventListener("click", (evt) => {
-      if (evt.target.classList.contains("popup_opened")) {
-        closePopup(popup);
-      }
-      if (evt.target.classList.contains("popup__close")) {
-        closePopup(popup);
-      }
-    });
-  });
-};
+// const closeHandler = () => {
+//   popups.forEach((popup) => {
+//     popup.addEventListener("click", (evt) => {
+//       if (evt.target.classList.contains("popup_opened")) {
+//         closePopup(popup);
+//       }
+//       if (evt.target.classList.contains("popup__close")) {
+//         closePopup(popup);
+//       }
+//     });
+//   });
+// };
 
 //Close handler popup by escape.
 const closeByEscape = (evt) => {
@@ -126,21 +145,21 @@ const closePopup = (popup) => {
 // };
 
 //Click handler edit profile button.
-const objEditprofile = new Popup(".popup_type_edit-profile");
+const instanceEditprofile = new Popup(".popup_type_edit-profile");
 editProfileButton.addEventListener("click", () => {
   //openPopup(popupProfile);
-  objEditprofile.open();
-  objEditprofile.setEventListeners();
+  instanceEditprofile.open();
+  instanceEditprofile.setEventListeners();
   fillInputText();
   editProfileFormValidator.resetValidation();
 });
 
 //Click handler add element button.
-const objCreatElement = new Popup(".popup_type_creat-element");
+const instanceCreatElement = new Popup(".popup_type_creat-element");
 creatElementButton.addEventListener("click", () => {
   //openPopup(popupCreatElement);
-  objCreatElement.open();
-  objCreatElement.setEventListeners();
+  instanceCreatElement.open();
+  instanceCreatElement.setEventListeners();
   cleanInput(inputPlace, inputPlaceLink);
   createElementFormValidator.resetValidation();
 });
@@ -160,7 +179,7 @@ editProfileFormValidator.enableValidation();
 createElementFormValidator.enableValidation();
 
 //Submit handler creat element.
-formElementCreatElement.addEventListener("submit", addElement);//Пока не вызываем с addElement
+formElementCreatElement.addEventListener("submit", addElement);
 //formElementCreatElement.addEventListener("submit", cardsList); //а с cardsList
 
 //Submit handler edit profile.
@@ -171,4 +190,3 @@ formElementEditProfile.addEventListener("submit", formSubmitHandler);
 
 //Start close handler popup.
 //closeHandler();
-
