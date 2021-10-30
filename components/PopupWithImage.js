@@ -1,4 +1,4 @@
-import { Popup } from "./Popup.js";
+import Popup from "./Popup.js";
 //import {inputPlaceLink, inputPlace} from "../scripts/index.js"
 
 const popupTypeImage = document.querySelector(".popup_type_image");
@@ -17,7 +17,7 @@ export default class PopupWithImage extends Popup {
     this._name = data.name;
   }
 
-  open = () => {
+  open = () => { 
     document.querySelector(this._selector).classList.add("popup_opened");
     document.addEventListener("keydown", this._handleEscClose);
     popupImage.src = this._link;

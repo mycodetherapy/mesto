@@ -2,8 +2,10 @@ import { Card } from "./Card.js";
 import { FormValidator, validationConfig } from "./FormValidator.js";
 import { initialCards } from "../utils/initialCards.js";
 import { Section } from "../components/Section.js";
-import { Popup } from "../components/Popup.js";
+import Popup from "../components/Popup.js";
 import PopupWithImage from "../components/PopupWithImage.js";
+import PopupWithForm from "../components/PopupWithForm.js";
+import UserInfo from "../components/UserInfo.js";
 export { openPopup };
 
 const profileInfo = document.querySelector(".profile__info");
@@ -30,23 +32,27 @@ export const inputPlaceLink = popupCreatElement.querySelector(
   ".form__input_type_place-link"
 );
 
-const handleCardClick = () => {
-  const instancePopupWithImage = new PopupWithImage(
-    item,
-    ".popup_type_image"
-  );
-  instancePopupWithImage.open();
-};
+// const handleCardClick = () => {
+//   const instancePopupWithImage = new PopupWithImage(
+//     item,
+//     ".popup_type_image"
+//   );
+//   instancePopupWithImage.open();
+// };
 
 //Return finished card.
-const createCard = (item, element, handleCardClick = () => {
-  const instancePopupWithImage = new PopupWithImage(
+const createCard = (item, element, handleCardClick) => {
+  return new Card(
     item,
-    ".popup_type_image"
+    element,
+    handleCardClick = () => {
+      const instancePopupWithImage = new PopupWithImage(
+        item,
+        ".popup_type_image"
+      );
+      instancePopupWithImage.open();
+    }
   );
-  instancePopupWithImage.open();
-}) => {
-  return new Card(item, element, handleCardClick);
 };
 
 const cardsList = new Section(
@@ -63,32 +69,84 @@ const cardsList = new Section(
 
 cardsList.renderItems();
 
+const addElement = new PopupWithForm({
+  selector: ".popup_type_creat-element",
+  formSubmitHandler: (formData) => {
+   // event.preventDefault();
+    const newCard = createCard(
+      //formData,
+      { 
+        name: formData['place-name'],
+        link: formData['link-to-image'],
+        //name: inputPlace.value,
+        //link: inputPlaceLink.value,
+      },
+      ".element-template",
+      () => {
+        const instancePopupWithImage = new PopupWithImage(
+          item,
+          ".popup_type_image"
+        );
+        instancePopupWithImage.open();
+      }
+    );
+    const addNewCard = newCard.generateCard();
+    elementList.prepend(addNewCard);
+    //closePopup(popupCreatElement);
+    //instanceCreatElement.close();
+    addElement.close();
+    //console.log(addElement._getInputValues());
+    //cleanInput(inputPlace, inputPlaceLink);
+    //console.log(exp._getInputValues());
+  },
+});
+
+const userInfo = new UserInfo({userName:".profile__title", userProfession:".profile__subtitle"});
+
+ //console.log(exp._getInputValues())
+
 //add element.
-const addElement = (event) => {
-  event.preventDefault();
-  const newCard = createCard(
-    {
-      name: inputPlace.value,
-      link: inputPlaceLink.value,
-    },
-    ".element-template",
-    handleCardClick()
-  );
-  const addNewCard = newCard.generateCard();
-  elementList.prepend(addNewCard);
-  //closePopup(popupCreatElement);
-  instanceCreatElement.close();
-  cleanInput(inputPlace, inputPlaceLink);
-};
+// const addElement = (event) => {
+//   event.preventDefault();
+//   const newCard = createCard(
+//     {
+//       name: inputPlace.value,
+//       link: inputPlaceLink.value,
+//     },
+//     ".element-template",
+//      () => {
+//       const instancePopupWithImage = new PopupWithImage(
+//         item,
+//         ".popup_type_image"
+//       );
+//       instancePopupWithImage.open();
+//     }
+//   );
+//   const addNewCard = newCard.generateCard();
+//   elementList.prepend(addNewCard);
+//   //closePopup(popupCreatElement);
+//   instanceCreatElement.close();
+//   cleanInput(inputPlace, inputPlaceLink);
+// };
 
 //Saves the text from the input to the profile.
-const formSubmitHandler = (event) => {
-  event.preventDefault();
-  profileTitle.textContent = formInputName.value; //name;
-  profileSubtitle.textContent = formInputProfession.value; //profession;
-  //closePopup(popupProfile);
-  instanceEditprofile.close();
-};
+const formSubmitHandlerus = new PopupWithForm({
+  selector: ".popup_type_edit-profile",
+  formSubmitHandler: (formData) => {
+    userInfo.setUserInfo();
+    //profileTitle.textContent = formInputName.value; //name;
+    //profileSubtitle.textContent = formInputProfession.value; //profession;
+    instanceEditprofile.close();
+    //console.log(formData);
+  }
+})
+// const formSubmitHandler = (event) => {
+//   event.preventDefault();
+//   profileTitle.textContent = formInputName.value; //name;
+//   profileSubtitle.textContent = formInputProfession.value; //profession;
+//   //closePopup(popupProfile);
+//   instanceEditprofile.close();
+// };
 
 //Outputs the text from the profile to the input.
 const fillInputText = () => {
@@ -160,7 +218,7 @@ creatElementButton.addEventListener("click", () => {
   //openPopup(popupCreatElement);
   instanceCreatElement.open();
   instanceCreatElement.setEventListeners();
-  cleanInput(inputPlace, inputPlaceLink);
+  //cleanInput(inputPlace, inputPlaceLink);
   createElementFormValidator.resetValidation();
 });
 
@@ -179,11 +237,14 @@ editProfileFormValidator.enableValidation();
 createElementFormValidator.enableValidation();
 
 //Submit handler creat element.
-formElementCreatElement.addEventListener("submit", addElement);
+//const exp = new PopupWithForm({selector: ".popup_type_edit-profile", formSubmitHandler: formSubmitHandler})
+//const x = exp._getInputValues();
+//console.log(exp._getInputValues())
+formElementCreatElement.addEventListener("submit", addElement.setEventListeners(".popup_type_creat-element"));
 //formElementCreatElement.addEventListener("submit", cardsList); //а с cardsList
 
 //Submit handler edit profile.
-formElementEditProfile.addEventListener("submit", formSubmitHandler);
+formElementEditProfile.addEventListener("submit", formSubmitHandlerus.setEventListeners(".popup_type_edit-profile"));
 
 //Displaying initial content.
 //addCards();
