@@ -1,11 +1,17 @@
 export default class Popup {
   constructor(selector) {
     this._selector = selector;
+    this._element = document.querySelector(selector);
   }
 
   open() {
     document.querySelector(this._selector).classList.add("popup_opened");
     document.addEventListener("keydown", this._handleEscClose);
+  }
+
+  fillInputText({user_name, user_profession}) {
+    this._element.querySelector('.form__input_type_name').value = user_name;
+    this._element.querySelector('.form__input_type_profession').value = user_profession;
   }
 
   close() {
@@ -16,6 +22,7 @@ export default class Popup {
   _handleEscClose = (evt) => {
     if (evt.key === "Escape") {
       this.close();
+      this._element.querySelector(".form").reset();
     }
   };
 

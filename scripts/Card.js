@@ -1,16 +1,7 @@
-export { Card };
-import { openPopup } from "./index.js";
-import PopupWithImage from "../components/PopupWithImage.js"
+//export { Card };
 
-const popupTypeImage = document.querySelector(".popup_type_image");
-const popupImage = popupTypeImage.querySelector(".popup__element-image");
-const popupImageCaption = popupTypeImage.querySelector(".popup__image-caption");
-
-// const instancePopupWithImage = new PopupWithImage(".popup_type_image");
-
-class Card {
+export default class Card {
   constructor(data, cardSelector, handleCardClick) {
-    this._data = data; //Временно
     this._handleCardClick = handleCardClick;
 
     this._name = data.name;
@@ -28,8 +19,6 @@ class Card {
       .querySelector(this._cardSelector)
       .content.querySelector(".element")
       .cloneNode(true);
-
-      //console.log(cardElement)
 
     return cardElement;
   }
@@ -54,16 +43,6 @@ class Card {
     this._element.remove();
   }
 
-  //Tears off an image for viewing
-  _viewImage() {
-    // console.log(this._link)
-    popupImage.src = this._link;
-    popupImage.alt = this._name;
-    popupImageCaption.textContent = this._name;
-
-    openPopup(popupTypeImage);
-  }
-
   //listens to events in the element.
   _setEventListeners = () => {
     this._element
@@ -82,9 +61,6 @@ class Card {
       .querySelector(".element__image")
       .addEventListener("click", () => {
         this._handleCardClick();
-        //this._viewImage();
-        //const instancePopupWithImage = new PopupWithImage(this._data, ".popup_type_image");
-        //instancePopupWithImage.open();
       });
   }
 }

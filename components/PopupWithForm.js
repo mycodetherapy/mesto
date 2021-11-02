@@ -13,13 +13,12 @@ export default class PopupWithForm extends Popup {
     this._inputList.forEach(
       (input) => (this._formValues[input.name] = input.value)
     );
-
     return this._formValues;
   }
 
   close() {
     document.querySelector(this._selector).classList.remove("popup_opened");
-    document.removeEventListener("keydown", this._handleEscClose);
+    document.removeEventListener("keydown", super._handleEscClose);
     this._element.querySelector(".form").reset();
   }
 

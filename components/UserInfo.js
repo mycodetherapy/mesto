@@ -2,23 +2,22 @@ export default class UserInfo {
   constructor({ userName, userProfession }) {
     this._userName = userName;
     this._userProfession = userProfession;
+
+    const  inputsUserInfo = document.forms["edit_profile"];
+    const { user_name, user_profession } = inputsUserInfo;
+
+    this._user_name = user_name;
+    this._user_profession = user_profession;
   }
   getUserInfo() {
     const profileInfo = {
-      user: document.querySelector(this._userName).value,
-      profession: document.querySelector(this._userProfession).value,
+      user_name: document.querySelector(this._userName).textContent,
+      user_profession: document.querySelector(this._userProfession).textContent,
     };
     return profileInfo;
   }
   setUserInfo() {
-    const  inputsUserInfo = document.forms["edit-profile"];
-    const { user_name, user_profession } = inputsUserInfo;
-    //console.log(user_name.value);
-    // const x = document.querySelector(this._userName);
-    // const y = document.querySelector(this._userProfession);
-    document.querySelector(this._userName).textContent = user_name.value;
-    document.querySelector(this._userProfession).textContent = user_profession.value;
-    // x.textContent = user_name.value;
-    // y.textContent = user_profession.value;
+    document.querySelector(this._userName).textContent = this._user_name.value;
+    document.querySelector(this._userProfession).textContent = this._user_profession.value;
   }
 }
