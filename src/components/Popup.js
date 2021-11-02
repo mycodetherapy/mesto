@@ -21,8 +21,12 @@ export default class Popup {
 
   _handleEscClose = (evt) => {
     if (evt.key === "Escape") {
-      this.close();
-      this._element.querySelector(".form").reset();
+      if (this._selector == ".popup_type_image") {
+        this.close();
+      } else {
+        this.close();
+        this._element.querySelector(".form").reset();
+      }
     }
   };
 

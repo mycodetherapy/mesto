@@ -1,39 +1,38 @@
-import Card from "./Card.js";
-import { FormValidator, validationConfig } from "./FormValidator.js";
-import { initialCards } from "../utils/initialCards.js";
+import "./index.css"
+import Card from "../components/Card.js";
+import {
+  FormValidator,
+  validationConfig,
+} from "../components/FormValidator.js";
 import Section from "../components/Section.js";
 import Popup from "../components/Popup.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import UserInfo from "../components/UserInfo.js";
 
-const profileInfo = document.querySelector(".profile__info");
-const editProfileButton = profileInfo.querySelector(".profile__button");
-const creatElementButton = document.querySelector(".profile__button-add");
-const popupCreatElement = document.querySelector(".popup_type_creat-element");
-const popupProfile = document.querySelector(".popup_type_edit-profile");
-const popupCreatElementSelector = ".popup_type_creat-element";
-const popupProfileSelector = ".popup_type_edit-profile";
-
-const formElementEditProfile = popupProfile.querySelector(".form");
-const formElementCreatElement = popupCreatElement.querySelector(".form");
-const elementList = document.querySelector(".elements__grid-container");
-const elementListSection = ".elements__grid-container";
-const templateSelector = ".element-template";
-const popupImageSelector = ".popup_type_image";
+import {
+  initialCards,
+  editProfileButton,
+  creatElementButton,
+  popupCreatElementSelector,
+  popupProfileSelector,
+  formElementEditProfile,
+  formElementCreatElement,
+  elementList,
+  elementListSelector,
+  templateSelector,
+  popupImageSelector,
+} from "../utils/constants.js";
 
 //Return finished card.
 const createCard = (item, element, handleCardClick) => {
   return new Card(
     item,
     element,
-    handleCardClick = () => {
-      const popupWithImage = new PopupWithImage(
-        item,
-        ".popup_type_image"
-      );
+    (handleCardClick = () => {
+      const popupWithImage = new PopupWithImage(item, ".popup_type_image");
       popupWithImage.open();
-    }
+    })
   );
 };
 
@@ -45,7 +44,7 @@ const cardsList = new Section(
       cardsList.addItem(cardElement);
     },
   },
-  elementListSection
+  elementListSelector
 );
 
 cardsList.renderItems();
@@ -53,18 +52,15 @@ cardsList.renderItems();
 const addElement = new PopupWithForm({
   selector: popupCreatElementSelector,
   formSubmitHandler: (formData) => {
-   // event.preventDefault();
+    // event.preventDefault();
     const newCard = createCard(
-      { 
-        name: formData['place-name'],
-        link: formData['link-to-image'],
+      {
+        name: formData["place-name"],
+        link: formData["link-to-image"],
       },
       templateSelector,
       () => {
-        const popupWithImage = new PopupWithImage(
-          item,
-          popupImageSelector
-        );
+        const popupWithImage = new PopupWithImage(item, popupImageSelector);
         popupWithImage.open();
       }
     );
@@ -74,7 +70,10 @@ const addElement = new PopupWithForm({
   },
 });
 
-const userInfo = new UserInfo({userName:".profile__title", userProfession:".profile__subtitle"});
+const userInfo = new UserInfo({
+  userName: ".profile__title",
+  userProfession: ".profile__subtitle",
+});
 
 //Saves the text from the input to the profile.
 const formSubmitHandlerProfile = new PopupWithForm({
@@ -82,8 +81,8 @@ const formSubmitHandlerProfile = new PopupWithForm({
   formSubmitHandler: () => {
     userInfo.setUserInfo();
     editprofile.close();
-  }
-})
+  },
+});
 
 //Click handler edit profile button.
 const editprofile = new Popup(popupProfileSelector);
@@ -117,8 +116,13 @@ editProfileFormValidator.enableValidation();
 createElementFormValidator.enableValidation();
 
 //Submit handler creat element.
-formElementCreatElement.addEventListener("submit", addElement.setEventListeners(popupCreatElementSelector));
+formElementCreatElement.addEventListener(
+  "submit",
+  addElement.setEventListeners(popupCreatElementSelector)
+);
 
 //Submit handler edit profile.
-formElementEditProfile.addEventListener("submit", formSubmitHandlerProfile.setEventListeners(popupProfileSelector));
-
+formElementEditProfile.addEventListener(
+  "submit",
+  formSubmitHandlerProfile.setEventListeners(popupProfileSelector)
+);
