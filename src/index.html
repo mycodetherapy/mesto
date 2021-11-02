@@ -3,19 +3,18 @@
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <link rel="stylesheet" href="./pages/index.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Mesto</title>
   </head>
   <body class="common">
     <div class="page">
       <header class="header">
-        <img class="header__logo" src="./images/logo.svg" alt="логотип" />
+        <img class="header__logo" src="<%=require('./images/logo.svg')%>" alt="логотип" />
       </header>
 
       <main class="content">
         <section class="profile">
-          <img class="profile__avatar" src="./images/avatar.jpg" alt="аватар" />
+          <img class="profile__avatar" src="<%=require('./images/avatar.jpg')%>" alt="аватар" />
           <div class="profile__info">
             <h1 class="profile__title">Мария Брант</h1>
             <button class="profile__button" type="button"></button>
@@ -40,12 +39,12 @@
         <div class="popup popup_type_edit-profile">
           <div class="popup__container" tabindex="0">
             <button class="popup__close" type="button"></button>
-            <form name="edit-profile" class="form" novalidate>
+            <form name="edit_profile" class="form" novalidate>
               <fieldset class="form__input-container">
                 <h2 class="form__title">Редактировать профиль</h2>
                 <label class="form__field">
                   <input
-                    name="user-name"
+                    name="user_name"
                     type="text"
                     class="form__input form__input_type_name"
                     id="profile-input-name"
@@ -58,7 +57,7 @@
                 </label>
                 <label class="form__field">
                   <input
-                    name="user-profession"
+                    name="user_profession"
                     type="text"
                     class="form__input form__input_type_profession"
                     id="profile-input-profession"
@@ -137,8 +136,6 @@
         <button class="element__like" type="button"></button>
       </li>
     </template>
-
-    <script type="module" src="./scripts/index.js"></script>
       
   </body>
 </html>

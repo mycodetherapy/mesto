@@ -1,12 +1,9 @@
-export { Card };
-import { openPopup } from "./index.js";
+//export { Card };
 
-const popupTypeImage = document.querySelector(".popup_type_image");
-const popupImage = popupTypeImage.querySelector(".popup__element-image");
-const popupImageCaption = popupTypeImage.querySelector(".popup__image-caption");
+export default class Card {
+  constructor(data, cardSelector, handleCardClick) {
+    this._handleCardClick = handleCardClick;
 
-class Card {
-  constructor(data, cardSelector) {
     this._name = data.name;
     this._link = data.link;
     this._cardSelector = cardSelector;
@@ -46,17 +43,8 @@ class Card {
     this._element.remove();
   }
 
-  //Tears off an image for viewing
-  _viewImage() {
-    popupImage.src = this._link;
-    popupImage.alt = this._name;
-    popupImageCaption.textContent = this._name;
-
-    openPopup(popupTypeImage);
-  }
-
   //listens to events in the element.
-  _setEventListeners() {
+  _setEventListeners = () => {
     this._element
       .querySelector(".element__like")
       .addEventListener("click", () => {
@@ -72,7 +60,7 @@ class Card {
     this._element
       .querySelector(".element__image")
       .addEventListener("click", () => {
-        this._viewImage();
+        this._handleCardClick();
       });
   }
 }
