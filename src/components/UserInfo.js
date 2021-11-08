@@ -1,23 +1,25 @@
 export default class UserInfo {
   constructor({ userName, userProfession }) {
-    this._userName = userName;
-    this._userProfession = userProfession;
-
-    const  inputsUserInfo = document.forms["edit_profile"];
-    const { user_name, user_profession } = inputsUserInfo;
-
-    this._user_name = user_name;
-    this._user_profession = user_profession;
+    this._userName = document.querySelector(userName);
+    this._userProfession = document.querySelector(userProfession);
+    this._name = "";
+    this._job = "";
   }
-  getUserInfo() {
-    const profileInfo = {
-      user_name: document.querySelector(this._userName).textContent,
-      user_profession: document.querySelector(this._userProfession).textContent,
+
+  updateUserInfo = () => {
+    this._userName.textContent = this._name;
+    this._userProfession.textContent = this._job;
+  };
+
+  getUserInfo = () => {
+    return {
+      user_name: this._name,
+      user_profession: this._job,
     };
-    return profileInfo;
-  }
-  setUserInfo() {
-    document.querySelector(this._userName).textContent = this._user_name.value;
-    document.querySelector(this._userProfession).textContent = this._user_profession.value;
+  };
+
+  setUserInfo = (newName, newJob) => {
+    this._name = newName;
+    this._job = newJob;
   }
 }

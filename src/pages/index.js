@@ -1,4 +1,4 @@
-import "./index.css"
+import "./index.css";
 import Card from "../components/Card.js";
 import {
   FormValidator,
@@ -16,12 +16,12 @@ import {
   creatElementButton,
   popupCreatElementSelector,
   popupProfileSelector,
-  formElementEditProfile,
-  formElementCreatElement,
-  elementList,
   elementListSelector,
   templateSelector,
-  popupImageSelector,
+  nameEditProfile,
+  jobEditProfile,
+  nameInput,
+  jobInput,
 } from "../utils/constants.js";
 
 //Return finished card.
@@ -30,18 +30,19 @@ const createCard = (item, element, handleCardClick) => {
     item,
     element,
     (handleCardClick = () => {
-      const popupWithImage = new PopupWithImage(item, ".popup_type_image");
-      popupWithImage.open();
+      popupWithImage.open(item);
     })
   );
 };
+
+const popupWithImage = new PopupWithImage(".popup_type_image");
 
 const cardsList = new Section(
   {
     items: initialCards,
     renderer: (item) => {
       const cardElement = createCard(item, templateSelector).generateCard();
-      cardsList.addItem(cardElement);
+      cardsList.appendItem(cardElement);
     },
   },
   elementListSelector
@@ -52,20 +53,15 @@ cardsList.renderItems();
 const addElement = new PopupWithForm({
   selector: popupCreatElementSelector,
   formSubmitHandler: (formData) => {
-    // event.preventDefault();
     const newCard = createCard(
       {
         name: formData["place-name"],
         link: formData["link-to-image"],
       },
-      templateSelector,
-      () => {
-        const popupWithImage = new PopupWithImage(item, popupImageSelector);
-        popupWithImage.open();
-      }
+      templateSelector
     );
     const addNewCard = newCard.generateCard();
-    elementList.prepend(addNewCard);
+    cardsList.prependItem(addNewCard);
     addElement.close();
   },
 });
@@ -78,18 +74,25 @@ const userInfo = new UserInfo({
 //Saves the text from the input to the profile.
 const formSubmitHandlerProfile = new PopupWithForm({
   selector: popupProfileSelector,
-  formSubmitHandler: () => {
-    userInfo.setUserInfo();
+  formSubmitHandler: (formData) => {
+    userInfo.setUserInfo(formData["user_name"], formData["user_profession"]);
+    userInfo.updateUserInfo();
     editprofile.close();
   },
 });
+
+//Initial form data.
+userInfo.setUserInfo(nameEditProfile.textContent, jobEditProfile.textContent);
 
 //Click handler edit profile button.
 const editprofile = new Popup(popupProfileSelector);
 editProfileButton.addEventListener("click", () => {
   editprofile.open();
-  editprofile.setEventListeners();
-  editprofile.fillInputText(userInfo.getUserInfo());
+
+  const getUserInfo = userInfo.getUserInfo();
+  nameInput.value = getUserInfo["user_name"];
+  jobInput.value = getUserInfo["user_profession"];
+
   editProfileFormValidator.resetValidation();
 });
 
@@ -97,7 +100,6 @@ editProfileButton.addEventListener("click", () => {
 const creatElement = new Popup(popupCreatElementSelector);
 creatElementButton.addEventListener("click", () => {
   creatElement.open();
-  creatElement.setEventListeners();
   createElementFormValidator.resetValidation();
 });
 
@@ -116,13 +118,11 @@ editProfileFormValidator.enableValidation();
 createElementFormValidator.enableValidation();
 
 //Submit handler creat element.
-formElementCreatElement.addEventListener(
-  "submit",
-  addElement.setEventListeners(popupCreatElementSelector)
-);
+addElement.setEventListeners();
 
 //Submit handler edit profile.
-formElementEditProfile.addEventListener(
-  "submit",
-  formSubmitHandlerProfile.setEventListeners(popupProfileSelector)
-);
+formSubmitHandlerProfile.setEventListeners();
+
+//Submit handler click image.
+popupWithImage.setEventListeners();
+

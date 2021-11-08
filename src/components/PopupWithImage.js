@@ -1,22 +1,17 @@
 import Popup from "./Popup.js";
 
-const popupTypeImage = document.querySelector(".popup_type_image");
-const popupImage = popupTypeImage.querySelector(".popup__element-image");
-const popupImageCaption = popupTypeImage.querySelector(".popup__image-caption");
-
 export default class PopupWithImage extends Popup {
-  constructor(data, selector) {
+  constructor(selector) {
     super(selector);
-    this._link = data.link;
-    this._name = data.name;
+
+    this._image = this._element.querySelector(".popup__element-image");
+    this.imageCaption = this._element.querySelector(".popup__image-caption");
   }
 
-  open = () => { 
-    document.querySelector(this._selector).classList.add("popup_opened");
-    document.addEventListener("keydown", this._handleEscClose);
-    popupImage.src = this._link;
-    popupImage.alt = this._name;
-    popupImageCaption.textContent = this._name;
-    super.setEventListeners();
-  }
+  open = (data) => {
+    super.open();
+    this._image.src = data.link;
+    this._image.alt = data.name;
+    this.imageCaption.textContent = data.name;
+  };
 }

@@ -41,3 +41,8 @@ export const elementListSelector = ".elements__grid-container";
 export const templateSelector = ".element-template";
 export const popupImageSelector = ".popup_type_image";
 
+export const nameEditProfile = document.querySelector(".profile__title");
+export const jobEditProfile = document.querySelector(".profile__subtitle");
+export const nameInput = document.querySelector('.form__input_type_name');
+export const jobInput = document.querySelector('.form__input_type_profession');
+
