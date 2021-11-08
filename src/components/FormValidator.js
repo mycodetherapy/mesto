@@ -1,15 +1,4 @@
-export { FormValidator, validationConfig };
-
-const validationConfig = {
-  inputSelector: ".form__input",
-  submitSelector: ".form__button-save",
-  spanErrorSelector: ".form__input-error",
-  inactiveButtonClass: "form__button-save_inactive",
-  inputErrorClass: "form__input_type_error",
-  errorClass: "form__input-error_active",
-};
-
-class FormValidator {
+export default class FormValidator {
   constructor(data, formSelector) {
     this._inputSelector = data.inputSelector;
     this._submitSelector = data.submitSelector;

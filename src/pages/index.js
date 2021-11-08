@@ -1,9 +1,6 @@
 import "./index.css";
 import Card from "../components/Card.js";
-import {
-  FormValidator,
-  validationConfig,
-} from "../components/FormValidator.js";
+import FormValidator from "../components/FormValidator.js";
 import Section from "../components/Section.js";
 import Popup from "../components/Popup.js";
 import PopupWithImage from "../components/PopupWithImage.js";
@@ -16,12 +13,20 @@ import {
   creatElementButton,
   popupCreatElementSelector,
   popupProfileSelector,
+  popupImageSelector,
   elementListSelector,
   templateSelector,
+  nameEditProfileSelector,
+  jobEditProfileSelector,
   nameEditProfile,
   jobEditProfile,
   nameInput,
   jobInput,
+  placeName,
+  linkToImageName,
+  userName,
+  userProfessionName,
+  validationConfig,
 } from "../utils/constants.js";
 
 //Return finished card.
@@ -35,7 +40,7 @@ const createCard = (item, element, handleCardClick) => {
   );
 };
 
-const popupWithImage = new PopupWithImage(".popup_type_image");
+const popupWithImage = new PopupWithImage(popupImageSelector);
 
 const cardsList = new Section(
   {
@@ -55,8 +60,8 @@ const addElement = new PopupWithForm({
   formSubmitHandler: (formData) => {
     const newCard = createCard(
       {
-        name: formData["place-name"],
-        link: formData["link-to-image"],
+        name: formData[placeName],
+        link: formData[linkToImageName],
       },
       templateSelector
     );
@@ -67,15 +72,15 @@ const addElement = new PopupWithForm({
 });
 
 const userInfo = new UserInfo({
-  userName: ".profile__title",
-  userProfession: ".profile__subtitle",
+  userName: nameEditProfileSelector,
+  userProfession: jobEditProfileSelector,
 });
 
 //Saves the text from the input to the profile.
 const formSubmitHandlerProfile = new PopupWithForm({
   selector: popupProfileSelector,
   formSubmitHandler: (formData) => {
-    userInfo.setUserInfo(formData["user_name"], formData["user_profession"]);
+    userInfo.setUserInfo(formData[userName], formData[userProfessionName]);
     userInfo.updateUserInfo();
     editprofile.close();
   },
@@ -90,8 +95,8 @@ editProfileButton.addEventListener("click", () => {
   editprofile.open();
 
   const getUserInfo = userInfo.getUserInfo();
-  nameInput.value = getUserInfo["user_name"];
-  jobInput.value = getUserInfo["user_profession"];
+  nameInput.value = getUserInfo[userName];
+  jobInput.value = getUserInfo[userProfessionName];
 
   editProfileFormValidator.resetValidation();
 });
@@ -125,4 +130,3 @@ formSubmitHandlerProfile.setEventListeners();
 
 //Submit handler click image.
 popupWithImage.setEventListeners();
-

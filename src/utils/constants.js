@@ -31,18 +31,32 @@ export const editProfileButton = profileInfo.querySelector(".profile__button");
 export const creatElementButton = document.querySelector(".profile__button-add");
 export const popupCreatElement = document.querySelector(".popup_type_creat-element");
 export const popupProfile = document.querySelector(".popup_type_edit-profile");
-export const popupCreatElementSelector = ".popup_type_creat-element";
-export const popupProfileSelector = ".popup_type_edit-profile";
-
 export const formElementEditProfile = popupProfile.querySelector(".form");
 export const formElementCreatElement = popupCreatElement.querySelector(".form");
 export const elementList = document.querySelector(".elements__grid-container");
-export const elementListSelector = ".elements__grid-container";
-export const templateSelector = ".element-template";
-export const popupImageSelector = ".popup_type_image";
-
 export const nameEditProfile = document.querySelector(".profile__title");
 export const jobEditProfile = document.querySelector(".profile__subtitle");
 export const nameInput = document.querySelector('.form__input_type_name');
 export const jobInput = document.querySelector('.form__input_type_profession');
 
+export const templateSelector = ".element-template";
+export const popupCreatElementSelector = ".popup_type_creat-element";
+export const popupProfileSelector = ".popup_type_edit-profile";
+export const popupImageSelector = ".popup_type_image";
+export const nameEditProfileSelector = ".profile__title";
+export const jobEditProfileSelector = ".profile__subtitle";
+export const elementListSelector = ".elements__grid-container";
+
+export const placeName = "place_name";
+export const linkToImageName = "link_to_image";
+export const userName = "user_name";
+export const userProfessionName = "user_profession";
+
+export const validationConfig = {
+  inputSelector: ".form__input",
+  submitSelector: ".form__button-save",
+  spanErrorSelector: ".form__input-error",
+  inactiveButtonClass: "form__button-save_inactive",
+  inputErrorClass: "form__input_type_error",
+  errorClass: "form__input-error_active",
+};
