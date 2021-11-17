@@ -6,6 +6,7 @@ import Popup from "../components/Popup.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import UserInfo from "../components/UserInfo.js";
+import Api from "../components/Api.js";
 
 import {
   initialCards,
@@ -28,6 +29,12 @@ import {
   userProfessionName,
   validationConfig,
 } from "../utils/constants.js";
+
+const user = new Api(); 
+const userData = user.getUserInfo();
+
+nameEditProfile.textContent = userData["name"];
+jobEditProfile.textContent = userData["about"];
 
 //Return finished card.
 const createCard = (item, element, handleCardClick) => {

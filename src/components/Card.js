@@ -1,5 +1,3 @@
-//export { Card };
-
 export default class Card {
   constructor(data, cardSelector, handleCardClick) {
     this._handleCardClick = handleCardClick;
