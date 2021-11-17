@@ -6,7 +6,7 @@ export default class Api {
   getUserInfo() {
     fetch("https://mesto.nomoreparties.co/v1/cohort-30/users/me", {
       headers: {
-        authorization: "c5a5cb5f-db7e-4ac2-924a-a6deb50d8693",
+        authorization: "1aa13265-ad88-4c40-a102-69558d45a615",
       },
     })
       .then((res) => res.json())
