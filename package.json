@@ -18,7 +18,7 @@
   "bugs": {
     "url": "https://github.com/mycodetherapy/mesto/issues"
   },
-  "homepage": "https://mycodetherapy.github.io/mesto/",
+  "homepage": "https://github.com/mycodetherapy/mesto#readme",
   "devDependencies": {
     "@babel/core": "^7.16.0",
     "@babel/preset-env": "^7.16.0",
@@ -36,6 +36,6 @@
     "webpack-dev-server": "^4.4.0"
   },
   "dependencies": {
-    "core-js": "^3.19.0"
+    "core-js": "^3.19.1"
   }
 }
