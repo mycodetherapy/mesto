@@ -31,12 +31,13 @@ import {
 } from "../utils/constants.js";
 
 const user = new Api(); 
-//const userData = user.getUserInfo();
+const userData = user.getUserInfo();
 
-user.getUserInfo();
+//user.getUserInfo();
+console.log(userData["name"]);
 
-//nameEditProfile.textContent = userData["name"];
-//jobEditProfile.textContent = userData["about"];
+nameEditProfile.textContent = userData["name"];
+jobEditProfile.textContent = userData["about"];
 
 //Return finished card.
 const createCard = (item, element, handleCardClick) => {
