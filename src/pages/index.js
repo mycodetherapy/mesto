@@ -30,15 +30,6 @@ import {
   validationConfig,
 } from "../utils/constants.js";
 
-const user = new Api(); 
-const userData = user.getUserInfo();
-
-//user.getUserInfo();
-console.log(userData["name"]);
-
-nameEditProfile.textContent = userData["name"];
-jobEditProfile.textContent = userData["about"];
-
 //Return finished card.
 const createCard = (item, element, handleCardClick) => {
   return new Card(
