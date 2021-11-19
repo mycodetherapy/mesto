@@ -21,6 +21,7 @@ import {
   jobEditProfileSelector,
   nameEditProfile,
   jobEditProfile,
+  avatarProfile,
   nameInput,
   jobInput,
   placeName,
@@ -28,16 +29,62 @@ import {
   userName,
   userProfessionName,
   validationConfig,
+  urlUser,
+  urlCards,
+  tocenUser,
+  configApi,
 } from "../utils/constants.js";
+//import { reject, resolve } from "../../node_modules/core-js/es/promise";
 
-const user = new Api(); 
-const userData = user.getUserInfo();
+const api = new Api(configApi);
 
-nameEditProfile.textContent = userData["name"];
-jobEditProfile.textContent = userData["about"];
+function fillUserInfo(data) {
+  console.log(data);
+  nameEditProfile.textContent = data["name"];
+  jobEditProfile.textContent = data["about"];
+  avatarProfile.src = data["avatar"];
+}
+
+function initialRenderCard(data) {
+  const cardsList = new Section(
+    {
+      items: data,
+      renderer: (item) => {
+        const cardElement = createCard(item, templateSelector).generateCard();
+        cardsList.appendItem(cardElement);
+      },
+    },
+    elementListSelector
+  );
+  cardsList.renderItems();
+}
+
+api
+  .getUserInfo()
+  .then((data) => {
+    fillUserInfo(data);
+  })
+  .then(
+    api.getCards().then((data) => {
+      console.log(data);
+      initialRenderCard(data);
+      // const cardsList = new Section(
+      //     {
+      //       items: data,
+      //       renderer: (item) => {
+      //         const cardElement = createCard(item, templateSelector).generateCard();
+      //         cardsList.appendItem(cardElement);
+      //       },
+      //     },
+      //     elementListSelector
+      //   );
+      //   cardsList.renderItems();
+    })
+  );
+
 
 //Return finished card.
-const createCard = (item, element, handleCardClick) => {
+function createCard(item, element, handleCardClick) {
   return new Card(
     item,
     element,
@@ -45,22 +92,22 @@ const createCard = (item, element, handleCardClick) => {
       popupWithImage.open(item);
     })
   );
-};
+}
 
 const popupWithImage = new PopupWithImage(popupImageSelector);
 
-const cardsList = new Section(
-  {
-    items: initialCards,
-    renderer: (item) => {
-      const cardElement = createCard(item, templateSelector).generateCard();
-      cardsList.appendItem(cardElement);
-    },
-  },
-  elementListSelector
-);
+// const cardsList = new Section(
+//   {
+//     items: initialCards,
+//     renderer: (item) => {
+//       const cardElement = createCard(item, templateSelector).generateCard();
+//       cardsList.appendItem(cardElement);
+//     },
+//   },
+//   elementListSelector
+// );
 
-cardsList.renderItems();
+//cardsList.renderItems();
 
 const addElement = new PopupWithForm({
   selector: popupCreatElementSelector,
