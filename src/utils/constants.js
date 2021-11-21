@@ -60,6 +60,7 @@ export const cohort = "cohort-30";
 export const urlUser = `https://mesto.nomoreparties.co/v1/${cohort}/users/me`;
 export const urlCards = `https://mesto.nomoreparties.co/v1/${cohort}/cards`;
 export const tocenUser = "c5a5cb5f-db7e-4ac2-924a-a6deb50d8693";
+export const avatar =  "https://live.staticflickr.com/65535/51690994284_734f3c7700_m.jpg";
 
 export const configApi = {
   url: "https://mesto.nomoreparties.co/v1/cohort-30/",
@@ -67,6 +68,11 @@ export const configApi = {
     authorization: "c5a5cb5f-db7e-4ac2-924a-a6deb50d8693",
     "content-type": "application/json",
   },
+};
+
+export const newUserInfo = {
+  name: "Marie Brante",
+  about: "Social ecologist",
 };
 
 export const validationConfig = {

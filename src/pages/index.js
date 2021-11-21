@@ -33,6 +33,8 @@ import {
   urlCards,
   tocenUser,
   configApi,
+  newUserInfo,
+  avatar,
 } from "../utils/constants.js";
 //import { reject, resolve } from "../../node_modules/core-js/es/promise";
 
@@ -45,19 +47,16 @@ function fillUserInfo(data) {
   avatarProfile.src = data["avatar"];
 }
 
-function initialRenderCard(data) {
-  const cardsList = new Section(
-    {
-      items: data,
-      renderer: (item) => {
-        const cardElement = createCard(item, templateSelector).generateCard();
-        cardsList.appendItem(cardElement);
-      },
+//function initialRenderCard(data) {
+const cardsList = new Section(
+  {
+    renderer: (item) => {
+      const cardElement = createCard(item, templateSelector).generateCard();
+      cardsList.appendItem(cardElement);
     },
-    elementListSelector
-  );
-  cardsList.renderItems();
-}
+  },
+  elementListSelector
+);
 
 api
   .getUserInfo()
@@ -67,21 +66,11 @@ api
   .then(
     api.getCards().then((data) => {
       console.log(data);
-      initialRenderCard(data);
-      // const cardsList = new Section(
-      //     {
-      //       items: data,
-      //       renderer: (item) => {
-      //         const cardElement = createCard(item, templateSelector).generateCard();
-      //         cardsList.appendItem(cardElement);
-      //       },
-      //     },
-      //     elementListSelector
-      //   );
-      //   cardsList.renderItems();
+      cardsList.renderItems(data);
     })
   );
-
+// .then(api.setAvatar(avatar));
+//.then(api.setUserInfo(newUserInfo));
 
 //Return finished card.
 function createCard(item, element, handleCardClick) {
@@ -111,17 +100,22 @@ const popupWithImage = new PopupWithImage(popupImageSelector);
 
 const addElement = new PopupWithForm({
   selector: popupCreatElementSelector,
+  // serv: (data) => {
+  //   api.addTasks(data);
+  // },
   formSubmitHandler: (formData) => {
-    const newCard = createCard(
-      {
-        name: formData[placeName],
-        link: formData[linkToImageName],
-      },
-      templateSelector
-    );
-    const addNewCard = newCard.generateCard();
-    cardsList.prependItem(addNewCard);
-    addElement.close();
+    api.addTasks(formData).then((formData) => {
+      const newCard = createCard(
+        {
+          name: formData.name, //[placeName],
+          link: formData.link, //[linkToImageName],
+        },
+        templateSelector
+      );
+      const addNewCard = newCard.generateCard();
+      cardsList.prependItem(addNewCard);
+      addElement.close();
+    });
   },
 });
 
