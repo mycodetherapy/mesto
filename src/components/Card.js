@@ -1,9 +1,13 @@
 export default class Card {
-  constructor(data, cardSelector, handleCardClick) {
+  constructor(data, cardSelector, handleCardClick, handleCardLike, handleDeleteClick) {
+
     this._handleCardClick = handleCardClick;
+    this._handleCardLike = handleCardLike;
+    this._handleDeleteClick = handleDeleteClick;
 
     this._name = data.name;
     this._link = data.link;
+    this._id = data._id;
     this._cardSelector = cardSelector;
 
     this._element = this._getTemplate();
@@ -14,7 +18,7 @@ export default class Card {
 
   _getTemplate() {
     const cardElement = document
-      .querySelector(this._cardSelector)
+      .querySelector(this._cardSelector)//(".element-template")
       .content.querySelector(".element")
       .cloneNode(true);
 
@@ -23,7 +27,7 @@ export default class Card {
 
   generateCard() {
     this._setEventListeners(); //Call after declaring class variables.
-
+    this._element.id = this._id;
     this._cardTitle.textContent = this._name;
     this._cardImage.src = this._link;
     this._cardImage.alt = this._name;
@@ -46,13 +50,15 @@ export default class Card {
     this._element
       .querySelector(".element__like")
       .addEventListener("click", () => {
-        this._switchLike();
+        this._handleCardLike(this._likeButton);
+        //this._switchLike();
       });
       
     this._element
       .querySelector(".element__delete")
       .addEventListener("click", () => {
-        this._removeElement();
+        this._handleDeleteClick(this._element);
+        //this._removeElement();
       });
 
     this._element

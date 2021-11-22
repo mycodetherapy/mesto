@@ -34,6 +34,7 @@ export const creatElementButton = document.querySelector(
 export const popupCreatElement = document.querySelector(
   ".popup_type_creat-element"
 );
+export const elementDelete = document.querySelector(".element__delete");
 export const popupProfile = document.querySelector(".popup_type_edit-profile");
 export const formElementEditProfile = popupProfile.querySelector(".form");
 export const formElementCreatElement = popupCreatElement.querySelector(".form");

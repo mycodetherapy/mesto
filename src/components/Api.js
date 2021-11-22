@@ -16,18 +16,18 @@ export default class Api {
     });
   };
 
-  // setUserInfo = (data) => {
-  //   return fetch(this._url + "users/me", {
-  //     method: "POST",
-  //     headers: this._headers,
-  //     body: JSON.stringify(data),
-  //   }).then((res) => {
-  //     if (res.ok) {
-  //       return res.json();
-  //     }
-  //     return Promise.reject("Ошибка");
-  //   });
-  // }
+  setUserInfo = (data) => {
+    return fetch(this._url + "users/me", {
+      method: "POST",
+      headers: this._headers,
+      body: JSON.stringify(data),
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject("Ошибка");
+    });
+  }
 
   getCards = () => {
     return fetch(this._url + "cards", {
@@ -55,6 +55,7 @@ export default class Api {
   };
 
   removeTasks = (dataId) => {
+    console.log(this._url + "cards" + dataId)
     return fetch(this._url + "cards" + dataId, {
       method: "DELETE",
       headers: this._headers,

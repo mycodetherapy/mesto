@@ -13,8 +13,10 @@ export default class UserInfo {
 
   getUserInfo = () => {
     return {
-      user_name: this._name,
-      user_profession: this._job,
+      name: this._name,
+      about: this._job,
+      //user_name: this._name,
+      //user_profession: this._job,
     };
   };
 

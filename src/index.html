@@ -44,7 +44,7 @@
                 <h2 class="form__title">Редактировать профиль</h2>
                 <label class="form__field">
                   <input
-                    name="user_name"
+                    name="name"
                     type="text"
                     class="form__input form__input_type_name"
                     id="profile-input-name"
@@ -57,7 +57,7 @@
                 </label>
                 <label class="form__field">
                   <input
-                    name="user_profession"
+                    name="about"
                     type="text"
                     class="form__input form__input_type_profession"
                     id="profile-input-profession"
@@ -108,6 +108,16 @@
             </form>
           </div>
         </div>
+
+        <div class="popup popup_type_delete-element">
+          <div class="popup__container" tabindex="0">
+            <button class="popup__close" type="button"></button>
+            <form name="delete_profile" class="form" novalidate>
+              <h2 class="form__title">Вы уверены?</h2>
+              <button class="form__button-save" type="submit">Да</button>
+            </form>
+          </div>
+        </div>
   
         <div class="popup popup_type_image">
           <figure class="popup__container popup__container-for-image" tabindex="0">
@@ -123,7 +133,7 @@
     </div>
 
     <template class="element-template">
-      <li class="element">
+      <li class="element" id="1">
         <button class="element__delete"></button>
         <div class="element__image-container">
           <img

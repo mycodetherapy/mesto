@@ -35,7 +35,9 @@ import {
   configApi,
   newUserInfo,
   avatar,
+  elementDelete,
 } from "../utils/constants.js";
+import PopupWithSubmit from "../components/PopupWithSubmit";
 //import { reject, resolve } from "../../node_modules/core-js/es/promise";
 
 const api = new Api(configApi);
@@ -73,12 +75,18 @@ api
 //.then(api.setUserInfo(newUserInfo));
 
 //Return finished card.
-function createCard(item, element, handleCardClick) {
+function createCard(item, element, handleCardClick, handleCardLike, handleDeleteClick) {
   return new Card(
     item,
     element,
     (handleCardClick = () => {
       popupWithImage.open(item);
+    }),
+    (handleCardLike = (elem) => {
+      elem.classList.toggle("element__like_active"); //...что должно произойти при клике на картинку
+    }),
+    (handleDeleteClick = (elem) => {
+      elem.remove();
     })
   );
 }
@@ -100,24 +108,51 @@ const popupWithImage = new PopupWithImage(popupImageSelector);
 
 const addElement = new PopupWithForm({
   selector: popupCreatElementSelector,
-  // serv: (data) => {
-  //   api.addTasks(data);
-  // },
   formSubmitHandler: (formData) => {
     api.addTasks(formData).then((formData) => {
       const newCard = createCard(
         {
-          name: formData.name, //[placeName],
-          link: formData.link, //[linkToImageName],
+          name: formData.name,
+          link: formData.link,
+          _id: formData._id,
+          likes: formData.likes,
         },
+
+        // handleCardLike = (elem) => {
+        //     elem.classList.toggle("element__like_active");//...что должно произойти при клике на картинку
+        // },
+
+        // handleDeleteClick = (elem) => {
+        //   elem.remove();
+        // },
+
+        // handleCardClick = () => {
+        //   popupWithImage.open(data);
+        // },
+
         templateSelector
       );
+      console.log(data);
       const addNewCard = newCard.generateCard();
       cardsList.prependItem(addNewCard);
       addElement.close();
     });
   },
 });
+
+const deleteElementHendler = new PopupWithSubmit({
+  selector: ".popup_type_delete-element",
+  formSubmitHandler: () => {
+    api.removeTasks(deleteElementHendler.open()).then((dataId) => {
+      const closePopup = new Popup(".popup_type_delete-element");
+      closePopup.close();
+    });
+  },
+});
+
+//console.log(deleteElement.open())
+
+deleteElement.setEventListeners();
 
 const userInfo = new UserInfo({
   userName: nameEditProfileSelector,
@@ -128,9 +163,11 @@ const userInfo = new UserInfo({
 const formSubmitHandlerProfile = new PopupWithForm({
   selector: popupProfileSelector,
   formSubmitHandler: (formData) => {
-    userInfo.setUserInfo(formData[userName], formData[userProfessionName]);
-    userInfo.updateUserInfo();
-    editprofile.close();
+    api.setUserInfo(formData).then((fofmData) => {
+      userInfo.setUserInfo(formData.name, formData.about); //(formData[userName], formData[userProfessionName]);
+      userInfo.updateUserInfo();
+      editprofile.close();
+    });
   },
 });
 
@@ -155,6 +192,12 @@ creatElementButton.addEventListener("click", () => {
   creatElement.open();
   createElementFormValidator.resetValidation();
 });
+
+
+creatElement.setEventListeners()
+// const deleteElement = new Popup(".popup_type_delete-element");
+// elementDelete.addEventListener("click", () => {
+//   deleteElement.open();
 
 //Create instances FormValidator.
 const editProfileFormValidator = new FormValidator(
