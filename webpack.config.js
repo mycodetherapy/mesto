@@ -22,12 +22,26 @@ module.exports = {
 
   resolve: {
     fallback: {
-      util: require.resolve("util/"),
+      crypto: false,
+      buffer: false,
+      zlib: false,
+      https: false,
+      http: false,
+      vm: false,
+      os: false,
+      constants: false,
+      fs: false,
+      esbuild: false,
+      worker_threads: false,
+      child_process: false,
+      "uglify-js": false,
+      extensions: ['.js', '.ts'],
+      //util: require.resolve("util/"),
     },
   },
 
   module: {
-    rules: [ 
+    rules: [
       {
         test: /\.js$/,
         use: "babel-loader",
