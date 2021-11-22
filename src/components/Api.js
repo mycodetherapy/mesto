@@ -1,18 +1,84 @@
 export default class Api {
-  constructor(url) {
-    this.url = url;
+  constructor(config) {
+    this._url = config.url;
+    this._headers = config.headers;
   }
 
-  getUserInfo() {
-    fetch("https://mesto.nomoreparties.co/v1/cohort-30/users/me", {
-      headers: {
-        authorization: "1aa13265-ad88-4c40-a102-69558d45a615",
-      },
-    })
-      .then((res) => res.json())
-      .then((result) => {
-        return result;
-        //console.log(result);
-      });
+  getUserInfo = () => {
+    return fetch(this._url + "users/me", {
+      method: "GET",
+      headers: this._headers,
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject("Сервер не доступен");
+    });
+  };
+
+  // setUserInfo = (data) => {
+  //   return fetch(this._url + "users/me", {
+  //     method: "POST",
+  //     headers: this._headers,
+  //     body: JSON.stringify(data),
+  //   }).then((res) => {
+  //     if (res.ok) {
+  //       return res.json();
+  //     }
+  //     return Promise.reject("Ошибка");
+  //   });
+  // }
+
+  getCards = () => {
+    return fetch(this._url + "cards", {
+      method: "GET",
+      headers: this._headers,
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject("Сервер не доступен");
+    });
+  };
+
+  addTasks = (data) => {
+    return fetch(this._url + "cards", {
+      method: "POST",
+      headers: this._headers,
+      body: JSON.stringify(data),
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject("Ошибка");
+    });
+  };
+
+  removeTasks = (dataId) => {
+    return fetch(this._url + "cards" + dataId, {
+      method: "DELETE",
+      headers: this._headers,
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject("Ошибка");
+    });
   }
+
+  setUserInfo = (userData) => {
+    return fetch(this._url + "users/me", {
+      method: "PATCH",
+      headers: this._headers,
+      body: JSON.stringify(userData),
+    });
+  };
+
+  setAvatar = (avatar) => {
+    return fetch(this._url + "users/me/avatar", {
+      method: "PATCH",
+      headers: this._headers,
+      body: JSON.stringify(avatar),
+    });
+  };
 }

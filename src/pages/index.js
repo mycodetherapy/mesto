@@ -21,6 +21,7 @@ import {
   jobEditProfileSelector,
   nameEditProfile,
   jobEditProfile,
+  avatarProfile,
   nameInput,
   jobInput,
   placeName,
@@ -28,24 +29,27 @@ import {
   userName,
   userProfessionName,
   validationConfig,
+  urlUser,
+  urlCards,
+  tocenUser,
+  configApi,
+  newUserInfo,
+  avatar,
 } from "../utils/constants.js";
+//import { reject, resolve } from "../../node_modules/core-js/es/promise";
 
-//Return finished card.
-const createCard = (item, element, handleCardClick) => {
-  return new Card(
-    item,
-    element,
-    (handleCardClick = () => {
-      popupWithImage.open(item);
-    })
-  );
-};
+const api = new Api(configApi);
 
-const popupWithImage = new PopupWithImage(popupImageSelector);
+function fillUserInfo(data) {
+  console.log(data);
+  nameEditProfile.textContent = data["name"];
+  jobEditProfile.textContent = data["about"];
+  avatarProfile.src = data["avatar"];
+}
 
+//function initialRenderCard(data) {
 const cardsList = new Section(
   {
-    items: initialCards,
     renderer: (item) => {
       const cardElement = createCard(item, templateSelector).generateCard();
       cardsList.appendItem(cardElement);
@@ -54,21 +58,64 @@ const cardsList = new Section(
   elementListSelector
 );
 
-cardsList.renderItems();
+api
+  .getUserInfo()
+  .then((data) => {
+    fillUserInfo(data);
+  })
+  .then(
+    api.getCards().then((data) => {
+      console.log(data);
+      cardsList.renderItems(data);
+    })
+  );
+// .then(api.setAvatar(avatar));
+//.then(api.setUserInfo(newUserInfo));
+
+//Return finished card.
+function createCard(item, element, handleCardClick) {
+  return new Card(
+    item,
+    element,
+    (handleCardClick = () => {
+      popupWithImage.open(item);
+    })
+  );
+}
+
+const popupWithImage = new PopupWithImage(popupImageSelector);
+
+// const cardsList = new Section(
+//   {
+//     items: initialCards,
+//     renderer: (item) => {
+//       const cardElement = createCard(item, templateSelector).generateCard();
+//       cardsList.appendItem(cardElement);
+//     },
+//   },
+//   elementListSelector
+// );
+
+//cardsList.renderItems();
 
 const addElement = new PopupWithForm({
   selector: popupCreatElementSelector,
+  // serv: (data) => {
+  //   api.addTasks(data);
+  // },
   formSubmitHandler: (formData) => {
-    const newCard = createCard(
-      {
-        name: formData[placeName],
-        link: formData[linkToImageName],
-      },
-      templateSelector
-    );
-    const addNewCard = newCard.generateCard();
-    cardsList.prependItem(addNewCard);
-    addElement.close();
+    api.addTasks(formData).then((formData) => {
+      const newCard = createCard(
+        {
+          name: formData.name, //[placeName],
+          link: formData.link, //[linkToImageName],
+        },
+        templateSelector
+      );
+      const addNewCard = newCard.generateCard();
+      cardsList.prependItem(addNewCard);
+      addElement.close();
+    });
   },
 });
 

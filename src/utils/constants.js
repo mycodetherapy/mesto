@@ -28,16 +28,21 @@ export const initialCards = [
 const profileInfo = document.querySelector(".profile__info");
 
 export const editProfileButton = profileInfo.querySelector(".profile__button");
-export const creatElementButton = document.querySelector(".profile__button-add");
-export const popupCreatElement = document.querySelector(".popup_type_creat-element");
+export const creatElementButton = document.querySelector(
+  ".profile__button-add"
+);
+export const popupCreatElement = document.querySelector(
+  ".popup_type_creat-element"
+);
 export const popupProfile = document.querySelector(".popup_type_edit-profile");
 export const formElementEditProfile = popupProfile.querySelector(".form");
 export const formElementCreatElement = popupCreatElement.querySelector(".form");
 export const elementList = document.querySelector(".elements__grid-container");
 export const nameEditProfile = document.querySelector(".profile__title");
 export const jobEditProfile = document.querySelector(".profile__subtitle");
-export const nameInput = document.querySelector('.form__input_type_name');
-export const jobInput = document.querySelector('.form__input_type_profession');
+export const avatarProfile = document.querySelector(".profile__avatar");
+export const nameInput = document.querySelector(".form__input_type_name");
+export const jobInput = document.querySelector(".form__input_type_profession");
 
 export const templateSelector = ".element-template";
 export const popupCreatElementSelector = ".popup_type_creat-element";
@@ -51,6 +56,24 @@ export const placeName = "place_name";
 export const linkToImageName = "link_to_image";
 export const userName = "user_name";
 export const userProfessionName = "user_profession";
+export const cohort = "cohort-30";
+export const urlUser = `https://mesto.nomoreparties.co/v1/${cohort}/users/me`;
+export const urlCards = `https://mesto.nomoreparties.co/v1/${cohort}/cards`;
+export const tocenUser = "c5a5cb5f-db7e-4ac2-924a-a6deb50d8693";
+export const avatar =  "https://live.staticflickr.com/65535/51690994284_734f3c7700_m.jpg";
+
+export const configApi = {
+  url: "https://mesto.nomoreparties.co/v1/cohort-30/",
+  headers: {
+    authorization: "c5a5cb5f-db7e-4ac2-924a-a6deb50d8693",
+    "content-type": "application/json",
+  },
+};
+
+export const newUserInfo = {
+  name: "Marie Brante",
+  about: "Social ecologist",
+};
 
 export const validationConfig = {
   inputSelector: ".form__input",
