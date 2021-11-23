@@ -34,7 +34,7 @@ export const creatElementButton = document.querySelector(
 export const popupCreatElement = document.querySelector(
   ".popup_type_creat-element"
 );
-export const elementDelete = document.querySelector(".element__delete");
+export const elementDeleteButton = document.querySelector(".element__delete");
 export const popupProfile = document.querySelector(".popup_type_edit-profile");
 export const formElementEditProfile = popupProfile.querySelector(".form");
 export const formElementCreatElement = popupCreatElement.querySelector(".form");
@@ -71,10 +71,17 @@ export const configApi = {
   },
 };
 
+
 export const newUserInfo = {
-  name: "Marie Brante",
-  about: "Social ecologist",
+  name: "Жак-Ив Кусто",
+  about: "Исследователь океана",
 };
+
+
+// export const newUserInfo = {
+//   name: "Marie Brante",
+//   about: "Social ecologist",
+// };
 
 export const validationConfig = {
   inputSelector: ".form__input",
