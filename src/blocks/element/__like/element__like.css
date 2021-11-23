@@ -5,9 +5,7 @@
   background-size: contain;
   cursor: pointer;
   border: none;
-  margin-right: 30px;
   padding: 0;
-  align-self: center;
 }
 
 .element__like:hover {
@@ -15,8 +13,3 @@
     transition: 0.3s;
   }
 
-  @media (max-width: 450px) {
-    .element__like {
-      margin-right: 15px;
-    }
-  }

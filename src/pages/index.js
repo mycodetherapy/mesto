@@ -79,10 +79,6 @@ api
 // .then(api.setAvatar(avatar));
 //.then(api.setUserInfo(newUserInfo));
 
-// elementDeleteButton.addEventListener("click", () => {
-//   deleteElement.open();
-// });
-
 //Return finished card.
 function createCard(
   item,
@@ -90,7 +86,6 @@ function createCard(
   handleCardClick,
   handleCardLike,
   handleDeleteClick,
-  handleDelIcon
 ) {
   return new Card(
     item,
@@ -99,19 +94,16 @@ function createCard(
       popupWithImage.open(item);
     }),
     (handleCardLike = (elem) => {
-      elem.classList.toggle("element__like_active");
+      if(!elem.classList.contains("element__like_active")) {
+        elem.classList.add("element__like_active");
+      }else{
+        elem.classList.remove("element__like_active");
+      };
+      //elem.classList.toggle("element__like_active");
     }),
     (handleDeleteClick = (item) => {
-      //const deletePopup = new Popup(".popup_type_delete-element");
-      //deletePopup.open();
       deleteElementHendler.open(item);
     }),
-    // (handleDelIcon = (item) => {
-    //   const template = document.querySelector(element);
-    //   const buttonDel = template.querySelector(".element__delete");
-    //   buttonDel.remove();
-    //   //if(item._id != "be37446b0ec3361aa8023c78"){buttonDel.remove()}
-    // })
   );
 }
 

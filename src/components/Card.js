@@ -10,6 +10,7 @@ export default class Card {
     this._link = data.link;
     this._idCard = data._id;
     this._idUser = data.owner._id;
+    this._likes = data.likes;
     this._cardSelector = cardSelector;
 
     this._element = this._getTemplate();
@@ -17,6 +18,7 @@ export default class Card {
     this._cardTitle = this._element.querySelector(".element__title");
     this._likeButton = this._element.querySelector(".element__like");
     this._deleteButton = this._element.querySelector(".element__delete");
+    this._likeElement = this._element.querySelector(".element__like-counter");
 
     //this._meId = "";
   }
@@ -44,6 +46,7 @@ export default class Card {
     this._cardTitle.textContent = this._name;
     this._cardImage.src = this._link;
     this._cardImage.alt = this._name;
+    this._likeElement.textContent = this._likes.length;
 
     return this._element;
   }
