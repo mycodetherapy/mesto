@@ -27,7 +27,7 @@ export default class Api {
       }
       return Promise.reject("Ошибка");
     });
-  }
+  };
 
   getCards = () => {
     return fetch(this._url + "cards", {
@@ -55,8 +55,8 @@ export default class Api {
   };
 
   removeTasks = (dataId) => {
-    console.log(this._url + "cards" + dataId)
-    return fetch(this._url + "cards" + dataId, {
+    console.log(this._url + "cards/" + dataId);
+    return fetch(this._url + "cards/" + dataId, {
       method: "DELETE",
       headers: this._headers,
     }).then((res) => {
@@ -65,7 +65,7 @@ export default class Api {
       }
       return Promise.reject("Ошибка");
     });
-  }
+  };
 
   setUserInfo = (userData) => {
     return fetch(this._url + "users/me", {
@@ -80,6 +80,30 @@ export default class Api {
       method: "PATCH",
       headers: this._headers,
       body: JSON.stringify(avatar),
+    });
+  };
+
+  addleLike = (dataId) => {
+    return fetch(this._url + "cards/likes/" + dataId, {
+      method: "PUT",
+      headers: this._headers,
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject("Сервер не доступен");
+    });
+  };
+
+  removeLike = (dataId) => {
+    return fetch(this._url + "cards/likes/" + dataId, {
+      method: "DELETE",
+      headers: this._headers,
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject("Сервер не доступен");
     });
   };
 }

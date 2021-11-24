@@ -1,6 +1,11 @@
 export default class Card {
-  constructor(data, cardSelector, handleCardClick, handleCardLike, handleDeleteClick) {
-
+  constructor(
+    data,
+    cardSelector,
+    handleCardClick,
+    handleCardLike,
+    handleDeleteClick
+  ) {
     this._handleCardClick = handleCardClick;
     this._handleCardLike = handleCardLike;
     this._handleDeleteClick = handleDeleteClick;
@@ -30,7 +35,7 @@ export default class Card {
 
   _getTemplate() {
     const cardElement = document
-      .querySelector(this._cardSelector)//(".element-template")
+      .querySelector(this._cardSelector) //(".element-template")
       .content.querySelector(".element")
       .cloneNode(true);
 
@@ -39,8 +44,9 @@ export default class Card {
 
   generateCard() {
     this._setEventListeners(); //Call after declaring class variables.
-    console.log(this._idUser);
+    //console.log(this._idUser);
     this._removeElement(this._deleteButton);
+    this._toggleLike(this._likes);
 
     this._element.id = this._idCard;
     this._cardTitle.textContent = this._name;
@@ -51,7 +57,17 @@ export default class Card {
     return this._element;
   }
 
+  _toggleLike(arrLikes) {
+    arrLikes.forEach((element) => {
+      if (element._id == "be37446b0ec3361aa8023c78") {
+        this._likeButton.classList.add("element__like_active");
+      }
+    });
+  }
+
   //Toggles likes.
+  counterLike(elem) {}
+
   // _switchLike() {
   //   this._likeButton.classList.toggle("element__like_active");
   // }
@@ -62,8 +78,7 @@ export default class Card {
   // }
 
   _removeElement(item) {
-    if(this._idUser != "be37446b0ec3361aa8023c78")
-    item.remove();
+    if (this._idUser != "be37446b0ec3361aa8023c78") item.remove();
     //this._handleDelIcon();
     //this._element.remove();
   }
@@ -76,7 +91,7 @@ export default class Card {
         this._handleCardLike(this._likeButton);
         //this._switchLike();
       });
-      
+
     this._element
       .querySelector(".element__delete")
       .addEventListener("click", () => {
@@ -89,6 +104,5 @@ export default class Card {
       .addEventListener("click", () => {
         this._handleCardClick();
       });
-  }
+  };
 }
-

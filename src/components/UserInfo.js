@@ -6,7 +6,7 @@ export default class UserInfo {
     this._job = "";
   }
 
-  updateUserInfo = () => {
+  updateUserInfo() {
     this._userName.textContent = this._name;
     this._userProfession.textContent = this._job;
   };
@@ -15,8 +15,6 @@ export default class UserInfo {
     return {
       name: this._name,
       about: this._job,
-      //user_name: this._name,
-      //user_profession: this._job,
     };
   };
 

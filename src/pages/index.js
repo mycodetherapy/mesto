@@ -37,17 +37,51 @@ import {
   newUserInfo,
   avatar,
   elementDeleteButton,
+  elementList,
 } from "../utils/constants.js";
 
 //import { reject, resolve } from "../../node_modules/core-js/es/promise";
 
 const api = new Api(configApi);
 
-function fillUserInfo(data) {
-  console.log(data);
-  nameEditProfile.textContent = data["name"];
-  jobEditProfile.textContent = data["about"];
-  avatarProfile.src = data["avatar"];
+let userInfoData = null;
+
+//Return finished card.
+function createCard(
+  item,
+  element,
+  handleCardClick,
+  handleCardLike,
+  handleDeleteClick
+) {
+  return new Card(
+    item,
+    element,
+    (handleCardClick = () => {
+      popupWithImage.open(item);
+    }),
+    (handleCardLike = (elem) => {
+      const likeContainer = elem.closest(".element__like-container");
+      const likeCounter = likeContainer.querySelector(".element__like-counter");
+      if (!elem.classList.contains("element__like_active")) {
+        api.addleLike(elem.closest(".element").id).then((data) => {
+          likeCounter.textContent = data.likes.length;
+          elem.classList.add("element__like_active");
+        });
+      } else {
+        api.removeLike(elem.closest(".element").id).then((data) => {
+          likeCounter.textContent = data.likes.length;
+          elem.classList.remove("element__like_active");
+        });
+      }
+    }),
+    (handleDeleteClick = (item) => {
+      deleteElementHendler.action(item)
+      deleteCard.open();
+      deleteElementHendler.showId();
+      //deleteElementHendler.setEventListeners();
+    })
+  );
 }
 
 //function initialRenderCard(data) {
@@ -61,89 +95,27 @@ const cardsList = new Section(
   elementListSelector
 );
 
-//const userInfoData = {};
+// function fillUserInfo(data) {
+//   console.log(data);
+//   nameEditProfile.textContent = data["name"];
+//   jobEditProfile.textContent = data["about"];
+//   avatarProfile.src = data["avatar"];
+// }
 
-api
-  .getUserInfo()
-  .then((data) => {
-    fillUserInfo(data);
-    //createCard().getMeId(data._id);
-    //userInfoData = data;
-  })
-  .then(
-    api.getCards().then((data) => {
-      console.log(data);
-      cardsList.renderItems(data);
-    })
-  );
-// .then(api.setAvatar(avatar));
-//.then(api.setUserInfo(newUserInfo));
-
-//Return finished card.
-function createCard(
-  item,
-  element,
-  handleCardClick,
-  handleCardLike,
-  handleDeleteClick,
-) {
-  return new Card(
-    item,
-    element,
-    (handleCardClick = () => {
-      popupWithImage.open(item);
-    }),
-    (handleCardLike = (elem) => {
-      if(!elem.classList.contains("element__like_active")) {
-        elem.classList.add("element__like_active");
-      }else{
-        elem.classList.remove("element__like_active");
-      };
-      //elem.classList.toggle("element__like_active");
-    }),
-    (handleDeleteClick = (item) => {
-      deleteElementHendler.open(item);
-    }),
-  );
-}
-
-const deleteElementHendler = new PopupWithSubmit({
-  selector: ".popup_type_delete-element",
-  formSubmitHandler: (id) => {
-    console.log(id);
-    api.removeTasks(id).then((data) => {
-      console.log(data);
-      // elem.remove();
-      // const closePopup = new Popup(".popup_type_delete-element");
-      // closePopup.close();
-    });
-  },
+const userInfo = new UserInfo({
+  userName: nameEditProfileSelector,
+  userProfession: jobEditProfileSelector,
 });
 
-// const deleteElementHendler = new PopupWithSubmit({
-//   selector: ".popup_type_delete-element",
-//   formSubmitHandler: () => {
-//     api.removeTasks(deleteElementHendler.open()).then((dataId) => {
-//       const closePopup = new Popup(".popup_type_delete-element");
-//       closePopup.close();
-//     });
-//   },
-// });
-
-const popupWithImage = new PopupWithImage(popupImageSelector);
-
-// const cardsList = new Section(
-//   {
-//     items: initialCards,
-//     renderer: (item) => {
-//       const cardElement = createCard(item, templateSelector).generateCard();
-//       cardsList.appendItem(cardElement);
-//     },
-//   },
-//   elementListSelector
-// );
-
-//cardsList.renderItems();
+//Create instances FormValidator.
+const editProfileFormValidator = new FormValidator(
+  validationConfig,
+  popupProfileSelector
+);
+const createElementFormValidator = new FormValidator(
+  validationConfig,
+  popupCreatElementSelector
+);
 
 const addElement = new PopupWithForm({
   selector: popupCreatElementSelector,
@@ -169,60 +141,85 @@ const addElement = new PopupWithForm({
   },
 });
 
-//console.log(deleteElement.open())
 
-//deleteElement.setEventListeners();
-
-const userInfo = new UserInfo({
-  userName: nameEditProfileSelector,
-  userProfession: jobEditProfileSelector,
+const deleteElementHendler = new PopupWithSubmit({
+  selector: ".popup_type_delete-element",
+  formSubmitHandler: (formData) => {
+    
+    api.removeTasks(formData).then(() => {
+      document.getElementById(formData).remove();
+      deleteCard.close();
+      // api.getUserInfo().then((data) => {
+      //   userInfo.setUserInfo(data.name, data.about);
+      //   console.log(data);
+      //   userInfo.updateUserInfo();
+      //   editprofile.close();
+      // });
+    });
+  },
 });
+
+const popupWithImage = new PopupWithImage(popupImageSelector);
 
 //Saves the text from the input to the profile.
 const formSubmitHandlerProfile = new PopupWithForm({
   selector: popupProfileSelector,
   formSubmitHandler: (formData) => {
-    api.setUserInfo(formData).then((fofmData) => {
-      userInfo.setUserInfo(formData.name, formData.about); //(formData[userName], formData[userProfessionName]);
-      userInfo.updateUserInfo();
-      editprofile.close();
+    api.setUserInfo(formData).then(() => {
+      api.getUserInfo().then((data) => {
+        userInfo.setUserInfo(data.name, data.about);
+        console.log(data);
+        userInfo.updateUserInfo();
+        editprofile.close();
+      });
     });
   },
 });
 
-//Initial form data.
-userInfo.setUserInfo(nameEditProfile.textContent, jobEditProfile.textContent);
-
-//Click handler edit profile button.
+const deleteCard = new Popup(".popup_type_delete-element");
 const editprofile = new Popup(popupProfileSelector);
+const creatElement = new Popup(popupCreatElementSelector);
+
+api
+  .getUserInfo()
+  .then((data) => {
+    userInfoData = data;
+    userInfo.setUserInfo(data.name, data.about);
+    userInfo.updateUserInfo();
+    deleteElementHendler.setEventListeners();
+  })
+  .then(
+    (
+      deleteElementHendler,
+      popupWithImage,
+      addElement,
+      formSubmitHandlerProfile,
+      editprofile,
+      creatElement,
+      editProfileFormValidator,
+      createElementFormValidator
+    ) =>
+      api.getCards().then((data) => {
+        console.log(data);
+        cardsList.renderItems(data);
+      })
+    //  .then(() => deleteElementHendler.setEventListeners())
+  );
 
 editProfileButton.addEventListener("click", () => {
   editprofile.open();
 
   const getUserInfo = userInfo.getUserInfo();
-  nameInput.value = getUserInfo[userName];
-  jobInput.value = getUserInfo[userProfessionName];
+  nameInput.value = getUserInfo.name; //[userName];
+  jobInput.value = getUserInfo.about; //[userProfessionName];
 
   editProfileFormValidator.resetValidation();
 });
-
-//Click handler add element button.
-const creatElement = new Popup(popupCreatElementSelector);
 
 creatElementButton.addEventListener("click", () => {
   creatElement.open();
   createElementFormValidator.resetValidation();
 });
-
-//Create instances FormValidator.
-const editProfileFormValidator = new FormValidator(
-  validationConfig,
-  popupProfileSelector
-);
-const createElementFormValidator = new FormValidator(
-  validationConfig,
-  popupCreatElementSelector
-);
 
 //Start validation.
 editProfileFormValidator.enableValidation();
@@ -234,7 +231,20 @@ addElement.setEventListeners();
 //Submit handler edit profile.
 formSubmitHandlerProfile.setEventListeners();
 
-deleteElementHendler.setEventListeners();
-
 //Submit handler click image.
 popupWithImage.setEventListeners();
+
+// deleteElementHendler.setEventListeners();
+
+// .then(api.setAvatar(avatar));
+//.then(api.setUserInfo(newUserInfo));
+
+//Initial form data.
+
+//userInfo.setUserInfo(nameEditProfile.textContent, jobEditProfile.textContent);
+
+//Click handler edit profile button.
+// const editprofile = new Popup(popupProfileSelector);
+
+//Click handler add element button.
+// const creatElement = new Popup(popupCreatElementSelector);
