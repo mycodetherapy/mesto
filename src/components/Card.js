@@ -9,8 +9,7 @@ export default class Card {
     this._handleCardClick = handleCardClick;
     this._handleCardLike = handleCardLike;
     this._handleDeleteClick = handleDeleteClick;
-    //this._handleDelIcon = handleDelIcon;
-
+    
     this._name = data.name;
     this._link = data.link;
     this._idCard = data._id;
@@ -24,29 +23,21 @@ export default class Card {
     this._likeButton = this._element.querySelector(".element__like");
     this._deleteButton = this._element.querySelector(".element__delete");
     this._likeElement = this._element.querySelector(".element__like-counter");
-
-    //this._meId = "";
   }
-
-  // getMeId = (item) => {
-  //   this._meId = item;
-  //   console.log(this._meId);
-  // }
 
   _getTemplate() {
     const cardElement = document
-      .querySelector(this._cardSelector) //(".element-template")
+      .querySelector(this._cardSelector)
       .content.querySelector(".element")
       .cloneNode(true);
 
     return cardElement;
   }
 
-  generateCard() {
-    this._setEventListeners(); //Call after declaring class variables.
-    //console.log(this._idUser);
-    this._removeElement(this._deleteButton);
-    this._toggleLike(this._likes);
+  generateCard(meId) {
+    this._setEventListeners();
+    this._removeElement(this._deleteButton, meId);
+    this._toggleLike(this._likes, meId);
 
     this._element.id = this._idCard;
     this._cardTitle.textContent = this._name;
@@ -57,30 +48,16 @@ export default class Card {
     return this._element;
   }
 
-  _toggleLike(arrLikes) {
+  _toggleLike(arrLikes, meId) {
     arrLikes.forEach((element) => {
-      if (element._id == "be37446b0ec3361aa8023c78") {
+      if (element._id == meId) {
         this._likeButton.classList.add("element__like_active");
       }
     });
   }
 
-  //Toggles likes.
-  counterLike(elem) {}
-
-  // _switchLike() {
-  //   this._likeButton.classList.toggle("element__like_active");
-  // }
-
-  //Removes an element.
-  // _removeElement() {
-  //   this._element.remove();
-  // }
-
-  _removeElement(item) {
-    if (this._idUser != "be37446b0ec3361aa8023c78") item.remove();
-    //this._handleDelIcon();
-    //this._element.remove();
+  _removeElement(item, meId) {
+    if (this._idUser != meId) item.remove();
   }
 
   //listens to events in the element.
@@ -89,14 +66,12 @@ export default class Card {
       .querySelector(".element__like")
       .addEventListener("click", () => {
         this._handleCardLike(this._likeButton);
-        //this._switchLike();
       });
 
     this._element
       .querySelector(".element__delete")
       .addEventListener("click", () => {
         this._handleDeleteClick(this._element);
-        //this._removeElement();
       });
 
     this._element

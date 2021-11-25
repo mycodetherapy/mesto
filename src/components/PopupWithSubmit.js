@@ -8,16 +8,9 @@ export default class PopupWithSubmit extends Popup {
     this._id = "";
   }
 
-  // open(elemId) {
-  //   super.open();
-  //   this._id = elemId.id
-  // };
-
   action(item) {
     this._id = item.id
   }
-
-showId() {console.log(this._id)};
 
   setEventListeners() {
     super.setEventListeners();

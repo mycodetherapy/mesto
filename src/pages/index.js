@@ -16,13 +16,17 @@ import {
   popupCreatElementSelector,
   popupProfileSelector,
   popupImageSelector,
+  popupDeleteSelector,
+  popupAvatarSelector,
   elementListSelector,
   templateSelector,
   nameEditProfileSelector,
   jobEditProfileSelector,
+  avatarSelector,
   nameEditProfile,
   jobEditProfile,
   avatarProfile,
+  editAvatarCliker,
   nameInput,
   jobInput,
   placeName,
@@ -64,47 +68,45 @@ function createCard(
       const likeContainer = elem.closest(".element__like-container");
       const likeCounter = likeContainer.querySelector(".element__like-counter");
       if (!elem.classList.contains("element__like_active")) {
-        api.addleLike(elem.closest(".element").id).then((data) => {
-          likeCounter.textContent = data.likes.length;
-          elem.classList.add("element__like_active");
-        });
+        api
+          .addleLike(elem.closest(".element").id)
+          .then((data) => {
+            likeCounter.textContent = data.likes.length;
+            elem.classList.add("element__like_active");
+          })
+          .catch((err) => console.log(err));
       } else {
-        api.removeLike(elem.closest(".element").id).then((data) => {
-          likeCounter.textContent = data.likes.length;
-          elem.classList.remove("element__like_active");
-        });
+        api
+          .removeLike(elem.closest(".element").id)
+          .then((data) => {
+            likeCounter.textContent = data.likes.length;
+            elem.classList.remove("element__like_active");
+          })
+          .catch((err) => console.log(err));
       }
     }),
     (handleDeleteClick = (item) => {
-      deleteElementHendler.action(item)
+      deleteElementHendler.action(item);
       deleteCard.open();
-      deleteElementHendler.showId();
-      //deleteElementHendler.setEventListeners();
     })
   );
 }
 
-//function initialRenderCard(data) {
+// //function initialRenderCard(data) {
 const cardsList = new Section(
   {
     renderer: (item) => {
-      const cardElement = createCard(item, templateSelector).generateCard();
+      const cardElement = createCard(item, templateSelector).generateCard(userInfoData._id);
       cardsList.appendItem(cardElement);
     },
   },
   elementListSelector
 );
 
-// function fillUserInfo(data) {
-//   console.log(data);
-//   nameEditProfile.textContent = data["name"];
-//   jobEditProfile.textContent = data["about"];
-//   avatarProfile.src = data["avatar"];
-// }
-
 const userInfo = new UserInfo({
   userName: nameEditProfileSelector,
   userProfession: jobEditProfileSelector,
+  userAvatar: avatarSelector,
 });
 
 //Create instances FormValidator.
@@ -116,46 +118,48 @@ const createElementFormValidator = new FormValidator(
   validationConfig,
   popupCreatElementSelector
 );
+const editAvatarFormValidator = new FormValidator(
+  validationConfig,
+  popupAvatarSelector
+);
 
 const addElement = new PopupWithForm({
   selector: popupCreatElementSelector,
   formSubmitHandler: (formData) => {
-    api.addTasks(formData).then((formData) => {
-      console.log(formData);
-      const newCard = createCard(
-        {
-          name: formData.name,
-          link: formData.link,
-          _id: formData._id,
-          likes: formData.likes,
-          owner: formData.owner,
-        },
+    api
+      .addTasks(formData)
+      .then((formData) => {
+        console.log(formData);
+        const newCard = createCard(
+          {
+            name: formData.name,
+            link: formData.link,
+            _id: formData._id,
+            likes: formData.likes,
+            owner: formData.owner,
+          },
 
-        templateSelector
-      );
-      console.log(formData);
-      const addNewCard = newCard.generateCard();
-      cardsList.prependItem(addNewCard);
-      addElement.close();
-    });
+          templateSelector
+        );
+        console.log(formData);
+        const addNewCard = newCard.generateCard();
+        cardsList.prependItem(addNewCard);
+        addElement.close();
+      })
+      .catch((err) => console.log(err));
   },
 });
 
-
 const deleteElementHendler = new PopupWithSubmit({
-  selector: ".popup_type_delete-element",
+  selector: popupDeleteSelector,
   formSubmitHandler: (formData) => {
-    
-    api.removeTasks(formData).then(() => {
-      document.getElementById(formData).remove();
-      deleteCard.close();
-      // api.getUserInfo().then((data) => {
-      //   userInfo.setUserInfo(data.name, data.about);
-      //   console.log(data);
-      //   userInfo.updateUserInfo();
-      //   editprofile.close();
-      // });
-    });
+    api
+      .removeTasks(formData)
+      .then(() => {
+        document.getElementById(formData).remove();
+        deleteCard.close();
+      })
+      .catch((err) => console.log(err));
   },
 });
 
@@ -166,52 +170,59 @@ const formSubmitHandlerProfile = new PopupWithForm({
   selector: popupProfileSelector,
   formSubmitHandler: (formData) => {
     api.setUserInfo(formData).then(() => {
-      api.getUserInfo().then((data) => {
-        userInfo.setUserInfo(data.name, data.about);
-        console.log(data);
-        userInfo.updateUserInfo();
-        editprofile.close();
-      });
+      api
+        .getUserInfo()
+        .then((data) => {
+          userInfo.setUserInfo(data.name, data.about);
+          console.log(data);
+          editprofile.close();
+        })
+        .catch((err) => console.log(err));
     });
   },
 });
 
-const deleteCard = new Popup(".popup_type_delete-element");
+const popupWithAvatar = new PopupWithForm({
+  selector: popupAvatarSelector,
+  formSubmitHandler: (formData) => {
+    api
+      .setAvatar(formData)
+      .then(() => {
+        userInfo.setAvatar(formData.avatar);
+        editAvatar.close();
+      })
+      .catch((err) => console.log(err));
+  },
+});
+
+const deleteCard = new Popup(popupDeleteSelector);
 const editprofile = new Popup(popupProfileSelector);
 const creatElement = new Popup(popupCreatElementSelector);
+const editAvatar = new Popup(popupAvatarSelector);
 
 api
   .getUserInfo()
   .then((data) => {
     userInfoData = data;
     userInfo.setUserInfo(data.name, data.about);
-    userInfo.updateUserInfo();
-    deleteElementHendler.setEventListeners();
-  })
-  .then(
-    (
-      deleteElementHendler,
-      popupWithImage,
-      addElement,
-      formSubmitHandlerProfile,
-      editprofile,
-      creatElement,
-      editProfileFormValidator,
-      createElementFormValidator
-    ) =>
-      api.getCards().then((data) => {
-        console.log(data);
-        cardsList.renderItems(data);
-      })
-    //  .then(() => deleteElementHendler.setEventListeners())
-  );
+    userInfo.setAvatar(data.avatar);
+    
+  }).catch(err => console.log(err))
+  .then(() =>
+    api.getCards().then((data) => {
+      console.log(data);
+      addElement.setEventListeners();
+      //console.log(userInfoData._id);
+      cardsList.renderItems(data);
+    })
+  ).catch(err => console.log(err));
 
 editProfileButton.addEventListener("click", () => {
   editprofile.open();
 
   const getUserInfo = userInfo.getUserInfo();
-  nameInput.value = getUserInfo.name; //[userName];
-  jobInput.value = getUserInfo.about; //[userProfessionName];
+  nameInput.value = getUserInfo.name;
+  jobInput.value = getUserInfo.about;
 
   editProfileFormValidator.resetValidation();
 });
@@ -221,30 +232,19 @@ creatElementButton.addEventListener("click", () => {
   createElementFormValidator.resetValidation();
 });
 
+editAvatarCliker.addEventListener("click", () => {
+  editAvatar.open();
+  editAvatarFormValidator.resetValidation();
+});
+
 //Start validation.
 editProfileFormValidator.enableValidation();
 createElementFormValidator.enableValidation();
+editAvatarFormValidator.enableValidation();
 
-//Submit handler creat element.
-addElement.setEventListeners();
-
-//Submit handler edit profile.
+//Submit handlers.
+// addElement.setEventListeners();
+deleteElementHendler.setEventListeners();
 formSubmitHandlerProfile.setEventListeners();
-
-//Submit handler click image.
 popupWithImage.setEventListeners();
-
-// deleteElementHendler.setEventListeners();
-
-// .then(api.setAvatar(avatar));
-//.then(api.setUserInfo(newUserInfo));
-
-//Initial form data.
-
-//userInfo.setUserInfo(nameEditProfile.textContent, jobEditProfile.textContent);
-
-//Click handler edit profile button.
-// const editprofile = new Popup(popupProfileSelector);
-
-//Click handler add element button.
-// const creatElement = new Popup(popupCreatElementSelector);
+popupWithAvatar.setEventListeners();

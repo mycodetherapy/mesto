@@ -42,6 +42,7 @@ export const elementList = document.querySelector(".elements__grid-container");
 export const nameEditProfile = document.querySelector(".profile__title");
 export const jobEditProfile = document.querySelector(".profile__subtitle");
 export const avatarProfile = document.querySelector(".profile__avatar");
+export const editAvatarCliker = document.querySelector(".profile__hidden-avatar");
 export const nameInput = document.querySelector(".form__input_type_name");
 export const jobInput = document.querySelector(".form__input_type_profession");
 
@@ -49,8 +50,11 @@ export const templateSelector = ".element-template";
 export const popupCreatElementSelector = ".popup_type_creat-element";
 export const popupProfileSelector = ".popup_type_edit-profile";
 export const popupImageSelector = ".popup_type_image";
+export const popupDeleteSelector = ".popup_type_delete-element";
+export const popupAvatarSelector = ".popup_type_edit-avatar";
 export const nameEditProfileSelector = ".profile__title";
 export const jobEditProfileSelector = ".profile__subtitle";
+export const avatarSelector = ".profile__avatar";
 export const elementListSelector = ".elements__grid-container";
 
 export const placeName = "place_name";
