@@ -12,7 +12,6 @@ export default class Api {
       .then((res) => res.json())
       .then((result) => {
         return result;
-        //console.log(result);
       });
   }
 }
