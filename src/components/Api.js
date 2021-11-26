@@ -55,7 +55,6 @@ export default class Api {
   };
 
   removeTasks = (dataId) => {
-    console.log(this._url + "cards/" + dataId);
     return fetch(this._url + "cards/" + dataId, {
       method: "DELETE",
       headers: this._headers,
