@@ -12,7 +12,7 @@ export default class Api {
       if (res.ok) {
         return res.json();
       }
-      return Promise.reject("Сервер не доступен");
+      return Promise.reject(`Ошибка: ${res.status}`);
     });
   };
 
@@ -25,7 +25,7 @@ export default class Api {
       if (res.ok) {
         return res.json();
       }
-      return Promise.reject("Ошибка");
+      return Promise.reject(`Ошибка: ${res.status}`);
     });
   };
 
@@ -37,7 +37,7 @@ export default class Api {
       if (res.ok) {
         return res.json();
       }
-      return Promise.reject("Сервер не доступен");
+      return Promise.reject(`Ошибка: ${res.status}`);
     });
   };
 
@@ -50,7 +50,7 @@ export default class Api {
       if (res.ok) {
         return res.json();
       }
-      return Promise.reject("Ошибка");
+      return Promise.reject(`Ошибка: ${res.status}`);
     });
   };
 
@@ -63,7 +63,7 @@ export default class Api {
       if (res.ok) {
         return res.json();
       }
-      return Promise.reject("Ошибка");
+      return Promise.reject(`Ошибка: ${res.status}`);
     });
   };
 
@@ -91,7 +91,7 @@ export default class Api {
       if (res.ok) {
         return res.json();
       }
-      return Promise.reject("Сервер не доступен");
+      return Promise.reject(`Ошибка: ${res.status}`);
     });
   };
 
@@ -103,7 +103,7 @@ export default class Api {
       if (res.ok) {
         return res.json();
       }
-      return Promise.reject("Сервер не доступен");
+      return Promise.reject(`Ошибка: ${res.status}`);
     });
   };
 }

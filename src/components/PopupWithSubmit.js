@@ -12,11 +12,14 @@ export default class PopupWithSubmit extends Popup {
     this._id = item.id
   }
 
+  preloader(text) {
+    this._element.querySelector(".form__button-save").textContent = text;
+  }
+
   setEventListeners() {
     super.setEventListeners();
     this._form.addEventListener("submit", (evt) => {
       evt.preventDefault();
-      console.log(this._id);
       this._formSubmitHandler(this._id);
     });
   };

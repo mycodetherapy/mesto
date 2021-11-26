@@ -9,7 +9,7 @@ export default class Card {
     this._handleCardClick = handleCardClick;
     this._handleCardLike = handleCardLike;
     this._handleDeleteClick = handleDeleteClick;
-    
+
     this._name = data.name;
     this._link = data.link;
     this._idCard = data._id;
@@ -57,7 +57,9 @@ export default class Card {
   }
 
   _removeElement(item, meId) {
-    if (this._idUser != meId) item.remove();
+    if (this._idUser !== meId) {
+      item.remove();
+    }
   }
 
   //listens to events in the element.
