@@ -218,7 +218,7 @@ api
         },
       });
 
-      console.log(userInfoData["_id"]);
+      //console.log(userInfoData["_id"]);
       cardsList.renderItems(data, userInfoData["_id"]);
       addElement.setEventListeners();
     })
