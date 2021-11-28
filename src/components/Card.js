@@ -13,7 +13,7 @@ export default class Card {
     this._name = data.name;
     this._link = data.link;
     this._idCard = data._id;
-    this._idUser = data.owner._id;
+    this._owner = data.owner;
     this._likes = data.likes;
     this._cardSelector = cardSelector;
 
@@ -23,6 +23,7 @@ export default class Card {
     this._likeButton = this._element.querySelector(".element__like");
     this._deleteButton = this._element.querySelector(".element__delete");
     this._likeElement = this._element.querySelector(".element__like-counter");
+    this._likeCounter = null;
   }
 
   _getTemplate() {
@@ -48,6 +49,26 @@ export default class Card {
     return this._element;
   }
 
+  addLikeMethod = (data, elem) => {
+    this._defineLikeCounterSelector(elem);
+    this._likeCounter.textContent = data.likes.length;
+    elem.classList.add("element__like_active");
+  };
+
+  removeLikeMethod = (data, elem) => {
+    this._defineLikeCounterSelector(elem);
+    this._likeCounter.textContent = data.likes.length;
+    elem.classList.remove("element__like_active");
+  }
+
+  _defineLikeCounterSelector = (elem) => {
+    this._likeCounter = elem.closest(".element__like-container").querySelector(".element__like-counter");
+  }
+
+  removeCard(idCard) {
+    document.getElementById(idCard).remove();
+  }
+
   _toggleLike(arrLikes, meId) {
     arrLikes.forEach((element) => {
       if (element._id == meId) {
@@ -57,7 +78,7 @@ export default class Card {
   }
 
   _removeElement(item, meId) {
-    if (this._idUser !== meId) {
+    if (this._owner._id !== meId) {
       item.remove();
     }
   }
