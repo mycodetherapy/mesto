@@ -53,23 +53,6 @@ const editAvatarFormValidator = new FormValidator(
   popupAvatarSelector
 );
 
-const deleteElementHendler = new PopupWithSubmit({
-  selector: popupDeleteSelector,
-  formSubmitHandler: (formData) => {
-    deleteElementHendler.preloader("Удаление...");
-    api
-      .removeTasks(formData)
-      .then(() => {
-        document.getElementById(formData).remove();
-        deleteCard.close();
-      })
-      .catch((err) => console.log(err))
-      .finally(() => {
-        deleteElementHendler.preloader("Да");
-      });
-  },
-});
-
 const popupWithImage = new PopupWithImage(popupImageSelector);
 
 //Saves the text from the input to the profile.
@@ -80,11 +63,10 @@ const formSubmitHandlerProfile = new PopupWithForm({
     api.setUserInfo(formData).then(() => {
       api
         .getUserInfo()
-        .catch((err) => console.log(err))
         .then((data) => {
-          userInfo.setUserInfo(data.name, data.about);
-          //console.log(data);
-          editprofile.close();
+          //console.log(formData, data);
+          userInfo.setUserInfo(formData, data);
+          formSubmitHandlerProfile.close();
         })
         .catch((err) => console.log(err))
         .finally(() => {
@@ -100,9 +82,9 @@ const popupWithAvatar = new PopupWithForm({
     popupWithAvatar.preloader("Сохранение...");
     api
       .setAvatar(formData)
-      .then(() => {
-        userInfo.setAvatar(formData.avatar);
-        popupWithAvatar.close();
+      .then((data) => {
+        userInfo.setAvatar(formData, data);
+        popupWithAvatar.close(formData, data);
       })
       .catch((err) => console.log(err))
       .finally(() => {
@@ -111,24 +93,19 @@ const popupWithAvatar = new PopupWithForm({
   },
 });
 
-const deleteCard = new Popup(popupDeleteSelector);
-const editprofile = new Popup(popupProfileSelector);
-const creatElement = new Popup(popupCreatElementSelector);
-const editAvatar = new Popup(popupAvatarSelector);
-
 let userInfoData = null;
 
-api
-  .getUserInfo()
-  .then((data) => {
+const pomiseAll = [
+  api.getUserInfo().then((data) => {
     userInfoData = data;
-    userInfo.setUserInfo(data.name, data.about);
-    userInfo.setAvatar(data.avatar);
-  })
-  .catch((err) => console.log(err))
+    userInfo.setUserInfo({ name: "", about: "" }, data);
+    userInfo.setAvatar({ avatar: "" }, data);
+  }),
+];
+
+Promise.all(pomiseAll)
   .then(() =>
     api.getCards().then((data) => {
-      //console.log(data);
 
       //Return finished card.
       function createCard(
@@ -151,25 +128,26 @@ api
             );
             if (!elem.classList.contains("element__like_active")) {
               api
-                .addleLike(elem.closest(".element").id)
+                .addLike(elem.closest(".element").id)
                 .then((data) => {
-                  likeCounter.textContent = data.likes.length;
-                  elem.classList.add("element__like_active");
+                  createCard(data, templateSelector).addLikeMethod(data, elem);
                 })
                 .catch((err) => console.log(err));
             } else {
               api
                 .removeLike(elem.closest(".element").id)
                 .then((data) => {
-                  likeCounter.textContent = data.likes.length;
-                  elem.classList.remove("element__like_active");
+                  createCard(data, templateSelector).removeLikeMethod(
+                    data,
+                    elem
+                  );
                 })
                 .catch((err) => console.log(err));
             }
           }),
           (handleDeleteClick = (item) => {
             deleteElementHendler.action(item);
-            deleteCard.open();
+            deleteElementHendler.open();
           })
         );
       }
@@ -218,30 +196,48 @@ api
         },
       });
 
-      console.log(userInfoData["_id"]);
+      const deleteElementHendler = new PopupWithSubmit({
+        selector: popupDeleteSelector,
+        formSubmitHandler: (formData) => {
+          deleteElementHendler.preloader("Удаление...");
+          api
+            .removeTasks(formData)
+            .then(() => {
+              createCard(
+                formData, 
+                templateSelector
+              ).removeCard(formData);
+              deleteElementHendler.close();
+            })
+            .catch((err) => console.log(err))
+            .finally(() => {
+              deleteElementHendler.preloader("Да");
+            });
+        },
+      });
+
+      creatElementButton.addEventListener("click", () => {
+        addElement.open();
+        createElementFormValidator.resetValidation();
+      });
+
       cardsList.renderItems(data, userInfoData["_id"]);
       addElement.setEventListeners();
+      deleteElementHendler.setEventListeners();
     })
   )
   .catch((err) => console.log(err));
 
 editProfileButton.addEventListener("click", () => {
-  editprofile.open();
-
+  formSubmitHandlerProfile.open();
   const getUserInfo = userInfo.getUserInfo();
   nameInput.value = getUserInfo.name;
   jobInput.value = getUserInfo.about;
-
   editProfileFormValidator.resetValidation();
 });
 
-creatElementButton.addEventListener("click", () => {
-  creatElement.open();
-  createElementFormValidator.resetValidation();
-});
-
 editAvatarCliker.addEventListener("click", () => {
-  editAvatar.open();
+  popupWithAvatar.open();
   editAvatarFormValidator.resetValidation();
 });
 
@@ -251,8 +247,6 @@ createElementFormValidator.enableValidation();
 editAvatarFormValidator.enableValidation();
 
 //Submit handlers.
-// addElement.setEventListeners();
-deleteElementHendler.setEventListeners();
 formSubmitHandlerProfile.setEventListeners();
 popupWithImage.setEventListeners();
 popupWithAvatar.setEventListeners();

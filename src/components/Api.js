@@ -1,3 +1,10 @@
+const onError = (res) => {
+  if (res.ok) {
+    return res.json();
+  }
+  return Promise.reject(`Ошибка: ${res.status}`);
+};
+
 export default class Api {
   constructor(config) {
     this._url = config.url;
@@ -8,12 +15,7 @@ export default class Api {
     return fetch(this._url + "users/me", {
       method: "GET",
       headers: this._headers,
-    }).then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    });
+    }).then(onError);
   };
 
   setUserInfo = (data) => {
@@ -21,24 +23,14 @@ export default class Api {
       method: "POST",
       headers: this._headers,
       body: JSON.stringify(data),
-    }).then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    });
+    }).then(onError);
   };
 
   getCards = () => {
     return fetch(this._url + "cards", {
       method: "GET",
       headers: this._headers,
-    }).then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    });
+    }).then(onError);
   };
 
   addTasks = (data) => {
@@ -46,25 +38,14 @@ export default class Api {
       method: "POST",
       headers: this._headers,
       body: JSON.stringify(data),
-    }).then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    });
+    }).then(onError);
   };
 
   removeTasks = (dataId) => {
-    console.log(this._url + "cards/" + dataId);
     return fetch(this._url + "cards/" + dataId, {
       method: "DELETE",
       headers: this._headers,
-    }).then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    });
+    }).then(onError);
   };
 
   setUserInfo = (userData) => {
@@ -72,7 +53,7 @@ export default class Api {
       method: "PATCH",
       headers: this._headers,
       body: JSON.stringify(userData),
-    });
+    }).then(onError);
   };
 
   setAvatar = (avatar) => {
@@ -80,19 +61,14 @@ export default class Api {
       method: "PATCH",
       headers: this._headers,
       body: JSON.stringify(avatar),
-    })
+    }).then(onError);
   };
 
-  addleLike = (dataId) => {
+  addLike = (dataId) => {
     return fetch(this._url + "cards/likes/" + dataId, {
       method: "PUT",
       headers: this._headers,
-    }).then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    });
+    }).then(onError);
   };
 
   removeLike = (dataId) => {
