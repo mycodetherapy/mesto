@@ -24,7 +24,7 @@ export default class UserInfo {
   };
 
   _validationKeyObj = (dispatchedObj, receivedObj) => {
-    let bul = null;
+    let bul = new Boolean;
     const dispArr = Object.getOwnPropertyNames(dispatchedObj);
     for (let i = 0; i < dispArr.length; i++) {
       if (receivedObj.hasOwnProperty(dispArr[i])) {

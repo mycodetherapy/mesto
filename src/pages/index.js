@@ -2,7 +2,6 @@ import "./index.css";
 import Card from "../components/Card.js";
 import FormValidator from "../components/FormValidator.js";
 import Section from "../components/Section.js";
-import Popup from "../components/Popup.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import UserInfo from "../components/UserInfo.js";
@@ -28,8 +27,6 @@ import {
   validationConfig,
   configApi,
 } from "../utils/constants.js";
-
-//import { reject, resolve } from "../../node_modules/core-js/es/promise";
 
 const api = new Api(configApi);
 
@@ -95,137 +92,118 @@ const popupWithAvatar = new PopupWithForm({
 
 let userInfoData = null;
 
-const pomiseAll = [
-  api.getUserInfo().then((data) => {
-    userInfoData = data;
-    userInfo.setUserInfo({ name: "", about: "" }, data);
-    userInfo.setAvatar({ avatar: "" }, data);
-  }),
-];
+Promise.all([api.getUserInfo(), api.getCards()])
+  .then(([userData, cardsData]) => {
+    userInfoData = userData;
+    userInfo.setUserInfo({ name: "", about: "" }, userData);
+    userInfo.setAvatar({ avatar: "" }, userData);
 
-Promise.all(pomiseAll)
-  .then(() =>
-    api.getCards().then((data) => {
-
-      //Return finished card.
-      function createCard(
+    //Return finished card.
+    function createCard(
+      item,
+      element,
+      handleCardClick,
+      handleCardLike,
+      handleDeleteClick
+    ) {
+      const newCard = new Card(
         item,
         element,
-        handleCardClick,
-        handleCardLike,
-        handleDeleteClick
-      ) {
-        return new Card(
-          item,
-          element,
-          (handleCardClick = () => {
-            popupWithImage.open(item);
-          }),
-          (handleCardLike = (elem) => {
-            const likeContainer = elem.closest(".element__like-container");
-            const likeCounter = likeContainer.querySelector(
-              ".element__like-counter"
-            );
-            if (!elem.classList.contains("element__like_active")) {
-              api
-                .addLike(elem.closest(".element").id)
-                .then((data) => {
-                  createCard(data, templateSelector).addLikeMethod(data, elem);
-                })
-                .catch((err) => console.log(err));
-            } else {
-              api
-                .removeLike(elem.closest(".element").id)
-                .then((data) => {
-                  createCard(data, templateSelector).removeLikeMethod(
-                    data,
-                    elem
-                  );
-                })
-                .catch((err) => console.log(err));
-            }
-          }),
-          (handleDeleteClick = (item) => {
-            deleteElementHendler.action(item);
-            deleteElementHendler.open();
-          })
-        );
-      }
-
-      //function initialRenderCard(data) {
-      const cardsList = new Section(
-        {
-          renderer: (item, meId) => {
-            const cardElement = createCard(item, templateSelector).generateCard(
-              meId
-            );
-            cardsList.appendItem(cardElement);
-          },
-        },
-        elementListSelector
+        (handleCardClick = () => {
+          popupWithImage.open(item);
+        }),
+        (handleCardLike = (elem) => {
+          if (!elem.classList.contains("element__like_active")) {
+            api
+              .addLike(elem.closest(".element").id)
+              .then((data) => {
+                newCard.addLikeMethod(data, elem);
+              })
+              .catch((err) => console.log(err));
+          } else {
+            api
+              .removeLike(elem.closest(".element").id)
+              .then((data) => {
+                newCard.removeLikeMethod(data, elem);
+              })
+              .catch((err) => console.log(err));
+          }
+        }),
+        (handleDeleteClick = (item) => {
+          deleteElementHendler.setActionSubmit(() => {
+            deleteElementHendler.preloader("Удаление...");
+            api
+              .removeTasks(item.id)
+              .then(() => {
+                newCard.removeCard();
+                deleteElementHendler.close();
+              })
+              .catch((err) => console.log(err))
+              .finally(() => {
+                deleteElementHendler.preloader("Да");
+              });
+          });
+          deleteElementHendler.open();
+        })
       );
+      return newCard;
+    }
 
-      const addElement = new PopupWithForm({
-        selector: popupCreatElementSelector,
-        formSubmitHandler: (formData) => {
-          addElement.preloader("Сохранение...");
-          api
-            .addTasks(formData)
-            .then((formData) => {
-              //console.log(formData);
-              const newCard = createCard(
-                {
-                  name: formData.name,
-                  link: formData.link,
-                  _id: formData._id,
-                  likes: formData.likes,
-                  owner: formData.owner,
-                },
-
-                templateSelector
-              );
-              //console.log(formData);
-              const addNewCard = newCard.generateCard(userInfoData["_id"]);
-              cardsList.prependItem(addNewCard);
-              addElement.close();
-            })
-            .catch((err) => console.log(err))
-            .finally(() => {
-              addElement.preloader("Создать");
-            });
+    //function initialRenderCard
+    const cardsList = new Section(
+      {
+        renderer: (item, meId) => {
+          const cardElement = createCard(item, templateSelector).generateCard(
+            meId
+          );
+          cardsList.appendItem(cardElement);
         },
-      });
+      },
+      elementListSelector
+    );
 
-      const deleteElementHendler = new PopupWithSubmit({
-        selector: popupDeleteSelector,
-        formSubmitHandler: (formData) => {
-          deleteElementHendler.preloader("Удаление...");
-          api
-            .removeTasks(formData)
-            .then(() => {
-              createCard(
-                formData, 
-                templateSelector
-              ).removeCard(formData);
-              deleteElementHendler.close();
-            })
-            .catch((err) => console.log(err))
-            .finally(() => {
-              deleteElementHendler.preloader("Да");
-            });
-        },
-      });
+    const addElement = new PopupWithForm({
+      selector: popupCreatElementSelector,
+      formSubmitHandler: (formData) => {
+        addElement.preloader("Сохранение...");
+        api
+          .addTasks(formData)
+          .then((formData) => {
+            const newCard = createCard(
+              {
+                name: formData.name,
+                link: formData.link,
+                _id: formData._id,
+                likes: formData.likes,
+                owner: formData.owner,
+              },
 
-      creatElementButton.addEventListener("click", () => {
-        addElement.open();
-        createElementFormValidator.resetValidation();
-      });
+              templateSelector
+            );
+            const addNewCard = newCard.generateCard(userInfoData["_id"]);
+            cardsList.prependItem(addNewCard);
+            addElement.close();
+          })
+          .catch((err) => console.log(err))
+          .finally(() => {
+            addElement.preloader("Создать");
+          });
+      },
+    });
 
-      cardsList.renderItems(data, userInfoData["_id"]);
-      addElement.setEventListeners();
-      deleteElementHendler.setEventListeners();
-    })
-  )
+    const deleteElementHendler = new PopupWithSubmit({
+      selector: popupDeleteSelector
+    });
+
+    creatElementButton.addEventListener("click", () => {
+      addElement.open();
+      createElementFormValidator.resetValidation();
+    });
+
+    cardsList.renderItems(cardsData, userInfoData["_id"]);
+    addElement.setEventListeners();
+    deleteElementHendler.setEventListeners();
+  })
   .catch((err) => console.log(err));
 
 editProfileButton.addEventListener("click", () => {
