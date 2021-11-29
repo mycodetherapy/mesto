@@ -43,7 +43,7 @@ export default class UserInfo {
       this._job = data.about;
       this._updateUserInfo();
     } else {
-      console.log("Ответ не содержит необходимых свойств...");
+      console.log("The answer does not contain the required properties...");
     }
   };
 
@@ -51,7 +51,7 @@ export default class UserInfo {
     if (this._validationKeyObj(formData, data)) {
       this._updateAvatar(data.avatar);
     } else {
-      console.log("Ответ не содержит необходимых свойств...");
+      console.log("The answer does not contain the required properties...");
     }
   };
 }
