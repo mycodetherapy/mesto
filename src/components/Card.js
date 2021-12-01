@@ -65,10 +65,6 @@ export default class Card {
     this._likeCounter = elem.closest(".element__like-container").querySelector(".element__like-counter");
   }
 
-  // removeCard(idCard) {
-  //   document.getElementById(idCard).remove();
-  // }
-
   removeCard() {
     this._element.remove();
     this._element = null;

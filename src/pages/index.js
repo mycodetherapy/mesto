@@ -61,7 +61,6 @@ const formSubmitHandlerProfile = new PopupWithForm({
       api
         .getUserInfo()
         .then((data) => {
-          //console.log(formData, data);
           userInfo.setUserInfo(formData, data);
           formSubmitHandlerProfile.close();
         })
@@ -97,8 +96,8 @@ Promise.all([api.getUserInfo(), api.getCards()])
     userInfoData = userData;
     userInfo.setUserInfo({ name: "", about: "" }, userData);
     userInfo.setAvatar({ avatar: "" }, userData);
-
-    //Return finished card.
+    console.log(userData);
+console.log(cardsData);
     function createCard(
       item,
       element,
@@ -168,16 +167,9 @@ Promise.all([api.getUserInfo(), api.getCards()])
         addElement.preloader("Сохранение...");
         api
           .addTasks(formData)
-          .then((formData) => {
+          .then((data) => {
             const newCard = createCard(
-              {
-                name: formData.name,
-                link: formData.link,
-                _id: formData._id,
-                likes: formData.likes,
-                owner: formData.owner,
-              },
-
+              data,
               templateSelector
             );
             const addNewCard = newCard.generateCard(userInfoData["_id"]);
