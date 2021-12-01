@@ -96,8 +96,7 @@ Promise.all([api.getUserInfo(), api.getCards()])
     userInfoData = userData;
     userInfo.setUserInfo({ name: "", about: "" }, userData);
     userInfo.setAvatar({ avatar: "" }, userData);
-    console.log(userData);
-console.log(cardsData);
+ 
     function createCard(
       item,
       element,
@@ -148,7 +147,7 @@ console.log(cardsData);
       return newCard;
     }
 
-    //function initialRenderCard
+    //function RenderCard
     const cardsList = new Section(
       {
         renderer: (item, meId) => {
