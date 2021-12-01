@@ -168,16 +168,9 @@ console.log(cardsData);
         addElement.preloader("Сохранение...");
         api
           .addTasks(formData)
-          .then((formData) => {
+          .then((data) => {
             const newCard = createCard(
-              {
-                name: formData.name,
-                link: formData.link,
-                _id: formData._id,
-                likes: formData.likes,
-                owner: formData.owner,
-              },
-
+              data,
               templateSelector
             );
             const addNewCard = newCard.generateCard(userInfoData["_id"]);
