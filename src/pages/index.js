@@ -61,7 +61,6 @@ const formSubmitHandlerProfile = new PopupWithForm({
       api
         .getUserInfo()
         .then((data) => {
-          //console.log(formData, data);
           userInfo.setUserInfo(formData, data);
           formSubmitHandlerProfile.close();
         })
@@ -97,7 +96,7 @@ Promise.all([api.getUserInfo(), api.getCards()])
     userInfoData = userData;
     userInfo.setUserInfo({ name: "", about: "" }, userData);
     userInfo.setAvatar({ avatar: "" }, userData);
-    //console.log()
+    console.log(userData);
 console.log(cardsData);
     function createCard(
       item,
