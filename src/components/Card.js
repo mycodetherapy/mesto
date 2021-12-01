@@ -22,8 +22,7 @@ export default class Card {
     this._cardTitle = this._element.querySelector(".element__title");
     this._likeButton = this._element.querySelector(".element__like");
     this._deleteButton = this._element.querySelector(".element__delete");
-    this._likeElement = this._element.querySelector(".element__like-counter");
-    this._likeCounter = null;
+    this._likeCounter = this._element.querySelector(".element__like-counter");
   }
 
   _getTemplate() {
@@ -44,25 +43,19 @@ export default class Card {
     this._cardTitle.textContent = this._name;
     this._cardImage.src = this._link;
     this._cardImage.alt = this._name;
-    this._likeElement.textContent = this._likes.length;
+    this._likeCounter.textContent = this._likes.length;
 
     return this._element;
   }
 
-  addLikeMethod = (data, elem) => {
-    this._defineLikeCounterSelector(elem);
-    this._likeCounter.textContent = data.likes.length;
-    elem.classList.add("element__like_active");
+  addLikeMethod = (dataLike) => {
+    this._likeCounter.textContent = dataLike.likes.length;
+    this._likeButton.classList.add("element__like_active");
   };
 
-  removeLikeMethod = (data, elem) => {
-    this._defineLikeCounterSelector(elem);
-    this._likeCounter.textContent = data.likes.length;
-    elem.classList.remove("element__like_active");
-  }
-
-  _defineLikeCounterSelector = (elem) => {
-    this._likeCounter = elem.closest(".element__like-container").querySelector(".element__like-counter");
+  removeLikeMethod = (dataLike) => {
+    this._likeCounter.textContent = dataLike.likes.length;
+    this._likeButton.classList.remove("element__like_active");
   }
 
   removeCard() {
