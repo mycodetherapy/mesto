@@ -115,14 +115,14 @@ Promise.all([api.getUserInfo(), api.getCards()])
             api
               .addLike(elem.closest(".element").id)
               .then((data) => {
-                newCard.addLikeMethod(data, elem);
+                newCard.addLikeMethod(data);
               })
               .catch((err) => console.log(err));
           } else {
             api
               .removeLike(elem.closest(".element").id)
               .then((data) => {
-                newCard.removeLikeMethod(data, elem);
+                newCard.removeLikeMethod(data);
               })
               .catch((err) => console.log(err));
           }
