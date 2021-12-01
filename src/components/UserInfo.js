@@ -24,17 +24,11 @@ export default class UserInfo {
   };
 
   _validationKeyObj = (dispatchedObj, receivedObj) => {
-    let bul = new Boolean;
-    const dispArr = Object.getOwnPropertyNames(dispatchedObj);
-    for (let i = 0; i < dispArr.length; i++) {
-      if (receivedObj.hasOwnProperty(dispArr[i])) {
-        bul = true;
-      } else {
-        bul = false;
-        break;
-      }
-    }
-    return bul;
+    const dispArr = Object.keys(dispatchedObj);
+    const recArr = Object.keys(receivedObj);
+    return dispArr.every((currentValue) => {
+      return recArr.includes(currentValue);
+    });
   };
 
   setUserInfo = (formData, data) => {

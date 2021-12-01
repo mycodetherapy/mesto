@@ -97,8 +97,8 @@ Promise.all([api.getUserInfo(), api.getCards()])
     userInfoData = userData;
     userInfo.setUserInfo({ name: "", about: "" }, userData);
     userInfo.setAvatar({ avatar: "" }, userData);
-
-    //Return finished card.
+    //console.log()
+console.log(cardsData);
     function createCard(
       item,
       element,
