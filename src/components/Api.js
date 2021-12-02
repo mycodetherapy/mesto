@@ -64,16 +64,9 @@ export default class Api {
     }).then(this._onError);
   };
 
-  addLike = (dataId) => {
+  toggleLike = (method, dataId) => {
     return fetch(this._url + "cards/likes/" + dataId, {
-      method: "PUT",
-      headers: this._headers,
-    }).then(this._onError);
-  };
-
-  removeLike = (dataId) => {
-    return fetch(this._url + "cards/likes/" + dataId, {
-      method: "DELETE",
+      method: method,
       headers: this._headers,
     }).then(this._onError);
   };

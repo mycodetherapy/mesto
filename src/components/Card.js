@@ -12,7 +12,6 @@ export default class Card {
 
     this._name = data.name;
     this._link = data.link;
-    this._idCard = data._id;
     this._owner = data.owner;
     this._likes = data.likes;
     this._cardSelector = cardSelector;
@@ -34,12 +33,11 @@ export default class Card {
     return cardElement;
   }
 
-  generateCard(meId) {
+  generateCard(userData) {
     this._setEventListeners();
-    this._removeElement(this._deleteButton, meId);
-    this._toggleLike(this._likes, meId);
+    this._removeElement(this._deleteButton, userData);
+    this._paintLike(this._likes, userData);
 
-    this._element.id = this._idCard;
     this._cardTitle.textContent = this._name;
     this._cardImage.src = this._link;
     this._cardImage.alt = this._name;
@@ -48,31 +46,26 @@ export default class Card {
     return this._element;
   }
 
-  addLikeMethod = (dataLike) => {
+  toggleLikeView = (dataLike) => {
     this._likeCounter.textContent = dataLike.likes.length;
-    this._likeButton.classList.add("element__like_active");
+    this._likeButton.classList.toggle("element__like_active");
   };
-
-  removeLikeMethod = (dataLike) => {
-    this._likeCounter.textContent = dataLike.likes.length;
-    this._likeButton.classList.remove("element__like_active");
-  }
 
   removeCard() {
     this._element.remove();
     this._element = null;
-  } 
+  }
 
-  _toggleLike(arrLikes, meId) {
+  _paintLike(arrLikes, userData) {
     arrLikes.forEach((element) => {
-      if (element._id == meId) {
+      if (element._id == userData._id) {
         this._likeButton.classList.add("element__like_active");
       }
     });
   }
 
-  _removeElement(item, meId) {
-    if (this._owner._id !== meId) {
+  _removeElement(item, userData) {
+    if (this._owner._id !== userData._id) {
       item.remove();
     }
   }
@@ -88,7 +81,7 @@ export default class Card {
     this._element
       .querySelector(".element__delete")
       .addEventListener("click", () => {
-        this._handleDeleteClick(this._element);
+        this._handleDeleteClick();
       });
 
     this._element
