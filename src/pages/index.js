@@ -96,8 +96,6 @@ Promise.all([api.getUserInfo(), api.getCards()])
     userInfoData = userData;
     userInfo.setUserInfo({ name: "", about: "" }, userData);
     userInfo.setAvatar({ avatar: "" }, userData);
-    console.log(userData);
-console.log(cardsData);
     function createCard(
       item,
       element,
@@ -114,25 +112,25 @@ console.log(cardsData);
         (handleCardLike = (elem) => {
           if (!elem.classList.contains("element__like_active")) {
             api
-              .addLike(elem.closest(".element").id)
+              .toggleLike("PUT", item["_id"])
               .then((data) => {
-                newCard.addLikeMethod(data);
+                newCard.toggleLikeView(data);
               })
               .catch((err) => console.log(err));
           } else {
             api
-              .removeLike(elem.closest(".element").id)
+              .toggleLike("DELETE", item["_id"])
               .then((data) => {
-                newCard.removeLikeMethod(data);
+                newCard.toggleLikeView(data);
               })
               .catch((err) => console.log(err));
           }
         }),
-        (handleDeleteClick = (item) => {
+        (handleDeleteClick = () => {
           deleteElementHendler.setActionSubmit(() => {
             deleteElementHendler.preloader("Удаление...");
             api
-              .removeTasks(item.id)
+              .removeTasks(item["_id"])
               .then(() => {
                 newCard.removeCard();
                 deleteElementHendler.close();
@@ -151,9 +149,9 @@ console.log(cardsData);
     //function initialRenderCard
     const cardsList = new Section(
       {
-        renderer: (item, meId) => {
+        renderer: (item) => {
           const cardElement = createCard(item, templateSelector).generateCard(
-            meId
+            userData
           );
           cardsList.appendItem(cardElement);
         },
@@ -172,7 +170,7 @@ console.log(cardsData);
               data,
               templateSelector
             );
-            const addNewCard = newCard.generateCard(userInfoData["_id"]);
+            const addNewCard = newCard.generateCard(userData);
             cardsList.prependItem(addNewCard);
             addElement.close();
           })
@@ -192,7 +190,7 @@ console.log(cardsData);
       createElementFormValidator.resetValidation();
     });
 
-    cardsList.renderItems(cardsData, userInfoData["_id"]);
+    cardsList.renderItems(cardsData, userData);
     addElement.setEventListeners();
     deleteElementHendler.setEventListeners();
   })
