@@ -12,14 +12,14 @@ export default class Api {
   }
 
   getUserInfo = () => {
-    return fetch(this._url + "users/me", {
+    return fetch(`${this._url}users/me`, {
       method: "GET",
       headers: this._headers,
     }).then(this._onError);
   };
 
   setUserInfo = (data) => {
-    return fetch(this._url + "users/me", {
+    return fetch(`${this._url}users/me`, {
       method: "POST",
       headers: this._headers,
       body: JSON.stringify(data),
@@ -27,14 +27,14 @@ export default class Api {
   };
 
   getCards = () => {
-    return fetch(this._url + "cards", {
+    return fetch(`${this._url}cards`, {
       method: "GET",
       headers: this._headers,
     }).then(this._onError);
   };
 
   addTasks = (data) => {
-    return fetch(this._url + "cards", {
+    return fetch(`${this._url}cards`, {
       method: "POST",
       headers: this._headers,
       body: JSON.stringify(data),
@@ -42,14 +42,14 @@ export default class Api {
   };
 
   removeTasks = (dataId) => {
-    return fetch(this._url + "cards/" + dataId, {
+    return fetch(`${this._url}cards/${dataId}`, {
       method: "DELETE",
       headers: this._headers,
     }).then(this._onError);
   };
 
   setUserInfo = (userData) => {
-    return fetch(this._url + "users/me", {
+    return fetch(`${this._url}users/me`, {
       method: "PATCH",
       headers: this._headers,
       body: JSON.stringify(userData),
@@ -57,7 +57,7 @@ export default class Api {
   };
 
   setAvatar = (avatar) => {
-    return fetch(this._url + "users/me/avatar", {
+    return fetch(`${this._url}users/me/avatar`, {
       method: "PATCH",
       headers: this._headers,
       body: JSON.stringify(avatar),
@@ -65,7 +65,7 @@ export default class Api {
   };
 
   toggleLike = (method, dataId) => {
-    return fetch(this._url + "cards/likes/" + dataId, {
+    return fetch(`${this._url}cards/likes/${dataId}`, {
       method: method,
       headers: this._headers,
     }).then(this._onError);

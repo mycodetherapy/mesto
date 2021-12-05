@@ -97,7 +97,7 @@ Promise.all([api.getUserInfo(), api.getCards()])
     userInfo.setUserInfo({ name: "", about: "" }, userData);
     userInfo.setAvatar({ avatar: "" }, userData);
 
-    console.log(cardsData);
+    //console.log(cardsData);
 
     function createCard(
       dataCard,
@@ -121,7 +121,7 @@ Promise.all([api.getUserInfo(), api.getCards()])
                 newCard.toggleLikeView(data.likes);
               })
               .catch((err) => console.log(err));
-          } else { console.log(userData._id)
+          } else {
             api
               .toggleLike("DELETE", dataCard["_id"])
               .then((data) => {
