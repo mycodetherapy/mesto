@@ -47,13 +47,21 @@ export default class Card {
   }
 
   toggleLikeView = (dataLike) => {
-    this._likeCounter.textContent = dataLike.likes.length;
+    this._likeCounter.textContent = dataLike.length;
     this._likeButton.classList.toggle("element__like_active");
   };
 
   removeCard() {
     this._element.remove();
     this._element = null;
+  }
+
+  checkForLike(userData) {
+    return this._likes.some(user => user._id === userData._id);//this._likes._id.includes(userData._id);
+  }
+
+  setLike(datalikes) {
+    this._likes = datalikes;
   }
 
   _paintLike(arrLikes, userData) {
@@ -75,7 +83,7 @@ export default class Card {
     this._element
       .querySelector(".element__like")
       .addEventListener("click", () => {
-        this._handleCardLike(this._likeButton);
+        this._handleCardLike();
       });
 
     this._element

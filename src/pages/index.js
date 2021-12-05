@@ -96,32 +96,37 @@ Promise.all([api.getUserInfo(), api.getCards()])
     userInfoData = userData;
     userInfo.setUserInfo({ name: "", about: "" }, userData);
     userInfo.setAvatar({ avatar: "" }, userData);
+
+    console.log(cardsData);
+
     function createCard(
-      item,
+      dataCard,
       element,
       handleCardClick,
       handleCardLike,
       handleDeleteClick
     ) {
       const newCard = new Card(
-        item,
+        dataCard,
         element,
         (handleCardClick = () => {
-          popupWithImage.open(item);
+          popupWithImage.open(dataCard);
         }),
-        (handleCardLike = (elem) => {
-          if (!elem.classList.contains("element__like_active")) {
+        (handleCardLike = () => {
+          if (!newCard.checkForLike(userData)) { 
             api
-              .toggleLike("PUT", item["_id"])
+              .toggleLike("PUT", dataCard["_id"])
               .then((data) => {
-                newCard.toggleLikeView(data);
+                newCard.setLike(data.likes);
+                newCard.toggleLikeView(data.likes);
               })
               .catch((err) => console.log(err));
-          } else {
+          } else { console.log(userData._id)
             api
-              .toggleLike("DELETE", item["_id"])
+              .toggleLike("DELETE", dataCard["_id"])
               .then((data) => {
-                newCard.toggleLikeView(data);
+                newCard.setLike(data.likes);
+                newCard.toggleLikeView(data.likes);
               })
               .catch((err) => console.log(err));
           }
@@ -130,7 +135,7 @@ Promise.all([api.getUserInfo(), api.getCards()])
           deleteElementHendler.setActionSubmit(() => {
             deleteElementHendler.preloader("Удаление...");
             api
-              .removeTasks(item["_id"])
+              .removeTasks(dataCard["_id"])
               .then(() => {
                 newCard.removeCard();
                 deleteElementHendler.close();
@@ -149,8 +154,8 @@ Promise.all([api.getUserInfo(), api.getCards()])
     //function initialRenderCard
     const cardsList = new Section(
       {
-        renderer: (item) => {
-          const cardElement = createCard(item, templateSelector).generateCard(
+        renderer: (dataCard) => {
+          const cardElement = createCard(dataCard, templateSelector).generateCard(
             userData
           );
           cardsList.appendItem(cardElement);
