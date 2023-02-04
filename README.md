@@ -7,7 +7,7 @@ This service can be used as a ready-made element for building a social network.
 
 ### It works like this:
 
-- Adaptive layout is applied. HTML and CSS use: Grid Layout, Flexbox, @media, БЭМ.
+- Adaptive layout is applied. HTML and CSS use: Grid Layout, Flexbox, @media, BEM.
 - Frontend site interactivity is controlled by JavaScript ES6 code.
 - The client-side code is built within the framework of the OOP paradigm and is divided into independent modules that contain classes.
 - Classes get references to objects through the this context.
