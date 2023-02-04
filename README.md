@@ -1,4 +1,4 @@
-# Project: Location
+# Project: Mesto
 
 ## If you want to visit the site, just [just click on the link.](https://mycodetherapy.github.io/mesto/index.html)
 
