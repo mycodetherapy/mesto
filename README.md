@@ -1,24 +1,25 @@
-# Проект: Место
+# Project: Location
 
-## Eсли вы хотите посетить сайт, достаточно [перейти по ссылке.](https://mycodetherapy.github.io/mesto/index.html)
+## If you want to visit the site, just [just click on the link.](https://mycodetherapy.github.io/mesto/index.html)
 
-Сервис "Место" это web-сайт, который позволяет добавлять фотографии с описаниями, ставить лайки, а также редактировать профиль пользователя.
-Данный сервис возможно использовать как готовый элемент для построения социальной сети.
+The Place service is a web site that allows you to add photos with descriptions, put likes, and edit a user profile.
+This service can be used as a ready-made element for building a social network.
 
-### Как это работает
+### It works like this:
 
-* Применяется адаптивная верстка. HTML и CSS используют: Grid Layout, Flexbox, @media, БЭМ.
-* Frontend интерактивность сайта управляется кодом на JavaScript  ES6.
-* Код стороны клиента выстроен в рамках парадигмы ООП и разбит на независимые модули, которые содержат классы.
-* Классы получают ссылки на объекты через контекст this.
-* Асинхронность в управляющем файле построена на Callback-функциях.
-* Сбор данных осуществляется через формы.
-* Для взаимодействия с сервером используются featch-запросы: "GET", "POST", "PATH", "DELETE".
-* Сборщик Webpack собирает код из модулей в один файл.
+- Adaptive layout is applied. HTML and CSS use: Grid Layout, Flexbox, @media, БЭМ.
+- Frontend site interactivity is controlled by JavaScript ES6 code.
+- The client-side code is built within the framework of the OOP paradigm and is divided into independent modules that contain classes.
+- Classes get references to objects through the this context.
+- Asynchrony in the control file is based on Callback functions.
+- Data is collected through forms.
+- Fetch requests are used to interact with the server: "GET", "POST", "PUT", "DELETE".
+- The Webpack collector collects code from modules into a single file.
 
-### Если вы хотите поработать с проектом локально:
-1. Клонируйте репозиторий из ветки main к себе на устройство. Для этого в терминале введите ```git clone адрес репозитория```
-2. Установите зависимости - перейдите в терминале в папку с репозиторием и введите ```npm install```
-3. Запустите проект на локальном сервере - введите в терминале ```npm run dev```
+### If you want to work with the project locally:
 
-На сегодняшний день клиентская сторона сайта использует объектно ориентированный код, который может выглядеть запутанным для постороннего разработчика. Поэтому в моих планах проведение рефакторинга по построению дерева элементов с помощью инструментов библиотеки React.js. При этом я хочу применить функциональный подход внутри компонентов реакта. Эти меры должны значительно упростить поддержку и развитие проекта в дальнейшем.
+1. Clone the repository from the main branch to your device. To do this, ente `git clone <repository address>` in the terminal.
+2. Install dependencies - go to the repository folder in the terminal and type `npm install`
+3. Run the project on the local server - enter `npm run dev` in the terminal
+
+To date, the client side of the site uses object-oriented code, which may look confusing to an outsider developer. Therefore, my plans include refactoring to build a tree of elements using library tools React.js . At the same time, I want to apply a functional approach inside the reaction components. These measures should significantly simplify the support and development of the project in the future.
