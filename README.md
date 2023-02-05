@@ -2,8 +2,7 @@
 
 ## If you want to visit the site, just [just click on the link.](https://mycodetherapy.github.io/mesto/index.html)
 
-The Place service is a web site that allows you to add photos with descriptions, put likes, and edit a user profile.
-This service can be used as a ready-made element for building a social network.
+The Mesto service is a frontend of a website that allows you to add photos with descriptions, put likes and edit a user profile. This service can be used as a ready-made element for building a social network.
 
 ### It works like this:
 
